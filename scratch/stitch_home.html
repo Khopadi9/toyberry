@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ToyBerry - Premium &amp; Educational Toys</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f7f9ff",
+                        "on-surface": "#181c21",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#0a7161",
+                        "tertiary-fixed-dim": "#aec6ff",
+                        "background": "#f7f9ff",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#ffb2b8",
+                        "tertiary-fixed": "#d8e2ff",
+                        "on-background": "#181c21",
+                        "surface-variant": "#e0e2e9",
+                        "on-surface-variant": "#574143",
+                        "on-secondary-fixed": "#00201a",
+                        "tertiary-container": "#8ca4db",
+                        "on-secondary-fixed-variant": "#005144",
+                        "primary-fixed-dim": "#ffb2b8",
+                        "primary-container": "#ff7a8a",
+                        "secondary-fixed-dim": "#81d6c2",
+                        "primary": "#a63648",
+                        "inverse-on-surface": "#eef1f7",
+                        "outline-variant": "#ddbfc1",
+                        "surface-container-low": "#f1f4fa",
+                        "surface-dim": "#d7dae0",
+                        "primary-fixed": "#ffdadb",
+                        "surface-container-highest": "#e0e2e9",
+                        "surface-container": "#ebeef4",
+                        "inverse-surface": "#2d3136",
+                        "on-tertiary-fixed-variant": "#2d4677",
+                        "surface": "#f7f9ff",
+                        "on-tertiary-container": "#1f3969",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e5e8ef",
+                        "on-primary-container": "#740f26",
+                        "on-primary-fixed-variant": "#861e32",
+                        "outline": "#8a7172",
+                        "secondary": "#006b5b",
+                        "secondary-container": "#9df3de",
+                        "on-tertiary-fixed": "#001a42",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#40000f",
+                        "secondary-fixed": "#9df3de",
+                        "on-error": "#ffffff",
+                        "tertiary": "#465e90",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#a63648"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max-width": "1280px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-caps": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .product-card-shadow {
+            box-shadow: 0 10px 30px -10px rgba(166, 54, 72, 0.08);
+        }
+        .product-card-shadow:hover {
+            box-shadow: 0 20px 40px -15px rgba(166, 54, 72, 0.15);
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl border-b border-outline-variant/30 shadow-sm">
+<nav class="flex justify-between items-center px-6 md:px-16 py-4 max-w-container-max-width mx-auto">
+<div class="flex items-center gap-12">
+<a class="font-display-lg text-primary font-bold tracking-tight text-3xl" href="#">ToyBerry</a>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-body-md text-primary font-semibold relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary" href="#">Home</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Shop Toys</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">About Us</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-4 py-2 w-64 border border-outline-variant/20">
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-on-surface-variant/50" placeholder="Search toys..." type="text"/>
+<span class="material-symbols-outlined text-primary text-xl">search</span>
+</div>
+<button class="p-2 hover:bg-primary-container/20 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined text-on-surface-variant">shopping_cart</span>
+</button>
+<button class="p-2 hover:bg-primary-container/20 rounded-full transition-all duration-300">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="pt-20">
+<!-- Hero Slider Section -->
+<section class="relative h-[870px] min-h-[600px] flex items-center overflow-hidden">
+<!-- Hero Image Background -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-1000 scale-105" data-alt="A high-end, professionally photographed scene of a happy young child playing with an advanced, glowing educational robot in a modern, sun-drenched playroom. The lighting is soft and ethereal, emphasizing the playful luxury aesthetic with a palette of soft whites, pastel corals, and warm wood tones. The overall mood is sophisticated and magical, showcasing the toy as a premium artisanal product." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDvBdTaGXmxCSOz2BESYyGLmFccS52zFsoRhmU0i9Flh4OpeM-yMNz5qiU68C_OsP0sZTx2xsurXZAlNM-mGWnnr6cBGxXUxX_ephPA6VXDG21mZ1Taqz7tM-e4RJD49zNHxOJJ8qJiOv5fbYX5wZvaSPdVNw4TX4GuDS_yyaqDfyU3tBS8ryPwEOuDV6aOecfHKYPaoRs2LzfHYal-BWE0ku2Y18wZxErKgDAkPBHIl7soHddHPKpF9Tc_3WPCVJtileoAaTK-Kl2Y')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface/80 via-surface/20 to-transparent"></div>
+</div>
+<!-- Hero Content -->
+<div class="relative z-10 max-w-container-max-width mx-auto px-6 md:px-16 w-full">
+<div class="max-w-2xl space-y-6">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-label-caps tracking-widest text-[10px] border border-primary/20">EXCLUSIVE COLLECTION</span>
+<h1 class="font-display-lg text-6xl md:text-7xl lg:text-8xl text-on-surface leading-tight">
+                        Futuristic <br/><span class="text-primary">STEM Kits</span>
+</h1>
+<p class="font-body-lg text-on-surface-variant max-w-lg">
+                        Discover child-safe electronics, robotics, and coding kits with sub-second shipping. Crafting joy through playful luxury.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="px-8 py-4 bg-primary text-on-primary rounded-full font-semibold shadow-lg shadow-primary/20 hover:scale-105 hover:shadow-primary/40 transition-all duration-300 flex items-center gap-2 group">
+                            Shop Collection
+                            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+<button class="px-8 py-4 bg-white/10 backdrop-blur-md border-2 border-primary/30 text-on-surface rounded-full font-semibold hover:bg-white/20 transition-all duration-300">
+                            View All Toys
+                        </button>
+</div>
+</div>
+</div>
+<!-- Slider Controls -->
+<div class="absolute bottom-12 right-16 flex items-center gap-6">
+<button class="w-14 h-14 rounded-full border border-primary/20 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center hover:scale-110 transition-all duration-300">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</section>
+<!-- Filter Bar Section -->
+<section class="py-12 bg-surface">
+<div class="max-w-container-max-width mx-auto px-6 md:px-16">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+<div class="space-y-1">
+<h2 class="font-headline-md text-on-surface">Curated Picks</h2>
+<p class="text-on-surface-variant text-sm">Hand-picked premium choices for imagination</p>
+</div>
+<div class="flex flex-wrap items-center gap-3">
+<button class="px-6 py-2.5 rounded-full bg-primary text-on-primary font-semibold transition-all">Featured</button>
+<button class="px-6 py-2.5 rounded-full border border-primary/20 text-on-surface-variant hover:border-primary hover:text-primary transition-all">New Arrivals</button>
+<button class="px-6 py-2.5 rounded-full border border-primary/20 text-on-surface-variant hover:border-primary hover:text-primary transition-all">Trending</button>
+<button class="px-6 py-2.5 rounded-full border border-primary/20 text-on-surface-variant hover:border-primary hover:text-primary transition-all">Best Sellers</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="pb-24 px-6 md:px-16 max-w-container-max-width mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Product Card 1 -->
+<div class="animate-on-scroll group bg-surface-container-lowest rounded-xl overflow-hidden product-card-shadow transition-all duration-500 border border-outline-variant/10">
+<div class="relative h-80 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A studio-lit shot of an advanced AI Smart Rover coding robot for kids, featuring sleek white surfaces and colorful light indicators. The robot is placed on a pristine white marble surface with soft pastel-colored geometric blocks in the background. The lighting is bright and clean, emphasizing its high-tech yet playful design in a high-end luxury product style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDry97r-jpo3oGHWagH70EN-bjl1VMCMs7tJzYSpN5FoyYDIhvRsNMY5loZxc6FEKiQSPa-7N9wGZ9k7GKJeLjO6Gv0fiUbTKPXbDsBmSS2OEuiHKZrC6NT6-qXudVHmqFEz5Betx7vEj7iOLPy6BHgZ3FThMzoe3J3b9xoV_V--rj5queY0bFrgtmBlpJ6OZPryAo5I7UKDSYGDdzRJI4DvSv3fNknSl1_FNPCSa52V7IXn9md1ratg-y29PTENNYOY-nO4eom8aoP"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2.5 py-1 rounded-sm tracking-wider uppercase">Featured</span>
+<span class="bg-primary text-white text-[10px] font-bold px-2.5 py-1 rounded-sm tracking-wider uppercase">11% OFF</span>
+</div>
+</div>
+<div class="p-8 space-y-4">
+<div class="space-y-1">
+<span class="text-[10px] font-label-caps tracking-widest text-on-surface-variant/60 uppercase">STEM TOYS</span>
+<h3 class="font-headline-sm text-on-surface group-hover:text-primary transition-colors">AI Smart Rover Coding Robot</h3>
+</div>
+<div class="flex items-center gap-1">
+<div class="flex text-primary-container">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+</div>
+<span class="text-xs text-on-surface-variant">(23)</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex flex-col">
+<span class="text-sm text-on-surface-variant line-through opacity-50">₹8999.00</span>
+<span class="text-xl font-bold text-primary tracking-tight">₹7999.00</span>
+</div>
+<span class="px-3 py-1 bg-secondary-container/30 text-secondary text-[10px] font-bold rounded-full border border-secondary/20">In Store</span>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="animate-on-scroll group bg-surface-container-lowest rounded-xl overflow-hidden product-card-shadow transition-all duration-500 border border-outline-variant/10">
+<div class="relative h-80 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An artisanal, solid mahogany luxury chess board with finely carved wooden pieces. The dark wood grains are highlighted by soft side-lighting, creating a moody, expensive feel. The setting is a cozy, high-end library with books in the background. The visual style is warm and sophisticated, emphasizing the handcrafted quality and premium materials." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzlZyYK2AgeE6NP0Z9_W1w9KVw3N4PKOo8RiaBt1SKAUqfQvtmOxHQsUud8Ue7zr8mcxnjCE3HGgEMdJzWg-8SZPA1TNoX9niftR5kminNHiFnoOZsAZJf4mt76cnrUZqVd98bk0WD_UfGsUYioRxr8yhMdyRj5r96qZyMdTS4_ipdVGC50swwj66nS0FC22zwndsfLwLjOSZpmuoOVjotKObOPgMo7C6uwNlbyV9RPLDgQOc688P1asYOnQd4lXx1kuYkMZmu_mrk"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2.5 py-1 rounded-sm tracking-wider uppercase">Featured</span>
+<span class="bg-primary text-white text-[10px] font-bold px-2.5 py-1 rounded-sm tracking-wider uppercase">13% OFF</span>
+</div>
+</div>
+<div class="p-8 space-y-4">
+<div class="space-y-1">
+<span class="text-[10px] font-label-caps tracking-widest text-on-surface-variant/60 uppercase">PREMIUM COLLECTIBLES</span>
+<h3 class="font-headline-sm text-on-surface group-hover:text-primary transition-colors">Solid Mahogany Luxury Chess Board</h3>
+</div>
+<div class="flex items-center gap-1">
+<div class="flex text-primary-container">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-xs text-on-surface-variant">(14)</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex flex-col">
+<span class="text-sm text-on-surface-variant line-through opacity-50">₹15999.00</span>
+<span class="text-xl font-bold text-primary tracking-tight">₹13999.00</span>
+</div>
+<span class="px-3 py-1 bg-secondary-container/30 text-secondary text-[10px] font-bold rounded-full border border-secondary/20">In Store</span>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="animate-on-scroll group bg-surface-container-lowest rounded-xl overflow-hidden product-card-shadow transition-all duration-500 border border-outline-variant/10">
+<div class="relative h-80 overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A beautiful Montessori wooden rainbow stacker set in soft, modern pastel colors—mint, coral, dusty blue, and cream. The wooden arches are perfectly arranged on a light oak floor with gentle morning sunlight streaming across. The style is minimalist and high-end, focusing on the tactile texture of the natural wood and the elegant curves of the design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAd50sUyJpCF5RM9zyhd7iPvhSjFtE3b_PKVH3GdSKyPPDdYCGVQ7SldPM3BkEtRJuy09NhKb8sbDnunhjNYaweTO214-EB6CxSHwgqpPCcASksZWg8znC5Dy-tDwWI4xahfaOiCSindWpqwUV_P8o-HeVoexIML_h4mNgOU0GA5myKptuuWf9c027iF4xJ7Bv_Ze2T-buERDCDE9AdURGWaFqY56ahI_X_AcJfJUUlzJJTtg1BxZw6_fIukDALUHOW2tE59-BN1oG2"/>
+<div class="absolute top-4 left-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container text-[10px] font-bold px-2.5 py-1 rounded-sm tracking-wider uppercase">Featured</span>
+</div>
+</div>
+<div class="p-8 space-y-4">
+<div class="space-y-1">
+<span class="text-[10px] font-label-caps tracking-widest text-on-surface-variant/60 uppercase">EDUCATIONAL TOYS</span>
+<h3 class="font-headline-sm text-on-surface group-hover:text-primary transition-colors">Montessori Wooden Rainbow Stacker</h3>
+</div>
+<div class="flex items-center gap-1">
+<div class="flex text-primary-container">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0.5;">star</span>
+</div>
+<span class="text-xs text-on-surface-variant">(34)</span>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex flex-col">
+<span class="text-xl font-bold text-primary tracking-tight">₹2299.00</span>
+</div>
+<span class="px-3 py-1 bg-secondary-container/30 text-secondary text-[10px] font-bold rounded-full border border-secondary/20">In Store</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Section (High-End Call to Action) -->
+<section class="py-24 bg-surface-container">
+<div class="max-w-container-max-width mx-auto px-6 md:px-16">
+<div class="glass-card p-12 md:p-20 rounded-xl relative overflow-hidden text-center space-y-8">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+<div class="max-w-2xl mx-auto space-y-4 relative z-10">
+<h2 class="font-display-lg text-4xl md:text-5xl text-on-surface">Join the ToyBerry Circle</h2>
+<p class="text-on-surface-variant font-body-lg">Get exclusive access to limited edition artisanal drops and early access to educational workshops.</p>
+<form class="flex flex-col sm:flex-row gap-4 pt-8">
+<input class="flex-1 px-8 py-4 rounded-full bg-white border border-outline-variant/30 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="Enter your email address" type="email"/>
+<button class="px-10 py-4 bg-primary text-on-primary rounded-full font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all" type="submit">Subscribe</button>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-surface-container-lowest dark:bg-inverse-surface border-t border-outline-variant/20">
+<div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-16 gap-8 max-w-container-max-width mx-auto">
+<div class="space-y-4 text-center md:text-left">
+<a class="font-display-lg-mobile text-primary font-bold text-2xl" href="#">ToyBerry</a>
+<p class="font-body-md text-on-surface-variant dark:text-surface-variant max-w-xs text-sm">
+                    © 2024 ToyBerry. Crafting Joy through Playful Luxury.
+                </p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 md:gap-12">
+<a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200" href="#">Privacy Policy</a>
+<a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200" href="#">Terms of Service</a>
+<a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200" href="#">Shipping Info</a>
+<a class="font-body-md text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors duration-200" href="#">Sustainability</a>
+</div>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg">public</span>
+</a>
+<a class="w-10 h-10 rounded-full border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-lg">share</span>
+</a>
+</div>
+</div>
+</footer>
+<script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Stagger child animations if needed
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        // Header Background Blur Effect on Scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-md');
+                header.classList.replace('bg-surface/80', 'bg-surface/95');
+            } else {
+                header.classList.remove('shadow-md');
+                header.classList.replace('bg-surface/95', 'bg-surface/80');
+            }
+        });
+
+        // Simple button click micro-interaction
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = '';
+            });
+        });
+    </script>
+</body></html>

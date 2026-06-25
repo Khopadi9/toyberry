@@ -1,0 +1,56 @@
+<div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold m-0">Add New Featured Collection Card</h4>
+    <a href="/admin/collections" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Back to List</a>
+  </div>
+
+  <% if (locals.error) { %>
+    <div class="alert alert-danger rounded-3" role="alert">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <form action="/admin/collections/add" method="POST" enctype="multipart/form-data">
+    <!-- CSRF Token -->
+    <input type="hidden" name="_csrf" value="<%= locals.csrfToken || '' %>">
+
+    <div class="row g-3">
+      <!-- Image upload -->
+      <div class="col-md-12">
+        <label class="form-label text-muted fw-bold">Collection Background Image (Required)</label>
+        <input type="file" name="image" class="form-control rounded-3" required accept="image/*">
+        <div class="form-text">Choose a high-quality background image (recommended size: 800x400px for wide, 400x400px for narrow).</div>
+      </div>
+
+      <!-- Link URL -->
+      <div class="col-md-12">
+        <label class="form-label text-muted fw-bold">Button Link / Redirect URL (Optional)</label>
+        <input type="text" name="buttonLink" class="form-control rounded-3" placeholder="e.g. /toys?category=educational-toys">
+      </div>
+
+      <!-- Card Size -->
+      <div class="col-md-6">
+        <label class="form-label text-muted fw-bold">Card Layout Size</label>
+        <select name="cardSize" class="form-select rounded-3">
+          <option value="wide">Wide Card (Col-8 Layout)</option>
+          <option value="narrow">Narrow Card (Col-4 Layout)</option>
+        </select>
+        <div class="form-text">Wide cards display horizontal; narrow cards display vertical.</div>
+      </div>
+
+      <!-- Status -->
+      <div class="col-md-6">
+        <label class="form-label text-muted fw-bold">Status</label>
+        <select name="status" class="form-select rounded-3">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-5 border-top pt-4">
+      <button type="submit" class="btn btn-primary px-5 rounded-pill">Create Collection</button>
+      <a href="/admin/collections" class="btn btn-outline-secondary rounded-pill px-4 ms-2">Cancel</a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/uploads/toyberry.jpg">
+  <% if (locals.csrfToken) { %>
+    <meta name="csrf-token" content="<%= csrfToken %>">
+  <% } %>
+  <title><%= title %> - Admin ToyBerry</title>
+  
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <style>
+    :root {
+      --primary-color: #FF6B6B;
+      --primary-hover: #ff5252;
+      --secondary-color: #4ECDC4;
+      --dark-color: #2D3748;
+      --light-bg: #F7FAFC;
+      --card-bg: #FFFFFF;
+      --radius-sm: 8px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.06);
+    }
+    
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: var(--light-bg); 
+      color: var(--dark-color);
+      overflow-x: hidden;
+    }
+    
+    h1, h2, h3, h4, h5, h6, .brand-text {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+    }
+    
+    .sidebar { 
+      min-height: 100vh; 
+      background: linear-gradient(180deg, #2D3748 0%, #1A202C 100%); 
+      color: #fff; 
+      padding: 30px 15px; 
+      box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+    }
+    
+    .sidebar .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2px;
+    }
+    
+    .sidebar a { 
+      color: #A0AEC0; 
+      text-decoration: none; 
+      padding: 14px 20px; 
+      display: flex;
+      align-items: center;
+      font-weight: 600; 
+      border-radius: var(--radius-sm);
+      margin-bottom: 5px;
+    }
+    
+    .sidebar a i {
+      font-size: 1.1rem;
+    }
+    
+    .sidebar a.active { 
+      background: linear-gradient(90deg, var(--primary-color) 0%, #FF8E53 100%); 
+      color: #fff; 
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.25);
+    }
+    
+    .navbar-admin { 
+      background-color: var(--card-bg); 
+      border-bottom: 1px solid #E2E8F0; 
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-top: 20px;
+    }
+    
+    .card-dashboard { 
+      border: none; 
+      border-radius: var(--radius-md); 
+      box-shadow: var(--shadow-md); 
+      background-color: var(--card-bg);
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), #FF8E53);
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+    }
+    
+    .btn-outline-primary {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    
+    .table {
+      border-collapse: separate;
+      border-spacing: 0 8px;
+    }
+    
+    .table tr {
+      background-color: var(--card-bg);
+      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-sm);
+    }
+    
+    .table td, .table th {
+      border: none;
+      padding: 16px;
+    }
+    
+    .table th {
+      background-color: transparent !important;
+      padding-bottom: 0;
+    }
+    
+    .table td:first-child, .table th:first-child {
+      border-top-left-radius: var(--radius-sm);
+      border-bottom-left-radius: var(--radius-sm);
+    }
+    
+    .table td:last-child, .table th:last-child {
+      border-top-right-radius: var(--radius-sm);
+      border-bottom-right-radius: var(--radius-sm);
+    }
+ 
+    /* Premium Form Styling */
+    .form-control, .form-select {
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--dark-color);
+      border-radius: var(--radius-sm);
+    }
+    .form-control:focus, .form-select:focus {
+      background-color: #FFFFFF;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.15);
+    }
+    .form-label {
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: #718096;
+    }
+
+    /* Premium Toast Container */
+    #toast-container {
+      position: fixed;
+      top: 100px;
+      right: 25px;
+      z-index: 1060;
+    }
+    .custom-toast {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-left: 6px solid var(--primary-color);
+      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-md);
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 12px;
+      min-width: 320px;
+      transform: translateX(120%);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    .custom-toast.show {
+      transform: translateX(0);
+    }
+    .custom-toast-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: #94A3B8;
+    }
+    .custom-toast-close:hover {
+      color: var(--primary-color);
+    }
+    .custom-toast.toast-success { border-left-color: var(--secondary-color) !important; }
+    .custom-toast.toast-warning { border-left-color: #FFA502 !important; }
+    .custom-toast.toast-error { border-left-color: var(--primary-color) !important; }
+  </style>
+</head>
+<body>
+ 
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar -->
+      <nav class="col-md-2 d-none d-md-block sidebar">
+        <div class="position-sticky">
+          <div class="px-3 mb-4 border-bottom border-secondary pb-3">
+            <div class="d-flex align-items-center mb-2">
+              <img src="/uploads/toyberry.jpg" alt="ToyBerry Logo" class="me-2 rounded-3" style="width: 32px; height: 32px; object-fit: contain; border: 1.5px solid var(--primary-color);">
+              <h4 class="brand-title fw-extrabold m-0">ToyBerry</h4>
+            </div>
+            <span class="badge bg-danger-subtle text-danger px-2 py-1 rounded mt-1" style="font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px;">ADMIN PANEL</span>
+          </div>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="/admin/dashboard" class="nav-link <%= title === 'Dashboard' ? 'active' : '' %>">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/products" class="nav-link <%= title === 'Product Management' || title === 'Add New Product' || title.startsWith('Edit:') ? 'active' : '' %>">
+                <i class="bi bi-box-seam me-2"></i> Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/banners" class="nav-link <%= title === 'Carousel Management' || title === 'Add Carousel Item' || title === 'Edit Carousel Item' ? 'active' : '' %>">
+                <i class="bi bi-images me-2"></i> Carousel
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/collections" class="nav-link <%= title === 'Collection Management' || title === 'Add Collection Item' || title === 'Edit Collection Item' ? 'active' : '' %>">
+                <i class="bi bi-grid-1x2 me-2"></i> Collections
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/settings" class="nav-link <%= title === 'Settings' ? 'active' : '' %>">
+                <i class="bi bi-gear me-2"></i> Settings
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/maintenance" class="nav-link <%= title === 'Maintenance Mode' ? 'active' : '' %>">
+                <i class="bi bi-tools me-2"></i> Maintenance
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/" class="nav-link">
+                <i class="bi bi-shop me-2"></i> View Website
+              </a>
+            </li>
+            <li class="nav-item mt-4">
+              <a href="/logout" class="nav-link text-danger">
+                <i class="bi bi-box-arrow-left me-2"></i> Log Out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- Main content container -->
+      <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+        <!-- Top navbar -->
+        <div class="navbar-admin py-3 px-3 d-flex justify-content-between align-items-center mb-4">
+          <h5 class="m-0 fw-bold"><%= title %></h5>
+          <div>
+            <span class="me-3 text-muted">Welcome, Admin</span>
+          </div>
+        </div>
+
+        <%- body %>
+      </main>
+    </div>
+  </div>
+
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="deleteConfirmModalLabel">Confirm Delete</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-4">
+          <p class="mb-0 text-muted fs-6" id="deleteModalMessage">Are you sure you want to delete this item?</p>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger rounded-pill px-4 text-white" id="btn-confirm-delete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/main.js"></script>
+  <script>
+    let deleteConfirmCallback = null;
+    let deleteConfirmModalInstance = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const modalEl = document.getElementById('deleteConfirmModal');
+      if (modalEl && window.bootstrap && window.bootstrap.Modal) {
+        deleteConfirmModalInstance = new bootstrap.Modal(modalEl);
+      }
+
+      const btnConfirmDelete = document.getElementById('btn-confirm-delete');
+      if (btnConfirmDelete) {
+        btnConfirmDelete.addEventListener('click', async () => {
+          if (deleteConfirmCallback) {
+            btnConfirmDelete.disabled = true;
+            btnConfirmDelete.innerHTML = 'Deleting...';
+            try {
+              await deleteConfirmCallback();
+            } catch (err) {
+              console.error(err);
+            } finally {
+              btnConfirmDelete.disabled = false;
+              btnConfirmDelete.innerHTML = 'Delete';
+              if (deleteConfirmModalInstance) {
+                deleteConfirmModalInstance.hide();
+              }
+            }
+          }
+        });
+      }
+    });
+
+    function showDeleteConfirmation(message, onConfirm) {
+      const messageEl = document.getElementById('deleteModalMessage');
+      if (messageEl) {
+        messageEl.textContent = message;
+      }
+      deleteConfirmCallback = onConfirm;
+      if (deleteConfirmModalInstance) {
+        deleteConfirmModalInstance.show();
+      }
+    }
+  </script>
+  <!-- Trigger session toasts if any -->
+  <% if (locals.sessionToast) { %>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        showToast('<%= sessionToast.type %>', '<%= sessionToast.message %>');
+        if (window.history && window.history.replaceState) {
+          const url = new URL(window.location.href);
+          if (url.searchParams.has('toastType') || url.searchParams.has('toastMessage')) {
+            url.searchParams.delete('toastType');
+            url.searchParams.delete('toastMessage');
+            window.history.replaceState({}, document.title, url.pathname + url.search);
+          }
+        }
+      });
+    </script>
+  <% } %>
+</body>
+</html>

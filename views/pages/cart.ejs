@@ -1,0 +1,268 @@
+<div class="container py-5">
+  <h1 class="fw-bold mb-4">Shopping Cart</h1>
+
+  <div class="row g-4" id="cart-container-row">
+    <% if (cart && cart.items && cart.items.length > 0) { %>
+      <!-- Cart Items List -->
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr class="text-muted" style="font-size: 0.85rem;">
+                  <th scope="col" class="border-0">Product</th>
+                  <th scope="col" class="border-0 text-center">Quantity</th>
+                  <th scope="col" class="border-0 text-end">Price</th>
+                  <th scope="col" class="border-0 text-end">Total</th>
+                  <th scope="col" class="border-0 text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% cart.items.forEach(item => { %>
+                  <tr id="cart-item-<%= item.product._id %>">
+                    <td class="py-3 border-0">
+                      <div class="d-flex align-items-center">
+                        <img src="<%= item.product.images[0] || '/images/placeholder.png' %>" class="rounded-3 me-3" style="width: 70px; height: 70px; object-fit: cover;">
+                        <div>
+                          <h6 class="fw-bold mb-1"><a href="/toys/<%= item.product.slug %>" class="text-dark text-decoration-none"><%= item.product.title %></a></h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="py-3 border-0 text-center">
+                      <div class="input-group input-group-sm mx-auto" style="width: 100px;">
+                        <button class="btn btn-outline-secondary btn-cart-adjust" type="button" data-product-id="<%= item.product._id %>" data-delta="-1">&minus;</button>
+                        <input type="text" class="form-control text-center bg-white quantity-input" id="qty-<%= item.product._id %>" value="<%= item.quantity %>" readonly>
+                        <button class="btn btn-outline-secondary btn-cart-adjust" type="button" data-product-id="<%= item.product._id %>" data-delta="1">&plus;</button>
+                      </div>
+                    </td>
+                    <td class="py-3 border-0 text-end fw-semibold">
+                      ₹<%= item.price.toFixed(2) %>
+                    </td>
+                    <td class="py-3 border-0 text-end fw-bold text-primary" id="total-<%= item.product._id %>">
+                      ₹<%= (item.price * item.quantity).toFixed(2) %>
+                    </td>
+                    <td class="py-3 border-0 text-end">
+                      <button class="btn btn-sm btn-outline-danger rounded-circle btn-cart-remove" data-product-id="<%= item.product._id %>">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="col-lg-4">
+        <!-- Coupon promo code card -->
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h5 class="fw-bold mb-3">Apply Coupon</h5>
+          <div class="input-group">
+            <input type="text" id="coupon-code-input" class="form-control rounded-start-pill uppercase shadow-sm" placeholder="Enter Code">
+            <button class="btn btn-secondary-custom rounded-end-pill px-3" id="btn-apply-coupon">Apply</button>
+          </div>
+          <div id="coupon-message" class="mt-2 text-success fw-bold d-none" style="font-size: 0.85rem;"></div>
+        </div>
+
+        <!-- Totals card -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <h5 class="fw-bold mb-4">Order Summary</h5>
+          
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Subtotal</span>
+            <span class="fw-semibold" id="summary-subtotal">₹0.00</span>
+          </div>
+          
+          <div class="d-flex justify-content-between mb-2 text-success d-none" id="coupon-discount-row">
+            <span>Discount (<span id="applied-coupon-code"></span>)</span>
+            <span class="fw-semibold">- ₹<span id="summary-discount">0.00</span></span>
+          </div>
+
+          <div class="d-flex justify-content-between mb-2">
+            <span class="text-muted">Tax (8%)</span>
+            <span class="fw-semibold" id="summary-tax">₹0.00</span>
+          </div>
+          
+          <div class="d-flex justify-content-between mb-3">
+            <span class="text-muted">Shipping</span>
+            <span class="fw-semibold" id="summary-shipping">Calculated next</span>
+          </div>
+
+          <hr class="my-3">
+
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h6 class="fw-bold m-0">Grand Total</h6>
+            <h4 class="fw-extrabold text-primary m-0" id="summary-grandtotal">₹0.00</h4>
+          </div>
+
+          <a href="/checkout" class="btn btn-primary-custom rounded-pill w-100 py-3 fw-bold">Proceed to Checkout</a>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="col-12 text-center py-5">
+        <i class="bi bi-cart-x fs-1 text-muted mb-3"></i>
+        <h3 class="fw-bold">Your Cart is Empty</h3>
+        <p class="text-muted mb-4">Looks like you haven't added any premium toys yet.</p>
+        <a href="/toys" class="btn btn-primary-custom rounded-pill px-5">Continue Shopping</a>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<script>
+  let cartItems = <%= JSON.stringify(cart ? cart.items : []) %>;
+  let appliedCoupon = null;
+
+  // On page load, calculate summary fields & bind click events
+  document.addEventListener('DOMContentLoaded', () => {
+    calculateSummary();
+
+    // Bind quantity adjust buttons
+    document.querySelectorAll('.btn-cart-adjust').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const productId = btn.getAttribute('data-product-id');
+        const delta = parseInt(btn.getAttribute('data-delta')) || 0;
+        updateCartQty(productId, delta);
+      });
+    });
+
+    // Bind remove buttons
+    document.querySelectorAll('.btn-cart-remove').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const productId = btn.getAttribute('data-product-id');
+        removeCartItem(productId);
+      });
+    });
+
+    // Bind coupon apply button
+    const applyBtn = document.getElementById('btn-apply-coupon');
+    if (applyBtn) {
+      applyBtn.addEventListener('click', () => {
+        submitCoupon();
+      });
+    }
+  });
+
+  function calculateSummary() {
+    if (cartItems.length === 0) return;
+    
+    let subtotal = 0;
+    cartItems.forEach(item => {
+      const price = item.product.salePrice || item.product.price;
+      subtotal += price * item.quantity;
+    });
+
+    document.getElementById('summary-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+
+    // Coupon discount logic
+    let discount = 0;
+    if (appliedCoupon) {
+      if (subtotal >= appliedCoupon.minPurchase) {
+        if (appliedCoupon.discountType === 'Percentage') {
+          discount = subtotal * (appliedCoupon.value / 100);
+        } else {
+          discount = appliedCoupon.value;
+        }
+        discount = Math.min(discount, subtotal);
+
+        // Show coupon row
+        document.getElementById('applied-coupon-code').textContent = appliedCoupon.code;
+        document.getElementById('summary-discount').textContent = discount.toFixed(2);
+        document.getElementById('coupon-discount-row').classList.remove('d-none');
+      } else {
+        // Remove coupon, minPurchase not met
+        appliedCoupon = null;
+        document.getElementById('coupon-discount-row').classList.add('d-none');
+        showToast('Warning', 'Coupon removed. Minimum purchase requirement not met.');
+      }
+    }
+
+    const taxableAmount = subtotal - discount;
+    const tax = parseFloat((taxableAmount * 0.08).toFixed(2));
+    document.getElementById('summary-tax').textContent = `₹${tax.toFixed(2)}`;
+
+    // Shipping: Free shipping over ₹5000 after discount
+    const shipping = taxableAmount > 5000 ? 0 : 250;
+    document.getElementById('summary-shipping').textContent = shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`;
+
+    const grandtotal = taxableAmount + tax + shipping;
+    document.getElementById('summary-grandtotal').textContent = `₹${grandtotal.toFixed(2)}`;
+
+    // Save applied coupon data to session via hidden inputs during checkout
+    if (appliedCoupon) {
+      sessionStorage.setItem('applied_coupon', JSON.stringify(appliedCoupon));
+    } else {
+      sessionStorage.removeItem('applied_coupon');
+    }
+  }
+
+  async function updateCartQty(productId, delta) {
+    const input = document.getElementById(`qty-${productId}`);
+    let qty = parseInt(input.value) || 1;
+    qty += delta;
+    if (qty < 1) return;
+
+    try {
+      const res = await apiRequest('/cart/update', 'POST', { productId, quantity: qty });
+      
+      // Update local cart state
+      const itemIndex = cartItems.findIndex(i => i.product._id === productId);
+      if (itemIndex > -1) {
+        cartItems[itemIndex].quantity = qty;
+        
+        // Update product row totals
+        const price = cartItems[itemIndex].product.salePrice || cartItems[itemIndex].product.price;
+        document.getElementById(`total-${productId}`).textContent = `₹${(price * qty).toFixed(2)}`;
+        input.value = qty;
+
+        calculateSummary();
+        showToast('Success', 'Cart quantity updated.');
+      }
+    } catch (err) {
+      showToast('Error', err.message);
+    }
+  }
+
+  async function removeCartItem(productId) {
+    try {
+      await apiRequest('/cart/remove', 'POST', { productId });
+      
+      // Remove row from DOM
+      document.getElementById(`cart-item-${productId}`).remove();
+      cartItems = cartItems.filter(i => i.product._id !== productId);
+
+      if (cartItems.length === 0) {
+        // Reload page to show empty cart banner
+        window.location.reload();
+      } else {
+        calculateSummary();
+        showToast('Success', 'Item removed from your cart.');
+      }
+    } catch (err) {
+      showToast('Error', err.message);
+    }
+  }
+
+  async function submitCoupon() {
+    const code = document.getElementById('coupon-code-input').value.trim();
+    if (!code) {
+      showToast('Warning', 'Please enter a coupon code.');
+      return;
+    }
+
+    try {
+      const res = await apiRequest('/cart/apply-coupon', 'POST', { code });
+      appliedCoupon = res.data.coupon;
+      
+      document.getElementById('coupon-message').textContent = `Promo code "${appliedCoupon.code}" applied!`;
+      document.getElementById('coupon-message').classList.remove('d-none');
+      
+      calculateSummary();
+      showToast('Success', 'Coupon code applied successfully.');
+    } catch (err) {
+      showToast('Error', err.message);
+    }
+  }
+</script>

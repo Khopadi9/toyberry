@@ -1,0 +1,719 @@
+<!-- Full-width Premium Hero Carousel -->
+<div id="heroCarousel" class="carousel slide container-fluid p-0 mb-4 hero-section" data-bs-ride="carousel"
+  data-bs-interval="6000">
+  <div class="carousel-inner">
+    <% if (locals.banners && banners.length> 0) { %>
+      <% banners.forEach((banner, index)=> { %>
+        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+          <div class="carousel-hero-item" style="background-image: url('<%= banner.image %>'); cursor: pointer;"
+            onclick="window.location.href='<%= banner.link || '/toys' %>'">
+            <div class="carousel-hero-overlay">
+              <div class="container">
+                <div class="carousel-hero-content">
+                  <span class="badge-hero">Exclusive Collection</span>
+                  <h1 class="display-3 fw-black mb-3 text-white">
+                    <%= banner.title %>
+                  </h1>
+                  <p class="fs-5 mb-4 text-white-50">
+                    <%= banner.subtitle %>
+                  </p>
+                  <div class="d-flex gap-3" onclick="event.stopPropagation();">
+                    <a href="<%= banner.link || '/toys' %>" class="btn-pill btn-coral">Shop Collection</a>
+                    <a href="/toys" class="btn-pill btn-outline-white">View All Toys</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+          <% } else { %>
+            <!-- Premium Fallback Slide -->
+            <div class="carousel-item active">
+              <div class="carousel-hero-item"
+                style="background-image: url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=1600'); cursor: pointer;"
+                onclick="window.location.href='/toys'">
+                <div class="carousel-hero-overlay">
+                  <div class="container">
+                    <div class="carousel-hero-content">
+                      <span class="badge-hero">Welcome to ToyBerry</span>
+                      <h1 class="display-3 mb-3 text-white">Premium Toys for Growing Minds</h1>
+                      <p class="fs-5 mb-4 text-white-50">Explore curated educational, STEM, and creative play sets from
+                        Hamleys, LEGO, and Melissa & Doug.</p>
+                      <div class="d-flex gap-3" onclick="event.stopPropagation();">
+                        <a href="/toys" class="btn-pill btn-coral">Shop Catalog</a>
+                        <a href="/about" class="btn-pill btn-outline-white">Our Story</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% } %>
+  </div>
+
+  <!-- Carousel Navigation Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <i class="bi bi-chevron-left fs-3"></i>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <i class="bi bi-chevron-right fs-3"></i>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- Featured Collections Section -->
+<style>
+  .featured-collections-sec {
+    background: linear-gradient(180deg, #edf5f4 0%, #f7faf9 100%);
+    border-radius: 24px;
+    margin: 3rem 0;
+    padding: 3.5rem 2rem;
+  }
+  .featured-collections-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    color: #1a202c;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .featured-collections-underline {
+    width: 60px;
+    height: 4px;
+    background-color: #a5472a;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+  }
+  .collection-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  .collection-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  }
+  .collection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.05) 100%);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: #ffffff;
+  }
+  .collection-overlay-vertical {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.05) 100%);
+    justify-content: flex-end;
+  }
+  .collection-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  }
+  .collection-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0;
+    max-width: 80%;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .btn-collection {
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    font-size: 0.85rem;
+    border: none;
+  }
+  .btn-collection:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255,255,255,0.4);
+  }
+  .btn-collection-coral {
+    background-color: #a5472a;
+    color: #ffffff;
+  }
+  .btn-collection-coral:hover {
+    background-color: #8c3b22 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(165,71,42,0.4);
+  }
+</style>
+
+<section class="container mb-5">
+  <div class="featured-collections-sec">
+    <div class="section-title-wrap">
+      <h2 class="featured-collections-title">Featured Collections</h2>
+      <div class="featured-collections-underline"></div>
+    </div>
+
+    
+    <div class="row g-4">
+      <% const validCollections = (locals.collections || []).filter(c => c.image && c.image.trim() !== ''); %>
+      <% if (validCollections.length > 0) { %>
+        <% validCollections.forEach(item => { %>
+          <% const colClass = item.cardSize === 'wide' ? 'col-lg-8 col-md-12' : 'col-lg-4 col-md-12'; %>
+          <div class="<%= colClass %> collection-card-wrap">
+            <a href="<%= item.buttonLink || '#' %>" style="text-decoration:none;display:block;">
+              <div class="collection-card">
+                <img
+                  src="<%= item.image %>"
+                  alt="collection"
+                  onerror="this.closest('.collection-card-wrap').style.display='none';"
+                  style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:20px;"
+                >
+              </div>
+            </a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12 text-center py-5">
+          <p class="text-muted">No collections found. Manage them in the admin dashboard.</p>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Dynamic Product Showcase (Discover Our Toys) -->
+<section class="container py-5 mb-5 overflow-hidden">
+  <div class="section-header">
+    <span class="section-subtitle-tag">Trending Now</span>
+    <h2 class="section-main-title text-white">Discover Our Toys</h2>
+    <p class="text-muted max-w-600">Hand-picked premium choices that spark imagination and discovery</p>
+  </div>
+
+  <div class="mt-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <% if (locals.paginatedProducts && paginatedProducts.length > 0) { %>
+        <% paginatedProducts.forEach((product, index) => { %>
+          <div class="col animate-<%= (index % 2 === 0) ? 'left' : 'right' %>">
+            <%- include('../components/product-card', { product }) %>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12 text-center py-5">
+          <p class="text-muted">No toys found</p>
+        </div>
+      <% } %>
+    </div>
+
+    <% if (locals.pagination && pagination.totalPages > 1) { %>
+      <div id="pagination-container" class="mt-5">
+        <%- include('../components/pagination') %>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- Flash Deals / Special Deal Banner (Coral Gradient) -->
+<% let flashToys=toys.dealsOfTheWeek || []; if (flashToys.length===0) { const discountedToys=[]; if (toys.featured) {
+  discountedToys.push(...toys.featured.filter(t=> t.salePrice && t.salePrice < t.price)); } if (toys.trending) {
+    discountedToys.push(...toys.trending.filter(t=> t.salePrice && t.salePrice < t.price)); }
+      flashToys=discountedToys.slice(0, 10); } if (flashToys.length===0 && toys.featured && toys.featured.length> 0) {
+      flashToys = toys.featured.slice(0, 10).map(t => {
+      const cloned = t.toObject ? t.toObject() : JSON.parse(JSON.stringify(t));
+      cloned.salePrice = Math.round(cloned.price * 0.85);
+      return cloned;
+      });
+      }
+      %>
+      <% if (flashToys.length> 0) { %>
+        <style>
+          .deals-carousel-item {
+            flex: 0 0 calc(33.333% - 14px);
+            min-width: 250px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+          }
+
+          @media (max-width: 991px) {
+            .deals-carousel-item {
+              flex: 0 0 calc(50% - 10px);
+            }
+          }
+
+          @media (max-width: 576px) {
+            .deals-carousel-item {
+              flex: 0 0 100%;
+            }
+          }
+
+          #deal-prev-btn:hover,
+          #deal-next-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+          }
+        </style>
+
+        <section class="container py-5 mb-5">
+          <div class="flash-deals-banner">
+            <div class="row align-items-center g-4">
+              <div class="col-lg-4 text-white">
+                <span class="badge bg-dark mb-2 px-3 py-2 text-uppercase fw-extrabold text-white"
+                  style="font-size: 0.75rem; letter-spacing: 1px;">Flash Deal</span>
+                <h2 class="fw-extrabold text-white mb-3" style="font-size: 2.4rem;">Deals of the Week</h2>
+                <p class="text-white-50 mb-4">Hurry! Grab these premium toys at limited-time discounted prices before
+                  stock runs out.</p>
+
+                <!-- Countdown Timer -->
+                <div class="d-flex gap-3 mb-4" id="flash-deal-countdown"
+                  data-end-time="<%= new Date(Date.now() + 86400 * 3000).toISOString() %>">
+                  <div class="countdown-box">
+                    <h3 id="cd-hours">72</h3>
+                    <span>Hours</span>
+                  </div>
+                  <div class="countdown-box">
+                    <h3 id="cd-mins">00</h3>
+                    <span>Mins</span>
+                  </div>
+                  <div class="countdown-box">
+                    <h3 id="cd-secs">00</h3>
+                    <span>Secs</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-8 position-relative">
+                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
+                  <span id="deals-carousel-counter"
+                    style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; font-weight: 700; font-family: monospace; letter-spacing: 0.5px;"></span>
+                  <button type="button" onclick="window.dealsCarouselState.slide('prev')"
+                    class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+                    id="deal-prev-btn"
+                    style="width: 40px; height: 40px; display: flex; position: relative; z-index: 10; pointer-events: auto !important; cursor: pointer;"
+                    aria-label="Previous Deal">
+                    <i class="bi bi-chevron-left fs-5" style="pointer-events: none;"></i>
+                  </button>
+                  <button type="button" onclick="window.dealsCarouselState.slide('next')"
+                    class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
+                    id="deal-next-btn"
+                    style="width: 40px; height: 40px; display: flex; position: relative; z-index: 10; pointer-events: auto !important; cursor: pointer;"
+                    aria-label="Next Deal">
+                    <i class="bi bi-chevron-right fs-5" style="pointer-events: none;"></i>
+                  </button>
+                </div>
+                <div class="deals-carousel-viewport" style="overflow: hidden; width: 100%; touch-action: pan-y;">
+                  <div class="deals-carousel-track d-flex flex-nowrap"
+                    style="transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); gap: 20px; flex-wrap: nowrap !important; transform: translate3d(0, 0, 0); will-change: transform;">
+                    <% flashToys.forEach((product)=> { %>
+                      <div class="deals-carousel-item" style="flex-shrink: 0 !important;">
+                        <%- include('../components/product-card', { product, showDiscountBadge: true }) %>
+                      </div>
+                      <% }) %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <script>
+          (function () {
+            window.dealsCarouselState = {
+              currentIndex: 0,
+              getVisibleItems: function () {
+                if (window.innerWidth <= 576) return 1;
+                if (window.innerWidth <= 991) return 2;
+                return 3;
+              },
+              slide: function (direction) {
+                const track = document.querySelector('.deals-carousel-track');
+                if (!track) return;
+                const items = track.querySelectorAll('.deals-carousel-item');
+                if (items.length === 0) return;
+
+                const totalItems = items.length;
+                const visibleItems = this.getVisibleItems();
+                const maxIndex = Math.max(0, totalItems - visibleItems);
+
+                if (maxIndex === 0) return;
+
+                if (direction === 'next') {
+                  if (this.currentIndex < maxIndex) {
+                    this.currentIndex++;
+                  } else {
+                    this.currentIndex = 0;
+                  }
+                } else if (direction === 'prev') {
+                  if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                  } else {
+                    this.currentIndex = maxIndex;
+                  }
+                }
+                this.update();
+              },
+              update: function () {
+                const track = document.querySelector('.deals-carousel-track');
+                const prevBtn = document.getElementById('deal-prev-btn');
+                const nextBtn = document.getElementById('deal-next-btn');
+                const viewport = document.querySelector('.deals-carousel-viewport');
+                const counter = document.getElementById('deals-carousel-counter');
+                if (!track || !viewport) return;
+
+                const items = track.querySelectorAll('.deals-carousel-item');
+                if (items.length === 0) return;
+
+                const totalItems = items.length;
+                const visibleItems = this.getVisibleItems();
+                const maxIndex = Math.max(0, totalItems - visibleItems);
+
+                if (maxIndex === 0) {
+                  if (prevBtn) prevBtn.style.display = 'none';
+                  if (nextBtn) nextBtn.style.display = 'none';
+                  track.style.transform = 'translate3d(0, 0, 0)';
+                  if (counter) counter.textContent = '';
+                  return;
+                } else {
+                  if (prevBtn) prevBtn.style.display = 'flex';
+                  if (nextBtn) nextBtn.style.display = 'flex';
+                }
+
+                if (this.currentIndex > maxIndex) {
+                  this.currentIndex = maxIndex;
+                }
+
+                const firstItem = items[0];
+                const itemWidth = firstItem.getBoundingClientRect().width || firstItem.offsetWidth;
+                const computedStyle = window.getComputedStyle(track);
+                const gap = parseFloat(computedStyle.gap) || 20;
+
+                const amountToMove = this.currentIndex * (itemWidth + gap);
+                track.style.transform = `translate3d(-${amountToMove}px, 0, 0)`;
+
+                if (counter) {
+                  counter.textContent = `${this.currentIndex + 1} / ${maxIndex + 1}`;
+                }
+              }
+            };
+
+            // Set up listeners
+            if (window.ResizeObserver) {
+              const viewport = document.querySelector('.deals-carousel-viewport');
+              if (viewport) {
+                const observer = new ResizeObserver(() => {
+                  window.dealsCarouselState.update();
+                });
+                observer.observe(viewport);
+              }
+            } else {
+              window.addEventListener('resize', () => window.dealsCarouselState.update());
+            }
+
+            window.addEventListener('load', () => window.dealsCarouselState.update());
+            document.addEventListener('DOMContentLoaded', () => window.dealsCarouselState.update());
+
+            // Touch swipe detection for mobile users
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            const viewportEl = document.querySelector('.deals-carousel-viewport');
+            if (viewportEl) {
+              viewportEl.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+              }, { passive: true });
+
+              viewportEl.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+
+                const thresholdX = 40; // minimum horizontal swipe distance
+                const thresholdY = 60; // maximum vertical deviation to ignore swipe if scrolling the page
+                const diffX = touchStartX - touchEndX;
+                const diffY = Math.abs(touchStartY - touchEndY);
+
+                if (Math.abs(diffX) > thresholdX && diffY < thresholdY) {
+                  if (diffX > 0) {
+                    window.dealsCarouselState.slide('next');
+                  } else {
+                    window.dealsCarouselState.slide('prev');
+                  }
+                }
+              }, { passive: true });
+            }
+
+            // Initial settles
+            window.dealsCarouselState.update();
+            setTimeout(() => window.dealsCarouselState.update(), 100);
+            setTimeout(() => window.dealsCarouselState.update(), 500);
+            setTimeout(() => window.dealsCarouselState.update(), 1000);
+          })();
+        </script>
+        <% } %>
+
+          <!-- Brands Section -->
+          <section class="py-5 mb-5"
+            style="background: transparent; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);">
+            <div class="container">
+              <div class="row align-items-center justify-content-center text-center g-5">
+                <div class="col-6 col-md-3 brand-item">
+                  <span class="fw-black text-white"
+                    style="font-size: 1.6rem; letter-spacing: -1px; font-family: var(--font-family);">
+                    <span style="background: #FF6B35; color: white; padding: 4px 10px; border-radius: 6px;">LEGO</span>
+                  </span>
+                </div>
+                <div class="col-6 col-md-3 brand-item">
+                  <span class="fw-bold" style="font-size: 1.7rem; color: #FF6B35;">Hamleys</span>
+                </div>
+                <div class="col-6 col-md-3 brand-item">
+                  <span class="fw-semibold text-white-50" style="font-size: 1.5rem; letter-spacing: 0.5px;">Melissa &
+                    Doug</span>
+                </div>
+                <div class="col-6 col-md-3 brand-item">
+                  <span class="fw-black text-white" style="font-size: 1.6rem; font-family: var(--font-family);">
+                    <span
+                      style="background: #00E5A0; color: #0B0F1A; padding: 4px 10px; border-radius: 50%;">Play-Doh</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Featured Video Section -->
+          <style>
+            .video-preview-wrapper {
+              transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            .video-preview-wrapper:hover {
+              transform: translateY(-5px);
+              box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+            }
+
+            .video-preview-wrapper:hover .video-thumbnail {
+              transform: scale(1.03);
+              filter: brightness(1.15);
+            }
+
+            .video-preview-wrapper:hover .video-overlay {
+              background: rgba(0, 0, 0, 0.2) !important;
+            }
+
+            .video-preview-wrapper:hover .play-btn-glow {
+              transform: scale(1.1);
+              background: #ff7c4d !important;
+              box-shadow: 0 0 50px rgba(255, 107, 53, 0.9) !important;
+            }
+
+            .video-thumbnail {
+              transition: transform 0.5s ease, filter 0.5s ease;
+              object-fit: cover;
+            }
+
+            .play-btn-glow {
+              animation: play-pulse 2s infinite;
+              transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+            }
+
+            @keyframes play-pulse {
+              0% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7);
+              }
+
+              70% {
+                box-shadow: 0 0 0 20px rgba(255, 107, 53, 0);
+              }
+
+              100% {
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
+              }
+            }
+          </style>
+
+          <section class="container py-5 mb-5" data-aos="fade-up">
+            <div class="section-header">
+              <span class="section-subtitle-tag">See Us in Action</span>
+              <h2 class="section-main-title text-white">Experience ToyBerry</h2>
+              <p class="text-muted max-w-600">Take a look at our premium toy collections, unboxings, and see why kids
+                love our products!</p>
+            </div>
+            <div class="row justify-content-center mt-4">
+              <div class="col-lg-10">
+                <a href="https://youtu.be/iJ-rXAGwz78?si=BeryBPGuVcImiuyg" target="_blank"
+                  class="text-decoration-none d-block video-preview-wrapper position-relative overflow-hidden"
+                  style="border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.1);">
+                  <div class="ratio ratio-16x9 position-relative">
+                    <!-- Official YouTube Video Thumbnail -->
+                    <img src="https://img.youtube.com/vi/iJ-rXAGwz78/maxresdefault.jpg" alt="ToyBerry Video Preview"
+                      class="w-100 h-100 video-thumbnail"
+                      onerror="this.src='https://img.youtube.com/vi/iJ-rXAGwz78/hqdefault.jpg'">
+                    <!-- Video Hover Overlay & Pulsing Play Button -->
+                    <div
+                      class="video-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                      style="background: rgba(0,0,0,0.45); transition: background 0.3s ease;">
+                      <div class="play-btn-glow d-flex align-items-center justify-content-center"
+                        style="width: 85px; height: 85px; border-radius: 50%; background: #FF6B35; color: white; box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);">
+                        <i class="bi bi-play-fill" style="font-size: 3.5rem; margin-left: 6px;"></i>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <!-- WhatsApp Group Daily Updates Homepage Banner -->
+          <section class="container py-5 mb-5 overflow-hidden">
+            <div class="row justify-content-center" data-aos="fade-up">
+              <div class="col-lg-10">
+                <div
+                  class="card border-0 shadow-lg rounded-4 p-5 text-center text-white position-relative overflow-hidden"
+                  style="background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);">
+                  <!-- Decorative background elements -->
+                  <div class="position-absolute end-0 bottom-0 opacity-10"
+                    style="font-size: 12rem; transform: translate(30px, 40px);">
+                    <i class="bi bi-whatsapp"></i>
+                  </div>
+                  <div class="position-relative z-1 py-2">
+                    <span class="badge bg-white text-success fw-bold text-uppercase px-3 py-2 mb-3 rounded-pill"
+                      style="font-size: 0.75rem;">Daily Updates Channel</span>
+                    <h2 class="fw-extrabold mb-3 text-white display-5">Join Our Official WhatsApp Group</h2>
+                    <p class="mx-auto mb-4 text-white-50 fs-5" style="max-width: 600px;">Get first-hand daily updates on
+                      premium toy arrivals, flash sales, custom wooden collection updates, and stock availability
+                      notices!</p>
+                    <a href="https://chat.whatsapp.com/FMz7qU3xDCOFlJYFw4aCYZ" target="_blank"
+                      class="btn btn-light rounded-pill px-5 py-3 fw-extrabold text-success shadow fs-6 hover-scale d-inline-flex align-items-center">
+                      <i class="bi bi-whatsapp me-2 fs-5"></i>Join Updates Group
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Frequently Asked Questions -->
+          <% if (locals.faqs && faqs.length> 0) { %>
+            <section class="container py-5 mb-5">
+              <div class="section-header">
+                <span class="section-subtitle-tag">Got Questions?</span>
+                <h2 class="section-main-title text-white">Frequently Asked Questions</h2>
+                <p class="text-muted max-w-600">Explore common answers regarding safety, shipping, and return policies
+                </p>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-lg-8">
+                  <div class="accordion" id="faqAccordion">
+                    <% faqs.forEach((faq, index)=> { %>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading<%= index %>">
+                          <button class="accordion-button <%= index !== 0 ? 'collapsed' : '' %>" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>"
+                            aria-expanded="<%= index === 0 %>" aria-controls="collapse<%= index %>">
+                            <%= faq.question %>
+                          </button>
+                        </h2>
+                        <div id="collapse<%= index %>"
+                          class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
+                          aria-labelledby="heading<%= index %>" data-bs-parent="#faqAccordion">
+                          <div class="accordion-body">
+                            <%= faq.answer %>
+                          </div>
+                        </div>
+                      </div>
+                      <% }) %>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <% } %>
+
+
+
+              <!-- Countdown Timer JS script -->
+              <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                  const countdownEl = document.getElementById('flash-deal-countdown');
+                  if (countdownEl) {
+                    const endTimeStr = countdownEl.getAttribute('data-end-time');
+                    const endTime = new Date(endTimeStr).getTime();
+
+                    const hoursVal = document.getElementById('cd-hours');
+                    const minsVal = document.getElementById('cd-mins');
+                    const secsVal = document.getElementById('cd-secs');
+
+                    function updateCountdown() {
+                      const now = new Date().getTime();
+                      const diff = endTime - now;
+
+                      if (diff <= 0) {
+                        clearInterval(timerInterval);
+                        if (hoursVal) hoursVal.textContent = '00';
+                        if (minsVal) minsVal.textContent = '00';
+                        if (secsVal) secsVal.textContent = '00';
+                        return;
+                      }
+
+                      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+                      if (hoursVal) hoursVal.textContent = hours.toString().padStart(2, '0');
+                      if (minsVal) minsVal.textContent = mins.toString().padStart(2, '0');
+                      if (secsVal) secsVal.textContent = secs.toString().padStart(2, '0');
+                    }
+
+                    updateCountdown();
+                    const timerInterval = setInterval(updateCountdown, 1000);
+                  }
+
+                  // Intersection Observer for Left/Right slide-in animations
+                  const cardObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                      if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                      }
+                    });
+                  }, { threshold: 0.05 });
+
+                  document.querySelectorAll('.animate-left, .animate-right').forEach(el => cardObserver.observe(el));
+
+                  // Ajax newsletter subscription form
+                  const newsForm = document.getElementById('newsletter-form-home');
+                  const newsMsg = document.getElementById('newsletter-message');
+                  if (newsForm && newsMsg) {
+                    newsForm.addEventListener('submit', async (e) => {
+                      e.preventDefault();
+                      const emailInput = newsForm.querySelector('input[type="email"]');
+                      const email = emailInput.value;
+
+                      try {
+                        const response = await fetch('/api/newsletter/subscribe', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({ email })
+                        });
+                        const data = await response.json();
+
+                        newsMsg.classList.remove('d-none', 'text-danger', 'text-success');
+                        if (data.success) {
+                          newsMsg.classList.add('text-success');
+                          newsMsg.textContent = data.message || 'Thank you for subscribing!';
+                          emailInput.value = '';
+                        } else {
+                          newsMsg.classList.add('text-danger');
+                          newsMsg.textContent = data.message || 'Subscription failed. Please try again.';
+                        }
+                      } catch (err) {
+                        newsMsg.classList.remove('d-none');
+                        newsMsg.classList.add('text-danger');
+                        newsMsg.textContent = 'A network error occurred. Please try again.';
+                      }
+                    });
+                  }
+                });
+              </script>

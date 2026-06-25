@@ -1,0 +1,44 @@
+<div class="row g-4 mb-5">
+  <!-- Products Card -->
+  <div class="col-md-4">
+    <div class="card card-dashboard border-start border-info border-4 p-4 bg-white h-100">
+      <div class="text-xs font-weight-bold text-info text-uppercase mb-2" style="font-size: 0.85rem; letter-spacing: 0.5px;">Total Products Listed</div>
+      <h2 class="fw-bold mb-0 text-dark"><%= metrics.totalProducts %></h2>
+      <p class="text-muted mt-2 mb-0">Manage all toys available for offline purchase from this panel.</p>
+    </div>
+  </div>
+  
+  <!-- Active Support Enquiries Card -->
+  <div class="col-md-4">
+    <div class="card card-dashboard border-start border-warning border-4 p-4 bg-white h-100">
+      <div class="text-xs font-weight-bold text-warning text-uppercase mb-2" style="font-size: 0.85rem; letter-spacing: 0.5px;">New Store Enquiries</div>
+      <h2 class="fw-bold mb-0 text-dark"><%= metrics.totalContacts %></h2>
+      <p class="text-muted mt-2 mb-0">Unread customer enquiries that require manual contact.</p>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Pending Contacts / Enquiries -->
+  <div class="col-lg-12">
+    <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
+      <h5 class="fw-bold mb-4">Recent Enquiries</h5>
+      <% if (recentContacts && recentContacts.length > 0) { %>
+        <div class="d-flex flex-column gap-3">
+          <% recentContacts.forEach(contact => { %>
+            <div class="p-3 bg-light rounded-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <h6 class="fw-bold m-0 text-dark" style="font-size: 0.85rem;"><%= contact.name %></h6>
+                <span class="badge bg-warning-subtle text-warning px-2 py-0.5 rounded" style="font-size: 0.6rem;"><%= contact.status %></span>
+              </div>
+              <small class="text-muted d-block mb-2" style="font-size: 0.75rem;"><%= contact.email %></small>
+              <p class="text-muted small mb-0" style="font-size: 0.8rem; line-height: 1.4;">"<%= contact.message %>"</p>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="text-muted py-3 m-0">No messages received.</p>
+      <% } %>
+    </div>
+  </div>
+</div>

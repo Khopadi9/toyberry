@@ -1,0 +1,28 @@
+<% if (locals.pagination && pagination.totalPages > 1) { %>
+  <nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+      <!-- Previous -->
+      <li class="page-item <%= !pagination.hasPrevPage ? 'disabled' : '' %>">
+        <a class="page-item page-link rounded-start-pill px-3" href="?page=<%= pagination.prevPage %>&<%= new URLSearchParams(locals.filters || {}).toString().replace(/page=\d+&?/, '') %>" data-page="<%= pagination.prevPage %>" aria-label="Previous">
+          <i class="bi bi-chevron-left"></i>
+        </a>
+      </li>
+
+      <!-- Page Numbers -->
+      <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+        <li class="page-item <%= pagination.page === i ? 'active' : '' %>">
+          <a class="page-item page-link px-3" href="?page=<%= i %>&<%= new URLSearchParams(locals.filters || {}).toString().replace(/page=\d+&?/, '') %>" data-page="<%= i %>">
+            <%= i %>
+          </a>
+        </li>
+      <% } %>
+
+      <!-- Next -->
+      <li class="page-item <%= !pagination.hasNextPage ? 'disabled' : '' %>">
+        <a class="page-item page-link rounded-end-pill px-3" href="?page=<%= pagination.nextPage %>&<%= new URLSearchParams(locals.filters || {}).toString().replace(/page=\d+&?/, '') %>" data-page="<%= pagination.nextPage %>" aria-label="Next">
+          <i class="bi bi-chevron-right"></i>
+        </a>
+      </li>
+    </ul>
+  </nav>
+<% } %>

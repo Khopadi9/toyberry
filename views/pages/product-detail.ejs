@@ -1,0 +1,397 @@
+<%
+  const inStock = product.stock > 0 && product.status !== 'Out of Stock';
+  const originalPrice = product.price;
+  const finalPrice = product.salePrice || product.price;
+  const hasDiscount = product.salePrice && product.salePrice < product.price;
+%>
+
+<div class="container py-4">
+  <!-- Breadcrumb -->
+  <%- include('../components/breadcrumb', { breadcrumbs: [
+    { name: 'Catalog', url: '/toys' },
+    { name: product.category ? product.category.name : 'Category', url: `/toys?category=${product.category ? product.category.slug : ''}` },
+    { name: product.title, url: '#' }
+  ]}) %>
+
+  <div class="row g-5">
+    <!-- Left Column: Image Gallery and 360 viewer -->
+    <div class="col-md-6">
+      <!-- Main Zoom Image -->
+      <div class="zoom-wrapper shadow-sm rounded-4 bg-light mb-3 position-relative" id="main-image-container">
+        <img id="main-product-img" src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.png' %>" class="img-fluid w-100 rounded-4 zoom-image" alt="<%= product.title %>">
+      </div>
+
+      <!-- Thumbnail Carousel -->
+      <% if (product.images && product.images.length > 1) { %>
+        <div class="d-flex gap-2 mb-4 overflow-x-auto pb-2">
+          <% product.images.forEach((img, idx) => { %>
+            <button class="btn p-0 border rounded-3 overflow-hidden thumbnail-btn <%= idx === 0 ? 'border-primary' : '' %>" style="width: 80px; height: 80px;" data-action="change-main-image" data-img-url="<%= img %>">
+              <img src="<%= img %>" class="w-100 h-100" style="object-fit: cover;">
+            </button>
+          <% }) %>
+          
+          <!-- Mock 360 Thumbnail if gallery360 exists or we just create a mock trigger -->
+          <% if (product.gallery360 && product.gallery360.length > 0) { %>
+            <button id="btn-toggle-360" class="btn btn-dark p-0 rounded-3 d-flex flex-column align-items-center justify-content-center" style="width: 80px; height: 80px;">
+              <i class="bi bi-arrow-clockwise fs-3"></i>
+              <span style="font-size: 0.65rem; font-weight: 700;">360 VIEW</span>
+            </button>
+          <% } %>
+        </div>
+      <% } %>
+
+      <!-- Interactive 360 Viewer (Hidden by default, shown upon clicking 360 button) -->
+      <div id="viewer-360" class="viewer-360-container mb-4 d-none">
+        <img id="viewer-360-img" src="<%= product.gallery360 && product.gallery360.length > 0 ? product.gallery360[0] : '/images/placeholder.png' %>" class="viewer-360-img">
+        <div class="viewer-360-badge">
+          <i class="bi bi-arrow-left-right"></i> Drag horizontally to rotate
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Product details panel -->
+    <div class="col-md-6">
+      <div class="product-details-sidebar">
+        <!-- Category & Brand -->
+        <div class="text-uppercase text-primary fw-bold mb-2" style="font-size: 0.85rem; letter-spacing: 1px;">
+          <%= product.brand ? product.brand.name : 'ToyBerry Collection' %>
+        </div>
+
+        <h1 class="fw-bold mb-3"><%= product.title %></h1>
+
+
+
+        <!-- Price -->
+        <div class="mb-4">
+          <% if (hasDiscount) { %>
+            <span class="text-muted text-decoration-line-through fs-5 me-2">₹<%= originalPrice.toFixed(2) %></span>
+            <span class="text-primary fw-extrabold fs-2">₹<%= finalPrice.toFixed(2) %></span>
+          <% } else { %>
+            <span class="text-dark fw-bold fs-2">₹<%= finalPrice.toFixed(2) %></span>
+          <% } %>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Short Description -->
+        <p class="text-muted fs-6 mb-4"><%= product.shortDescription || product.description.substring(0, 180) + '...' %></p>
+
+        <!-- Meta fields: Category, Tags -->
+        <ul class="list-unstyled text-muted fs-7 mb-4">
+          <li class="mb-2"><strong>Category:</strong> <span class="text-dark"><%= product.category ? product.category.name : 'General' %></span></li>
+          <li class="mb-2"><strong>Tags:</strong> <span class="text-dark"><%= product.tags && product.tags.length > 0 ? product.tags.join(', ') : 'none' %></span></li>
+        </ul>
+
+        <!-- Stock Status Badge -->
+        <div class="mb-4">
+          <% if (inStock) { %>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-semibold">
+              <i class="bi bi-check-circle-fill me-1"></i> Active
+            </span>
+          <% } else { %>
+            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill fw-semibold">
+              <i class="bi bi-x-circle-fill me-1"></i> Out of stock
+            </span>
+          <% } %>
+        </div>
+
+        <!-- Offline Purchase Notice -->
+        <div class="p-3 bg-light rounded-3 mb-4 border text-center">
+          <% if (inStock) { %>
+            <div class="text-success fw-bold mb-2"><i class="bi bi-shop me-1"></i> Available In Store</div>
+            <p class="text-muted small mb-0">This premium toy is currently in stock at our offline store. Please visit us to make your purchase!</p>
+          <% } else { %>
+            <div class="text-danger fw-bold mb-2"><i class="bi bi-x-circle-fill me-1"></i> Currently Out of Stock</div>
+            <p class="text-muted small mb-0">This toy is temporarily out of stock. Contact us to inquire about restocking updates.</p>
+          <% } %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Description, Specs and Reviews tabs -->
+  <div class="row mt-5 pt-4">
+    <div class="col-12">
+      <ul class="nav nav-tabs border-bottom" id="detailTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active fw-bold text-dark border-0 border-bottom-primary px-4 py-3" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc-pane" type="button" role="tab" aria-controls="desc-pane" aria-selected="true">Description</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bold text-dark border-0 border-bottom-primary px-4 py-3" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs-pane" type="button" role="tab" aria-controls="specs-pane" aria-selected="false">Specifications</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link fw-bold text-dark border-0 border-bottom-primary px-4 py-3" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-pane" type="button" role="tab" aria-controls="reviews-pane" aria-selected="false">Reviews (<%= reviews.length %>)</button>
+        </li>
+      </ul>
+      <div class="tab-content bg-white p-4 rounded-bottom-4 shadow-sm border border-top-0 mb-5" id="detailTabsContent">
+        <!-- Description -->
+        <div class="tab-pane fade show active" id="desc-pane" role="tabpanel" aria-labelledby="desc-tab">
+          <p class="text-muted lh-lg" style="white-space: pre-line;"><%= product.description %></p>
+        </div>
+
+        <!-- Specifications -->
+        <div class="tab-pane fade" id="specs-pane" role="tabpanel" aria-labelledby="specs-tab">
+          <table class="table table-striped table-hover mt-3">
+            <tbody>
+              <% if (product.specs && product.specs.size > 0) { %>
+                <% product.specs.forEach((val, key) => { %>
+                  <tr>
+                    <td class="fw-bold text-muted w-25"><%= key.replace(/([A-Z])/g, ' $1').toUpperCase() %></td>
+                    <td><%= val %></td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr>
+                  <td class="fw-bold text-muted w-25">AGE GROUP</td>
+                  <td>3+ Years Recommended</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-muted">MATERIAL</td>
+                  <td>Premium, Child-Safe Non-Toxic Plastic/Wood</td>
+                </tr>
+                <tr>
+                  <td class="fw-bold text-muted">DIMENSIONS</td>
+                  <td>Standard retail packaging sizes apply</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Reviews and ratings -->
+        <div class="tab-pane fade" id="reviews-pane" role="tabpanel" aria-labelledby="reviews-tab">
+          <div class="row g-4">
+            <!-- Review submission form -->
+            <div class="col-lg-5">
+              <h5 class="fw-bold mb-3">Write a Customer Review</h5>
+                <form id="review-submission-form" class="mt-3">
+                  <input type="hidden" name="productId" value="<%= product._id %>">
+                  <!-- Guest Name input -->
+                  <div class="mb-3">
+                    <label class="form-label text-muted">Your Name</label>
+                    <input type="text" name="guestName" class="form-control rounded-3" placeholder="e.g. Rahul Sharma" required>
+                  </div>
+                  <input type="hidden" name="rating" id="review-rating-val" value="5">
+                  
+                  <div class="mb-3">
+                    <label class="form-label text-muted">Comment</label>
+                    <textarea name="comment" class="form-control rounded-3" rows="4" placeholder="Share your experience with this toy..." required></textarea>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary-custom rounded-pill w-100">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- List of existing reviews -->
+            <div class="col-lg-7">
+              <h5 class="fw-bold mb-3">Customer Feedback</h5>
+              <div class="reviews-list d-flex flex-column gap-3 max-vh-50 overflow-y-auto pr-2">
+                <% if (reviews && reviews.length > 0) { %>
+                  <% reviews.forEach(rev => { %>
+                    <% 
+                      let reviewerName = rev.user ? rev.user.name : 'Guest';
+                      let reviewComment = rev.comment;
+                      if (rev.comment && rev.comment.includes(':')) {
+                        const colonIdx = rev.comment.indexOf(':');
+                        reviewerName = rev.comment.substring(0, colonIdx).trim();
+                        reviewComment = rev.comment.substring(colonIdx + 1).trim();
+                      }
+                    %>
+                    <div class="card p-3 border-0 bg-light rounded-3">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold m-0"><%= reviewerName %></h6>
+                      </div>
+                      <p class="text-muted mb-1" style="font-size: 0.9rem;">"<%= reviewComment %>"</p>
+                      <small class="text-muted" style="font-size: 0.75rem;"><%= new Date(rev.createdAt).toLocaleDateString() %></small>
+                    </div>
+                  <% }) %>
+                <% } else { %>
+                  <p class="text-muted py-4">No reviews yet for this product. Be the first to write one!</p>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <% if (related && related.length > 0) { %>
+    <section class="my-5">
+      <h3 class="fw-bold mb-4">Related Toys You'll Love</h3>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+        <% related.forEach(prod => { %>
+          <div class="col">
+            <%- include('../components/product-card', { product: prod }) %>
+          </div>
+        <% }) %>
+      </div>
+    </section>
+  <% } %>
+</div>
+
+<script>
+  // Gallery Switcher
+  function changeMainImage(src, btn) {
+    document.getElementById('main-product-img').src = src;
+    document.querySelectorAll('.thumbnail-btn').forEach(b => b.classList.remove('border-primary'));
+    btn.classList.add('border-primary');
+    document.getElementById('viewer-360').classList.add('d-none');
+    document.getElementById('main-image-container').classList.remove('d-none');
+  }
+
+  // Mock 360 Viewer Rotator
+  let images360 = <%= JSON.stringify(product.gallery360 || []) %>;
+  let activeIndex360 = 0;
+  let isDragging360 = false;
+  let startX360 = 0;
+
+  function toggle360Viewer() {
+    const viewer = document.getElementById('viewer-360');
+    const mainImgContainer = document.getElementById('main-image-container');
+    
+    if (viewer.classList.contains('d-none')) {
+      viewer.classList.remove('d-none');
+      mainImgContainer.classList.add('d-none');
+      init360Events();
+    } else {
+      viewer.classList.add('d-none');
+      mainImgContainer.classList.remove('d-none');
+    }
+  }
+
+  function init360Events() {
+    const viewImg = document.getElementById('viewer-360-img');
+    const container = document.getElementById('viewer-360');
+
+    if (!viewImg || images360.length === 0) return;
+
+    container.addEventListener('mousedown', (e) => {
+      isDragging360 = true;
+      startX360 = e.clientX;
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging360 = false;
+    });
+
+    container.addEventListener('mousemove', (e) => {
+      if (!isDragging360) return;
+      const diff = e.clientX - startX360;
+      if (Math.abs(diff) > 15) {
+        if (diff > 0) {
+          activeIndex360 = (activeIndex360 + 1) % images360.length;
+        } else {
+          activeIndex360 = (activeIndex360 - 1 + images360.length) % images360.length;
+        }
+        viewImg.src = images360[activeIndex360];
+        startX360 = e.clientX;
+      }
+    });
+
+    // Touch events
+    container.addEventListener('touchstart', (e) => {
+      isDragging360 = true;
+      startX360 = e.touches[0].clientX;
+    });
+
+    container.addEventListener('touchend', () => {
+      isDragging360 = false;
+    });
+
+    container.addEventListener('touchmove', (e) => {
+      if (!isDragging360) return;
+      const diff = e.touches[0].clientX - startX360;
+      if (Math.abs(diff) > 15) {
+        if (diff > 0) {
+          activeIndex360 = (activeIndex360 + 1) % images360.length;
+        } else {
+          activeIndex360 = (activeIndex360 - 1 + images360.length) % images360.length;
+        }
+        viewImg.src = images360[activeIndex360];
+        startX360 = e.touches[0].clientX;
+      }
+    });
+  }
+
+  // Star select interaction & programmatic actions
+  document.addEventListener('DOMContentLoaded', () => {
+    // Thumbnail image switcher
+    document.querySelectorAll('[data-action="change-main-image"]').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const imgUrl = this.getAttribute('data-img-url');
+        const mainImg = document.getElementById('main-product-img');
+        if (mainImg) {
+          mainImg.src = imgUrl;
+        }
+        document.querySelectorAll('[data-action="change-main-image"]').forEach(b => b.classList.remove('border-primary'));
+        this.classList.add('border-primary');
+      });
+    });
+
+    // 360 viewer trigger
+    const btnToggle360 = document.getElementById('btn-toggle-360');
+    if (btnToggle360) {
+      btnToggle360.addEventListener('click', () => {
+        if (typeof toggle360Viewer === 'function') {
+          toggle360Viewer();
+        }
+      });
+    }
+
+    // Share buttons
+    document.querySelectorAll('.btn-share-product').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const platform = btn.getAttribute('data-platform');
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent('Check out this awesome toy on ToyBerry: <%= product.title %>');
+        let shareUrl = '';
+        if (platform === 'facebook') {
+          shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        } else if (platform === 'twitter') {
+          shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+        }
+        window.open(shareUrl, '_blank', 'width=600,height=400');
+      });
+    });
+
+    // Copy product link
+    const btnCopyLink = document.getElementById('btn-copy-product-link');
+    if (btnCopyLink) {
+      btnCopyLink.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href);
+        showToast('Info', 'Link copied to clipboard!');
+      });
+    }
+
+    const ratingInput = document.getElementById('review-rating-val');
+
+    // Submit Review via AJAX
+    const reviewForm = document.getElementById('review-submission-form');
+    if (reviewForm) {
+      reviewForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const rating = ratingInput.value;
+        const comment = reviewForm.querySelector('textarea').value;
+        const productId = reviewForm.querySelector('input[name="productId"]').value;
+        const guestName = reviewForm.querySelector('input[name="guestName"]').value;
+
+        if (!rating) {
+          showToast('Warning', 'Please select a star rating first.');
+          return;
+        }
+
+        try {
+          const res = await apiRequest('/submit-review', 'POST', { rating, comment, productId, guestName });
+          showToast('Success', res.message);
+          reviewForm.reset();
+          setTimeout(() => window.location.reload(), 1500);
+        } catch (err) {
+          showToast('Error', err.message);
+        }
+      });
+    }
+  });
+</script>

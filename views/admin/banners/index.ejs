@@ -1,0 +1,68 @@
+<div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold m-0">Carousel Slides Management</h4>
+    <a href="/admin/banners/add" class="btn btn-primary btn-sm rounded-pill px-4"><i class="bi bi-plus-lg me-1"></i> Add Slide</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr class="text-muted small">
+          <th>Image</th>
+          <th>Title</th>
+          <th>Subtitle</th>
+          <th>Order</th>
+          <th>Status</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (banners && banners.length > 0) { %>
+          <% banners.forEach(banner => { %>
+            <tr id="admin-banner-row-<%= banner._id %>">
+              <td class="py-3">
+                <img src="<%= banner.image || '/images/placeholder.png' %>" class="rounded-3" style="width: 120px; height: 60px; object-fit: cover;">
+              </td>
+              <td>
+                <div class="fw-bold text-dark"><%= banner.title %></div>
+                <% if (banner.link) { %>
+                  <div class="text-muted small">Link: <a href="<%= banner.link %>" target="_blank" class="text-decoration-none"><%= banner.link %></a></div>
+                <% } %>
+              </td>
+              <td><span class="text-muted small"><%= banner.subtitle || 'N/A' %></span></td>
+              <td><span class="badge bg-light text-dark border px-2 py-1"><%= banner.order %></span></td>
+              <td>
+                <span class="badge <%= banner.status === 'Active' ? 'bg-success' : 'bg-secondary' %> rounded-pill px-3 py-1"><%= banner.status %></span>
+              </td>
+              <td class="text-end">
+                <a href="/admin/banners/edit/<%= banner._id %>" class="btn btn-sm btn-outline-primary rounded-pill me-2 px-3" title="Edit Slide"><i class="bi bi-pencil-square me-1"></i> Edit</a>
+                <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="deleteAdminBanner('<%= banner._id %>')" title="Delete Slide"><i class="bi bi-trash3 me-1"></i> Delete</button>
+              </td>
+            </tr>
+          <% }) %>
+        <% } else { %>
+          <tr>
+            <td colspan="6" class="text-center text-muted py-5">No carousel slides found. Click "Add Slide" to create one.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  function deleteAdminBanner(id) {
+    showDeleteConfirmation('Are you sure you want to delete this carousel slide?', async () => {
+      try {
+        const res = await apiRequest(`/admin/banners/delete/${id}`, 'POST');
+        showToast('Success', res.message);
+        
+        // Remove row
+        const el = document.getElementById(`admin-banner-row-${id}`);
+        if (el) el.remove();
+      } catch (err) {
+        showToast('Error', err.message);
+      }
+    });
+  }
+</script>

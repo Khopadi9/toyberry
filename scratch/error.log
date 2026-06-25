@@ -1,0 +1,34 @@
+[2026-06-25T04:50:46.539Z] POST /admin/products/add
+MulterError: File too large
+    at abortWithCode (/home/bitrix109/Het/toyberry/node_modules/multer/lib/make-middleware.js:107:22)
+    at FileStream.<anonymous> (/home/bitrix109/Het/toyberry/node_modules/multer/lib/make-middleware.js:221:11)
+    at FileStream.emit (node:events:519:28)
+    at SBMH.ssCb [as _cb] (/home/bitrix109/Het/toyberry/node_modules/busboy/lib/types/multipart.js:479:32)
+    at feed (/home/bitrix109/Het/toyberry/node_modules/streamsearch/lib/sbmh.js:248:10)
+    at SBMH.push (/home/bitrix109/Het/toyberry/node_modules/streamsearch/lib/sbmh.js:104:16)
+    at Multipart._write (/home/bitrix109/Het/toyberry/node_modules/busboy/lib/types/multipart.js:567:19)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+
+[2026-06-25T06:04:00.719Z] GET /cart
+TypeError: /home/bitrix109/Het/toyberry/views/pages/cart.ejs:22
+    20|               <tbody>
+    21|                 <% cart.items.forEach(item => { %>
+ >> 22|                   <tr id="cart-item-<%= item.product._id %>">
+    23|                     <td class="py-3 border-0">
+    24|                       <div class="d-flex align-items-center">
+    25|                         <img src="<%= item.product.images[0] || '/images/placeholder.png' %>" class="rounded-3 me-3" style="width: 70px; height: 70px; object-fit: cover;">
+
+Cannot read properties of null (reading '_id')
+    at eval ("/home/bitrix109/Het/toyberry/views/pages/cart.ejs":18:39)
+    at Proxy.forEach (<anonymous>)
+    at eval ("/home/bitrix109/Het/toyberry/views/pages/cart.ejs":15:19)
+    at cart (/home/bitrix109/Het/toyberry/node_modules/ejs/lib/cjs/ejs.js:643:23)
+    at tryHandleCache (/home/bitrix109/Het/toyberry/node_modules/ejs/lib/cjs/ejs.js:253:42)
+    at ejs.renderFile [as engine] (/home/bitrix109/Het/toyberry/node_modules/ejs/lib/cjs/ejs.js:444:12)
+    at View.render (/home/bitrix109/Het/toyberry/node_modules/express/lib/view.js:139:8)
+    at tryRender (/home/bitrix109/Het/toyberry/node_modules/express/lib/application.js:627:10)
+    at Function.render (/home/bitrix109/Het/toyberry/node_modules/express/lib/application.js:574:3)
+    at ServerResponse.render (/home/bitrix109/Het/toyberry/node_modules/express/lib/response.js:923:7)
+

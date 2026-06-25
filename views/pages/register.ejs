@@ -1,0 +1,61 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 py-4">
+      <div class="card border-0 shadow-sm rounded-4 p-5">
+        <h2 class="fw-bold mb-2 text-center">Create Account</h2>
+        <p class="text-muted mb-4 text-center">Join ToyBerry for premium kids toys benefits</p>
+
+        <form id="register-form-submit">
+          <!-- CSRF Token -->
+          <input type="hidden" name="_csrf" value="<%= locals.csrfToken || '' %>">
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Full Name</label>
+            <input type="text" name="name" class="form-control rounded-pill px-4 shadow-sm" placeholder="John Doe" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Email Address</label>
+            <input type="email" name="email" class="form-control rounded-pill px-4 shadow-sm" placeholder="name@domain.com" required>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Phone Number</label>
+            <input type="text" name="phone" class="form-control rounded-pill px-4 shadow-sm" placeholder="+1 (555) 000-0000">
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label text-muted">Password</label>
+            <input type="password" name="password" class="form-control rounded-pill px-4 shadow-sm" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom rounded-pill w-100 py-3 fw-bold mb-3">Sign Up</button>
+        </form>
+
+        <p class="text-center text-muted mb-0 small">
+          Already have an account? <a href="/login" class="text-decoration-none text-primary fw-semibold">Sign In</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('register-form-submit').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await apiRequest('/register', 'POST', data);
+      showToast('Success', res.message);
+      
+      // Redirect to OTP verification screen
+      setTimeout(() => {
+        window.location.href = `/verify-otp?email=${encodeURIComponent(data.email)}&type=verification`;
+      }, 1500);
+    } catch (err) {
+      showToast('Error', err.message || 'Registration failed. Try again.');
+    }
+  });
+</script>

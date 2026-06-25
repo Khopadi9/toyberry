@@ -1,0 +1,278 @@
+<div class="container py-5">
+  <h1 class="fw-bold mb-4">Checkout</h1>
+
+  <div class="row g-5">
+    <!-- Left Column: Shipping & Payment -->
+    <div class="col-lg-7">
+      <!-- Address Book Quick Picker -->
+      <% if (addresses && addresses.length > 0) { %>
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h5 class="fw-bold mb-3">Select Shipping Address</h5>
+          <div class="row g-3">
+            <% addresses.forEach((addr, idx) => { %>
+              <div class="col-md-6">
+                <div class="card p-3 border rounded-3 position-relative address-selector-card" style="cursor: pointer;" data-action="autofill-address" data-address='<%= JSON.stringify(addr) %>'>
+                  <span class="badge bg-secondary-subtle text-secondary position-absolute top-0 end-0 m-2" style="font-size: 0.7rem;"><%= addr.label %></span>
+                  <div class="fw-bold text-dark mb-1"><%= addr.city %>, <%= addr.state %></div>
+                  <div class="text-muted small" style="line-height: 1.4;">
+                    <%= addr.addressLine1 %><br>
+                    <%= addr.postalCode %><br>
+                    <%= addr.country %>
+                  </div>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+
+      <!-- Address Input Form -->
+      <form id="checkout-submission-form">
+        <!-- Hidden coupon pass through -->
+        <input type="hidden" name="couponCode" id="checkout-coupon-code">
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h5 class="fw-bold mb-4">Shipping Information</h5>
+          
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label text-muted">Recipient Name</label>
+              <input type="text" name="shippingAddress[name]" id="shipping-name" class="form-control rounded-3 shadow-sm" required value="<%= locals.user ? user.name : '' %>">
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label text-muted">Address Line 1</label>
+              <input type="text" name="shippingAddress[addressLine1]" id="shipping-line1" class="form-control rounded-3 shadow-sm" required>
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label text-muted">Address Line 2 (Optional)</label>
+              <input type="text" name="shippingAddress[addressLine2]" id="shipping-line2" class="form-control rounded-3 shadow-sm">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">City</label>
+              <input type="text" name="shippingAddress[city]" id="shipping-city" class="form-control rounded-3 shadow-sm" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">State / Province</label>
+              <input type="text" name="shippingAddress[state]" id="shipping-state" class="form-control rounded-3 shadow-sm" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">Postal Code</label>
+              <input type="text" name="shippingAddress[postalCode]" id="shipping-zip" class="form-control rounded-3 shadow-sm" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label text-muted">Country</label>
+              <input type="text" name="shippingAddress[country]" id="shipping-country" class="form-control rounded-3 shadow-sm" required value="United States">
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label text-muted">Contact Phone Number</label>
+              <input type="text" name="shippingAddress[phone]" id="shipping-phone" class="form-control rounded-3 shadow-sm" required value="<%= locals.user ? user.phone : '' %>">
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <h5 class="fw-bold mb-4">Payment Method</h5>
+          
+          <div class="form-check mb-3 p-3 border rounded-3">
+            <input class="form-check-input ms-0 me-3" type="radio" name="paymentMethod" id="pay-cod" value="COD" checked>
+            <label class="form-check-label fw-bold text-dark" for="pay-cod">
+              <i class="bi bi-cash-coin me-2 text-primary fs-5"></i> Cash On Delivery (COD)
+            </label>
+          </div>
+
+          <div class="form-check p-3 border rounded-3">
+            <input class="form-check-input ms-0 me-3" type="radio" name="paymentMethod" id="pay-online" value="Online">
+            <label class="form-check-label fw-bold text-dark" for="pay-online">
+              <i class="bi bi-credit-card me-2 text-secondary fs-5"></i> Online Credit Card / Stripe
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Right Column: Order items summary & submit -->
+    <div class="col-lg-5">
+      <div class="card border-0 shadow-sm rounded-4 p-4 sticky-top" style="top: 110px;">
+        <h5 class="fw-bold mb-4">Review Order</h5>
+        
+        <!-- Cart Items List -->
+        <div class="order-items-scroll max-vh-30 overflow-y-auto mb-4 border-bottom pb-3">
+          <% cart.items.forEach(item => { %>
+            <div class="d-flex align-items-center mb-3">
+              <img src="<%= item.product.images[0] || '/images/placeholder.png' %>" class="rounded-3 me-3" style="width: 50px; height: 50px; object-fit: cover;">
+              <div class="flex-grow-1">
+                <h6 class="fw-bold mb-0 text-dark" style="font-size: 0.9rem; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;"><%= item.product.title %></h6>
+                <small class="text-muted">Qty: <%= item.quantity %> &times; ₹<%= item.price.toFixed(2) %></small>
+              </div>
+              <div class="fw-bold text-dark ms-2">
+                ₹<%= (item.price * item.quantity).toFixed(2) %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+
+        <!-- Checkout Totals Summary -->
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Subtotal</span>
+          <span class="fw-semibold" id="checkout-subtotal">₹0.00</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2 text-success d-none" id="checkout-discount-row">
+          <span>Discount (<span id="checkout-coupon-code-text"></span>)</span>
+          <span class="fw-semibold">- ₹<span id="checkout-discount">0.00</span></span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-muted">Tax (8%)</span>
+          <span class="fw-semibold" id="checkout-tax">₹0.00</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-3">
+          <span class="text-muted">Shipping</span>
+          <span class="fw-semibold" id="checkout-shipping">₹0.00</span>
+        </div>
+
+        <hr class="my-3">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h6 class="fw-bold m-0">Grand Total</h6>
+          <h4 class="fw-extrabold text-primary m-0" id="checkout-grandtotal">₹0.00</h4>
+        </div>
+
+        <button type="button" id="btn-place-order" class="btn btn-primary-custom rounded-pill w-100 py-3 fw-bold">
+          Place Order &rarr;
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let cartItemsList = <%= JSON.stringify(cart ? cart.items : []) %>;
+  let activeCoupon = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Check if session contains applied coupon
+    const savedCoupon = sessionStorage.getItem('applied_coupon');
+    if (savedCoupon) {
+      activeCoupon = JSON.parse(savedCoupon);
+      document.getElementById('checkout-coupon-code').value = activeCoupon.code;
+    }
+    calculateTotals();
+
+    // Bind address cards
+    document.querySelectorAll('[data-action="autofill-address"]').forEach(card => {
+      card.addEventListener('click', function() {
+        const address = JSON.parse(this.getAttribute('data-address'));
+        autofillAddress(address, this);
+      });
+    });
+
+    // Bind submit order button
+    const placeOrderBtn = document.getElementById('btn-place-order');
+    if (placeOrderBtn) {
+      placeOrderBtn.addEventListener('click', () => {
+        submitCheckoutOrder();
+      });
+    }
+  });
+
+  function calculateTotals() {
+    let subtotal = 0;
+    cartItemsList.forEach(item => {
+      const price = item.product.salePrice || item.product.price;
+      subtotal += price * item.quantity;
+    });
+
+    document.getElementById('checkout-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+
+    let discount = 0;
+    if (activeCoupon) {
+      if (subtotal >= activeCoupon.minPurchase) {
+        if (activeCoupon.discountType === 'Percentage') {
+          discount = subtotal * (activeCoupon.value / 100);
+        } else {
+          discount = activeCoupon.value;
+        }
+        discount = Math.min(discount, subtotal);
+
+        document.getElementById('checkout-coupon-code-text').textContent = activeCoupon.code;
+        document.getElementById('checkout-discount').textContent = discount.toFixed(2);
+        document.getElementById('checkout-discount-row').classList.remove('d-none');
+      }
+    }
+
+    const taxableAmount = subtotal - discount;
+    const tax = parseFloat((taxableAmount * 0.08).toFixed(2));
+    document.getElementById('checkout-tax').textContent = `₹${tax.toFixed(2)}`;
+
+    const shipping = taxableAmount > 5000 ? 0 : 250;
+    document.getElementById('checkout-shipping').textContent = shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`;
+
+    const grandtotal = taxableAmount + tax + shipping;
+    document.getElementById('checkout-grandtotal').textContent = `₹${grandtotal.toFixed(2)}`;
+  }
+
+  function autofillAddress(address, cardElement) {
+    // Remove border styles from all selector cards
+    document.querySelectorAll('.address-selector-card').forEach(card => {
+      card.style.borderColor = '#dee2e6';
+    });
+    cardElement.style.borderColor = 'var(--primary-color)';
+
+    // Autofill fields
+    document.getElementById('shipping-line1').value = address.addressLine1;
+    document.getElementById('shipping-line2').value = address.addressLine2 || '';
+    document.getElementById('shipping-city').value = address.city;
+    document.getElementById('shipping-state').value = address.state;
+    document.getElementById('shipping-zip').value = address.postalCode;
+    document.getElementById('shipping-country').value = address.country;
+  }
+
+  async function submitCheckoutOrder() {
+    const form = document.getElementById('checkout-submission-form');
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const formData = new FormData(form);
+    const data = {
+      shippingAddress: {
+        name: document.getElementById('shipping-name').value,
+        addressLine1: document.getElementById('shipping-line1').value,
+        addressLine2: document.getElementById('shipping-line2').value,
+        city: document.getElementById('shipping-city').value,
+        state: document.getElementById('shipping-state').value,
+        postalCode: document.getElementById('shipping-zip').value,
+        country: document.getElementById('shipping-country').value,
+        phone: document.getElementById('shipping-phone').value,
+      },
+      paymentMethod: form.querySelector('input[name="paymentMethod"]:checked').value,
+      couponCode: document.getElementById('checkout-coupon-code').value || null
+    };
+
+    try {
+      const res = await apiRequest('/checkout/submit', 'POST', data);
+      showToast('Success', res.message);
+      
+      // Clear sessionStorage applied coupon
+      sessionStorage.removeItem('applied_coupon');
+      
+      // Redirect to success page
+      setTimeout(() => {
+        window.location.href = `/checkout/success?orderNumber=${res.data.order.orderNumber}`;
+      }, 1500);
+    } catch (err) {
+      showToast('Error', err.message);
+    }
+  }
+</script>

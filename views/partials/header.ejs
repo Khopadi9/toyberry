@@ -1,0 +1,153 @@
+<% const menuCategories=locals.categories && locals.categories.length> 0
+  ? locals.categories
+  : [
+  { name: 'Educational', slug: 'educational', image: '/images/placeholder.png' },
+  { name: 'Puzzles', slug: 'puzzles', image: '/images/placeholder.png' },
+  { name: 'Creative', slug: 'creative', image: '/images/placeholder.png' },
+  { name: 'Active Play', slug: 'active-play', image: '/images/placeholder.png' },
+  { name: 'Toy Cars', slug: 'toy-cars', image: '/images/placeholder.png' }
+  ];
+  %>
+
+  <nav class="navbar navbar-expand-lg navbar-premium fixed-top" id="main-navbar">
+    <div class="container">
+      <!-- Brand Logo -->
+      <a class="navbar-brand brand-text d-flex align-items-center" href="/">
+        <img src="/uploads/toyberry.jpg" alt="ToyBerry Logo" class="me-2 rounded-3"
+          style="width: 38px; height: 38px; object-fit: contain; border: 1.5px solid var(--primary-color);">
+        ToyBerry
+      </a>
+
+      <!-- Mobile Toggler Button -->
+      <button class="navbar-toggler border-0 p-0 text-dark" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#mobileNavOffcanvas" aria-controls="mobileNavOffcanvas" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-1"></i>
+      </button>
+
+      <!-- Desktop Navigation Collapse -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+          <li class="nav-item">
+            <a class="nav-link fw-bold" href="/">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link fw-bold" href="/toys">
+              Shop Toys
+            </a>
+          </li>
+
+
+          <li class="nav-item">
+            <a class="nav-link fw-bold" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" href="/contact">Contact Us</a>
+          </li>
+        </ul>
+
+        <!-- Live Search Box with AJAX Suggestions -->
+        <div class="search-wrapper me-lg-4 my-2 my-lg-0">
+          <form action="/toys" method="GET" class="d-flex position-relative" style="width: 300px;"
+            id="global-search-form">
+            <input class="form-control rounded-pill pe-5" type="search" name="search" id="global-search-input"
+              placeholder="Search toys..." aria-label="Search" autocomplete="off">
+            <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-primary p-0 me-3"
+              type="submit">
+              <i class="bi bi-search fs-5"></i>
+            </button>
+          </form>
+          <div id="search-suggestions" class="search-suggestions-panel d-none"></div>
+        </div>
+
+        <!-- Action Items -->
+        <div class="d-flex align-items-center gap-3">
+          <!-- User Option Dropdown -->
+          <div class="dropdown">
+            <a href="#" class="nav-action-btn" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+              title="User Menu">
+              <i class="bi bi-person fs-5"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end border-0 shadow-md rounded-4 p-2 mt-2" style="min-width: 200px;">
+              <% if (locals.user) { %>
+                <li class="dropdown-header text-muted small fw-bold">Hello, <%= user.name %>
+                </li>
+                <% if (user.role==='admin' ) { %>
+                  <li><a class="dropdown-item rounded-3 py-2 text-primary fw-bold" href="/admin"><i
+                        class="bi bi-speedometer2 me-2"></i>Admin Dashboard</a></li>
+                  <% } %>
+                    <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="/profile"><i
+                          class="bi bi-person-circle me-2"></i>My Profile</a></li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item rounded-3 py-2 text-danger fw-bold" href="/logout"><i
+                          class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                    <% } else { %>
+                      <li><a class="dropdown-item rounded-3 py-2 fw-bold" href="/login"><i
+                            class="bi bi-box-arrow-in-right me-2"></i>Login</a></li>
+                      <% } %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Navigation Offcanvas -->
+  <div class="offcanvas offcanvas-start rounded-end-4" tabindex="-1" id="mobileNavOffcanvas"
+    aria-labelledby="mobileNavOffcanvasLabel">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title brand-text d-flex align-items-center" id="mobileNavOffcanvasLabel">
+        <img src="/uploads/toyberry.jpg" alt="ToyBerry Logo" class="me-2 rounded-3"
+          style="width: 32px; height: 32px; object-fit: contain; border: 1px solid var(--primary-color);">
+        ToyBerry
+      </h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body p-4">
+      <div class="mb-4">
+        <form action="/toys" method="GET" class="position-relative">
+          <input class="form-control rounded-pill pe-5" type="search" name="search" placeholder="Search toys..."
+            aria-label="Search">
+          <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-primary p-0 me-3"
+            type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+      </div>
+
+      <ul class="nav flex-column gap-3 mb-4">
+        <li class="nav-item">
+          <a class="nav-link fs-5 fw-bold p-0 text-dark" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-5 fw-bold p-0 text-dark" href="/toys">Shop All Toys</a>
+        </li>
+        <li class="nav-item">
+          <hr class="my-1">
+        </li>
+        <li class="nav-item">
+          <span class="text-muted text-uppercase fw-bold"
+            style="font-size: 0.75rem; letter-spacing: 1px;">Collections</span>
+          <div class="d-flex flex-column gap-2 mt-2 ps-2">
+            <% menuCategories.forEach(cat=> { %>
+              <a class="text-decoration-none text-dark fw-bold" href="/toys?category=<%= cat.slug %>">
+                <%= cat.name %>
+              </a>
+              <% }) %>
+          </div>
+        </li>
+        <li class="nav-item">
+          <hr class="my-1">
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link fs-5 fw-bold p-0 text-dark" href="/about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fs-5 fw-bold p-0 text-dark" href="/contact">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+  </div>

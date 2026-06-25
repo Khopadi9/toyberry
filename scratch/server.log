@@ -1,0 +1,21 @@
+
+> toyberry@1.0.0 start
+> node app.js
+
+◇ injected env (3) from .env // tip: ⌘ custom filepath { path: '/custom/path/.env' }
+ToyBerry Premium Server is running on port 3000 in development mode.
+Open the site at: http://localhost:3000 or using your server's IP address
+MongoDB Connected: ac-rctvnwk-shard-00-02.xwnjosm.mongodb.net
+[0mGET /admin/products/add [36m304[0m 83.478 ms - -[0m
+[0mGET /uploads/toyberry.jpg [36m304[0m 1.714 ms - -[0m
+[0mGET /js/main.js [36m304[0m 1.836 ms - -[0m
+[0mGET /uploads/toyberry.jpg [36m304[0m 0.399 ms - -[0m
+[0mGET /admin/products/add [36m304[0m 67.442 ms - -[0m
+[0mGET /uploads/toyberry.jpg [36m304[0m 0.535 ms - -[0m
+[0mGET /js/main.js [36m304[0m 0.817 ms - -[0m
+[0mGET /uploads/toyberry.jpg [36m304[0m 0.412 ms - -[0m
+[0mGET /admin/products/add [36m304[0m 59.482 ms - -[0m
+[0mGET /uploads/toyberry.jpg [36m304[0m 0.873 ms - -[0m
+[0mGET /js/main.js [36m304[0m 0.479 ms - -[0m
+[0mGET /uploads/toyberry.jpg [36m304[0m 0.717 ms - -[0m
+Killed

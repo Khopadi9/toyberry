@@ -1,0 +1,63 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 py-4">
+      <div class="card border-0 shadow-sm rounded-4 p-5">
+        <h2 class="fw-bold mb-2 text-center">Welcome Back</h2>
+        <p class="text-muted mb-4 text-center">Sign in to your ToyBerry account</p>
+
+        <form id="login-form-submit">
+          <!-- CSRF Token -->
+          <input type="hidden" name="_csrf" value="<%= locals.csrfToken || '' %>">
+
+          <div class="mb-3">
+            <label class="form-label text-muted">Email or Username</label>
+            <input type="text" name="email" class="form-control rounded-pill px-4 shadow-sm" placeholder="Enter email or username" required>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-1">
+              <label class="form-label text-muted mb-0">Password</label>
+              <a href="/forgot-password" class="small text-decoration-none text-primary">Forgot Password?</a>
+            </div>
+            <input type="password" name="password" class="form-control rounded-pill px-4 shadow-sm" placeholder="••••••••" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom rounded-pill w-100 py-3 fw-bold mb-3">Sign In</button>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('login-form-submit').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await apiRequest('/login', 'POST', data);
+      showToast('Success', res.message);
+      
+      // Redirect based on role
+      setTimeout(() => {
+        if (res.data && res.data.user && res.data.user.role === 'admin') {
+          window.location.href = '/admin/dashboard';
+        } else {
+          window.location.href = '/profile';
+        }
+      }, 1200);
+    } catch (err) {
+      if (err.message && err.message.includes('not verified')) {
+        showToast('Warning', 'Account not verified. Redirecting to OTP entry...');
+        setTimeout(() => {
+          window.location.href = `/verify-otp?email=${encodeURIComponent(data.email)}&type=verification`;
+        }, 1500);
+      } else {
+        showToast('Error', err.message || 'Invalid email or password');
+      }
+    }
+  });
+</script>

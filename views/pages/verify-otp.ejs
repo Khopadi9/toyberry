@@ -1,0 +1,48 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 py-4">
+      <div class="card border-0 shadow-sm rounded-4 p-5">
+        <h2 class="fw-bold mb-2 text-center">Verify OTP</h2>
+        <p class="text-muted mb-4 text-center">We have sent a verification code to <strong><%= email %></strong></p>
+
+        <form id="otp-form-submit">
+          <!-- CSRF Token -->
+          <input type="hidden" name="_csrf" value="<%= locals.csrfToken || '' %>">
+          <input type="hidden" name="email" value="<%= email %>">
+          <input type="hidden" name="type" value="<%= type %>">
+
+          <div class="mb-4">
+            <label class="form-label text-muted d-block text-center">Enter 6-Digit Code</label>
+            <input type="text" name="code" class="form-control rounded-pill text-center fs-4 letter-spacing-md shadow-sm" maxlength="6" placeholder="000000" required autocomplete="off">
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom rounded-pill w-100 py-3 fw-bold mb-3">Verify Code</button>
+        </form>
+
+        <p class="text-center text-muted mb-0 small">
+          Didn't receive the email? Check your spam folder.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('otp-form-submit').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await apiRequest('/verify-otp', 'POST', data);
+      showToast('Success', res.message);
+      
+      // Redirect to profile
+      setTimeout(() => {
+        window.location.href = '/profile';
+      }, 1200);
+    } catch (err) {
+      showToast('Error', err.message || 'Verification failed. Try again.');
+    }
+  });
+</script>

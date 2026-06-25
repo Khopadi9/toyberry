@@ -1,0 +1,70 @@
+<div class="card border-0 shadow-sm rounded-3 p-4 bg-white mb-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold m-0">Edit Carousel Slide</h4>
+    <a href="/admin/banners" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Back to List</a>
+  </div>
+
+  <% if (locals.error) { %>
+    <div class="alert alert-danger rounded-3" role="alert">
+      <%= error %>
+    </div>
+  <% } %>
+
+  <form action="/admin/banners/edit/<%= banner._id %>" method="POST" enctype="multipart/form-data">
+    <!-- CSRF Token -->
+    <input type="hidden" name="_csrf" value="<%= locals.csrfToken || '' %>">
+
+    <div class="row g-3">
+      <!-- Title -->
+      <div class="col-md-12">
+        <label class="form-label text-muted">Slide Title</label>
+        <input type="text" name="title" class="form-control rounded-3" required value="<%= banner.title %>" placeholder="e.g. Premium Toys for Growing Minds">
+      </div>
+
+      <!-- Subtitle -->
+      <div class="col-md-12">
+        <label class="form-label text-muted">Slide Subtitle / Description</label>
+        <input type="text" name="subtitle" class="form-control rounded-3" value="<%= banner.subtitle %>" placeholder="e.g. Explore curated educational, STEM, and creative play sets.">
+      </div>
+
+      <!-- Link URL -->
+      <div class="col-md-6">
+        <label class="form-label text-muted">Link URL (Optional)</label>
+        <input type="text" name="link" class="form-control rounded-3" value="<%= banner.link %>" placeholder="e.g. /toys?category=educational-toys">
+      </div>
+
+      <!-- Display Order -->
+      <div class="col-md-3">
+        <label class="form-label text-muted">Display Order (Ascending)</label>
+        <input type="number" name="order" class="form-control rounded-3" value="<%= banner.order %>" min="0">
+      </div>
+
+      <!-- Status -->
+      <div class="col-md-3">
+        <label class="form-label text-muted">Status</label>
+        <select name="status" class="form-select rounded-3">
+          <option value="Active" <%= banner.status === 'Active' ? 'selected' : '' %>>Active</option>
+          <option value="Inactive" <%= banner.status === 'Inactive' ? 'selected' : '' %>>Inactive</option>
+        </select>
+      </div>
+
+      <!-- Current Image Preview -->
+      <div class="col-md-12 mt-3">
+        <label class="form-label text-muted d-block">Current Slide Image</label>
+        <img src="<%= banner.image %>" class="rounded-3 border mb-2" style="max-height: 200px; width: auto; object-fit: cover;">
+      </div>
+
+      <!-- Image upload -->
+      <div class="col-md-12">
+        <label class="form-label text-muted">Replace Slide Background Image (Optional)</label>
+        <input type="file" name="image" class="form-control rounded-3" accept="image/*">
+        <div class="form-text">Choose a high-quality landscape image (recommended size: 1920x800px). Leave empty to keep the current image.</div>
+      </div>
+    </div>
+
+    <div class="mt-5 border-top pt-4">
+      <button type="submit" class="btn btn-primary px-5 rounded-pill">Save Changes</button>
+      <a href="/admin/banners" class="btn btn-outline-secondary rounded-pill px-4 ms-2">Cancel</a>
+    </div>
+  </form>
+</div>
