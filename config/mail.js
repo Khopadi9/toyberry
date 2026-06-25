@@ -1,17 +1,27 @@
-const nodemailer = require('nodemailer');
+/**
+ * config/mail.js
+ * Nodemailer transporter configuration.
+ * All credentials come from process.env — no hardcoded defaults for sensitive values.
+ */
 
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST || 'smtp.mailtrap.io',
-  port: process.env.MAIL_PORT || 2525,
-  auth: {
-    user: process.env.MAIL_USERNAME || '',
-    pass: process.env.MAIL_PASSWORD || ''
-  }
-});
+'use strict';
+
+const nodemailer = require('nodemailer');
+const constants = require('./constants');
+
+const createTransporter = () =>
+  nodemailer.createTransport({
+    host: process.env.MAIL_HOST,
+    port: parseInt(process.env.MAIL_PORT, 10) || 587,
+    auth: {
+      user: process.env.MAIL_USERNAME,
+      pass: process.env.MAIL_PASSWORD
+    }
+  });
 
 const sendMail = async ({ to, subject, html, text }) => {
   const mailOptions = {
-    from: `"${process.env.MAIL_FROM_NAME || 'ToyBerry'}" <${process.env.MAIL_FROM_ADDRESS || 'noreply@toyberry.com'}>`,
+    from: `"${process.env.MAIL_FROM_NAME || constants.APP_NAME}" <${process.env.MAIL_FROM_ADDRESS}>`,
     to,
     subject,
     text: text || '',
@@ -19,6 +29,7 @@ const sendMail = async ({ to, subject, html, text }) => {
   };
 
   try {
+    const transporter = createTransporter();
     const info = await transporter.sendMail(mailOptions);
     console.log(`Email sent: ${info.messageId}`);
     return info;
@@ -28,7 +39,4 @@ const sendMail = async ({ to, subject, html, text }) => {
   }
 };
 
-module.exports = {
-  transporter,
-  sendMail
-};
+module.exports = { sendMail };

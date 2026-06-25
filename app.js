@@ -1,4 +1,7 @@
+'use strict';
+
 require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -12,9 +15,18 @@ const expressLayouts = require('express-ejs-layouts');
 
 const connectDB = require('./config/database');
 const appConfig = require('./config/app');
-const constants = require('./config/constants');
 const Setting = require('./models/Setting');
 const { csrfInit, csrfVerify } = require('./middlewares/csrf');
+
+// Validate required secrets early — fail fast before any connection
+if (!process.env.MONGODB_URI) {
+  console.error('FATAL: MONGODB_URI is not set. Shutting down.');
+  process.exit(1);
+}
+if (!process.env.SESSION_SECRET) {
+  console.error('FATAL: SESSION_SECRET is not set. Shutting down.');
+  process.exit(1);
+}
 
 // Initialize Express app
 const app = express();
@@ -23,7 +35,7 @@ const app = express();
 connectDB();
 
 // Setup Morgan Logger
-app.use(morgan('dev'));
+app.use(morgan(appConfig.isProduction() ? 'combined' : 'dev'));
 
 // Static files directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -47,16 +59,16 @@ app.use(
 // Express Session configuration with MongoStore
 app.use(
   session({
-    secret: appConfig.sessionSecret || 'toyberry-super-secret-key-2026',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production'
+      secure: appConfig.isProduction()
     },
     store: MongoStore.create({
-      mongoUrl: constants.MONGODB_URI,
+      mongoUrl: process.env.MONGODB_URI,
       collectionName: 'sessions',
       ttl: 7 * 24 * 60 * 60 // 7 days
     })
@@ -75,10 +87,8 @@ app.set('layout', 'layouts/main-layout');
 
 // Global Locals Injection Middleware
 app.use(async (req, res, next) => {
-  // Inject session details
   res.locals.user = req.session.user || null;
-  
-  // Inject session toast
+
   if (req.session.toast) {
     res.locals.sessionToast = req.session.toast;
     delete req.session.toast;
@@ -91,7 +101,6 @@ app.use(async (req, res, next) => {
     res.locals.sessionToast = null;
   }
 
-  // Calculate cart counts
   try {
     const Cart = mongoose.model('Cart');
     let cart = null;
@@ -100,13 +109,10 @@ app.use(async (req, res, next) => {
     } else {
       cart = await Cart.findOne({ sessionId: req.sessionID });
     }
-
-    if (cart && cart.items) {
-      res.locals.cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
-    } else {
-      res.locals.cartCount = 0;
-    }
-  } catch (err) {
+    res.locals.cartCount = cart && cart.items
+      ? cart.items.reduce((sum, item) => sum + item.quantity, 0)
+      : 0;
+  } catch (_) {
     res.locals.cartCount = 0;
   }
 
@@ -123,7 +129,7 @@ app.use(async (req, res, next) => {
     try {
       const maintenance = await Setting.findOne({ key: 'maintenance_mode' });
       if (maintenance && maintenance.value === 'true') {
-        if (req.xhr || (req.headers.accept && req.headers.accept.indexOf('json') > -1)) {
+        if (req.xhr || (req.headers.accept && req.headers.accept.includes('json'))) {
           return res.status(503).json({ success: false, message: 'Site is under maintenance.' });
         }
         return res.status(503).render('pages/maintenance', {
@@ -148,7 +154,7 @@ app.use('/api', apiRoutes);
 app.use('/', webRoutes);
 
 // 404 Route Handler
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).render('pages/404', {
     title: 'Page Not Found',
     breadcrumbs: []
@@ -157,17 +163,9 @@ app.use((req, res, next) => {
 
 // Global Error Handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  try {
-    const fs = require('fs');
-    const path = require('path');
-    fs.appendFileSync(path.join(__dirname, 'scratch', 'error.log'), `[${new Date().toISOString()}] ${req.method} ${req.url}\n${err.stack}\n\n`);
-  } catch (logErr) {
-    console.error('Failed to write to error.log:', logErr);
-  }
-  
-  // Check if AJAX request
-  if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+  console.error(`[${new Date().toISOString()}] ${req.method} ${req.url}`, err.stack);
+
+  if (req.xhr || (req.headers.accept && req.headers.accept.includes('json'))) {
     return res.status(err.status || 500).json({
       success: false,
       message: err.message || 'Internal Server Error'
@@ -181,11 +179,11 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Run server
-const PORT = process.env.PORT || 3000;
+// Start Server
+const PORT = appConfig.port;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`ToyBerry Premium Server is running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode.`);
-  console.log(`Open the site at: http://localhost:${PORT} or using your server's IP address`);
+  console.log(`ToyBerry server running on port ${PORT} in ${appConfig.env} mode.`);
+  console.log(`Visit: http://localhost:${PORT}`);
 });
 
 module.exports = app;

@@ -1,13 +1,14 @@
-const constants = require('../config/constants');
+'use strict';
+const appConfig = require('../config/app');
 
 class SEOHelper {
   static getMeta({ title, description, keywords, image, url, type = 'website' } = {}) {
-    const siteName = constants.APP_NAME;
+    const siteName = appConfig.name;
     const finalTitle = title ? `${title} | ${siteName}` : siteName;
     const finalDesc = description || 'Premium and luxury kids toys at ToyBerry. Find educational, building, and action toys.';
     const finalKeywords = keywords || 'toys, kids toys, premium toys, educational toys, board games';
-    const finalImage = image || `${constants.BASE_URL}/images/logo.png`;
-    const finalUrl = url || constants.BASE_URL;
+    const finalImage = image || `${appConfig.url}/images/logo.png`;
+    const finalUrl = url || appConfig.url;
 
     return `
       <title>${finalTitle}</title>
@@ -38,12 +39,12 @@ class SEOHelper {
       "@context": "https://schema.org/",
       "@type": "Product",
       "name": product.title,
-      "image": product.images && product.images.length > 0 ? `${constants.BASE_URL}${product.images[0]}` : '',
+      "image": product.images && product.images.length > 0 ? `${appConfig.url}${product.images[0]}` : '',
       "description": product.shortDescription || product.description,
       "sku": product._id.toString(),
       "offers": {
         "@type": "Offer",
-        "url": `${constants.BASE_URL}/toys/${product.slug}`,
+        "url": `${appConfig.url}/toys/${product.slug}`,
         "priceCurrency": "USD",
         "price": product.salePrice || product.price,
         "itemCondition": "https://schema.org/NewCondition",
@@ -70,7 +71,7 @@ class SEOHelper {
         "@type": "ListItem",
         "position": index + 1,
         "name": item.name,
-        "item": `${constants.BASE_URL}${item.url}`
+        "item": `${appConfig.url}${item.url}`
       }))
     };
     return `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
@@ -99,7 +100,7 @@ class SEOHelper {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": blog.title,
-      "image": blog.image ? `${constants.BASE_URL}${blog.image}` : '',
+      "image": blog.image ? `${appConfig.url}${blog.image}` : '',
       "datePublished": blog.createdAt,
       "dateModified": blog.updatedAt,
       "author": {
