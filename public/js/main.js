@@ -186,6 +186,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Set active link based on current path
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll('#main-navbar .nav-link');
+  navLinks.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath || (href !== '/' && currentPath.startsWith(href))) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+
+  // Global Cursor Trail Animation
+  const cursor = document.getElementById('cursor');
+  if (cursor) {
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+    });
+  }
+
   // Update badge counts and load active states (disabled in listing mode)
   // updateBadgeCounts();
 
@@ -268,72 +288,101 @@ async function openQuickView(productId) {
     const finalPrice = product.salePrice || product.price;
     const hasDiscount = product.salePrice && product.salePrice < product.price;
     const discountPct = hasDiscount ? Math.round(((product.price - product.salePrice) / product.price) * 100) : 0;
-    
-    let starsHtml = '';
-    for (let i = 1; i <= 5; i++) {
-      if (i <= Math.floor(product.rating)) {
-        starsHtml += '<i class="bi bi-star-fill text-warning me-0.5"></i>';
-      } else if (i - 0.5 <= product.rating) {
-        starsHtml += '<i class="bi bi-star-half text-warning me-0.5"></i>';
+
+    const skuVal = product.sku || 'TB-' + product._id.toString().slice(-6).toUpperCase();
+    const saveAmount = hasDiscount ? (product.price - product.salePrice) : 0;
+    const categoryName = product.category ? product.category.name : 'Toys';
+    const brandName = product.brand ? product.brand.name : 'ToyBerry Heritage';
+
+    let ageGroup = '3+ Years';
+    if (product.specs) {
+      if (typeof product.specs.get === 'function') {
+        ageGroup = product.specs.get('ageGroup') || ageGroup;
       } else {
-        starsHtml += '<i class="bi bi-star text-warning me-0.5"></i>';
+        ageGroup = product.specs.ageGroup || ageGroup;
       }
+    }
+    if (ageGroup === '3+ Years' && product.tags) {
+      const foundAge = product.tags.find(t => t.toLowerCase().includes('age') || t.toLowerCase().includes('years'));
+      if (foundAge) ageGroup = foundAge;
+    }
+
+    let material = 'Organic Wood';
+    if (product.specs) {
+      if (typeof product.specs.get === 'function') {
+        material = product.specs.get('material') || material;
+      } else {
+        material = product.specs.material || material;
+      }
+    }
+
+    let galleryHtml = '';
+    if (product.images && product.images.length > 0) {
+      galleryHtml = `<div class="d-flex gap-2 mt-3 flex-wrap justify-content-center w-100">`;
+      product.images.forEach((img, idx) => {
+        galleryHtml += `
+          <img src="${img}" class="qv-thumb-img ${idx === 0 ? 'active' : ''}" data-index="${idx}" 
+               style="width: 50px; height: 50px; border-radius: 8px; border: 1px solid ${idx === 0 ? '#111111' : '#E5E5E5'}; object-fit: cover; cursor: pointer; transition: all 0.2s ease; background: #ffffff;"
+               onclick="document.getElementById('qv-main-img').src='${img}'; document.querySelectorAll('.qv-thumb-img').forEach(el=>el.style.borderColor='#E5E5E5'); this.style.borderColor='#111111';">
+        `;
+      });
+      galleryHtml += `</div>`;
     }
 
     const categorySlug = product.category ? product.category.slug : '';
     let howToPlayHtml = '';
     if (categorySlug === 'educational-toys') {
       howToPlayHtml = `
-        <div class="mt-4 p-3 rounded-3 border-start border-primary border-3 text-start w-100" style="background: rgba(255,255,255,0.04);">
-          <h6 class="fw-bold text-white mb-2" style="font-size: 0.88rem;"><i class="bi bi-lightbulb-fill text-warning me-1"></i> How to Play & Learn:</h6>
-          <ul class="mb-0 ps-3 text-white-50 small" style="line-height: 1.45;">
-            <li>Sort blocks by shape, size, or pattern.</li>
-            <li>Stack modules to build architectural elements.</li>
-            <li>Promote recognition by naming colors & features.</li>
+        <div class="mt-4 p-3 w-100" style="background: #ffffff; border: 1px solid #111111; border-radius: 12px; text-align: left;">
+          <h6 style="font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; color: #111111 !important; text-transform: uppercase; margin-bottom: 8px;"><i class="bi bi-lightbulb-fill text-warning me-1"></i> How to Play & Learn</h6>
+          <ul class="mb-0 ps-3 small" style="line-height: 1.45; font-size: 0.78rem; color: #555555 !important; list-style-type: disc;">
+            <li style="color: #555555 !important; margin-bottom: 4px;">Sort blocks by shape, size, or pattern.</li>
+            <li style="color: #555555 !important; margin-bottom: 4px;">Stack modules to build architectural elements.</li>
+            <li style="color: #555555 !important;">Promote recognition by naming colors & features.</li>
           </ul>
         </div>
       `;
     } else if (categorySlug === 'building-blocks') {
       howToPlayHtml = `
-        <div class="mt-4 p-3 rounded-3 border-start border-primary border-3 text-start w-100" style="background: rgba(255,255,255,0.04);">
-          <h6 class="fw-bold text-white mb-2" style="font-size: 0.88rem;"><i class="bi bi-bricks text-danger me-1"></i> Assembly Guide:</h6>
-          <ul class="mb-0 ps-3 text-white-50 small" style="line-height: 1.45;">
-            <li>Follow the step-by-step layout guide manual.</li>
-            <li>Assemble components layer-by-layer starting with the base.</li>
-            <li>Explore freeform building to boost design skills.</li>
+        <div class="mt-4 p-3 w-100" style="background: #ffffff; border: 1px solid #111111; border-radius: 12px; text-align: left;">
+          <h6 style="font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; color: #111111 !important; text-transform: uppercase; margin-bottom: 8px;"><i class="bi bi-bricks text-danger me-1"></i> Assembly Guide</h6>
+          <ul class="mb-0 ps-3 small" style="line-height: 1.45; font-size: 0.78rem; color: #555555 !important; list-style-type: disc;">
+            <li style="color: #555555 !important; margin-bottom: 4px;">Follow the step-by-step layout guide manual.</li>
+            <li style="color: #555555 !important; margin-bottom: 4px;">Assemble components layer-by-layer starting with the base.</li>
+            <li style="color: #555555 !important;">Explore freeform building to boost design skills.</li>
           </ul>
         </div>
       `;
     } else if (categorySlug === 'remote-control-toys') {
       howToPlayHtml = `
-        <div class="mt-4 p-3 rounded-3 border-start border-primary border-3 text-start w-100" style="background: rgba(255,255,255,0.04);">
-          <h6 class="fw-bold text-white mb-2" style="font-size: 0.88rem;"><i class="bi bi-controller text-info me-1"></i> Operating Manual:</h6>
-          <ul class="mb-0 ps-3 text-white-50 small" style="line-height: 1.45;">
-            <li>Fully charge the Li-Ion battery pack prior to use.</li>
-            <li>Power on the toy, then pair the 2.4GHz controller.</li>
-            <li>Steer on flat terrain; wipe clean after outdoor drives.</li>
+        <div class="mt-4 p-3 w-100" style="background: #ffffff; border: 1px solid #111111; border-radius: 12px; text-align: left;">
+          <h6 style="font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; color: #111111 !important; text-transform: uppercase; margin-bottom: 8px;"><i class="bi bi-controller text-info me-1"></i> Operating Manual</h6>
+          <ul class="mb-0 ps-3 small" style="line-height: 1.45; font-size: 0.78rem; color: #555555 !important; list-style-type: disc;">
+            <li style="color: #555555 !important; margin-bottom: 4px;">Fully charge the Li-Ion battery pack prior to use.</li>
+            <li style="color: #555555 !important; margin-bottom: 4px;">Power on the toy, then pair the 2.4GHz controller.</li>
+            <li style="color: #555555 !important;">Steer on flat terrain; wipe clean after outdoor drives.</li>
           </ul>
         </div>
       `;
     } else if (categorySlug === 'stem-toys') {
       howToPlayHtml = `
-        <div class="mt-4 p-3 rounded-3 border-start border-primary border-3 text-start w-100" style="background: rgba(255,255,255,0.04);">
-          <h6 class="fw-bold text-white mb-2" style="font-size: 0.88rem;"><i class="bi bi-cpu-fill text-success me-1"></i> STEM Activity:</h6>
-          <ul class="mb-0 ps-3 text-white-50 small" style="line-height: 1.45;">
-            <li>Prep a flat workspace and open the experiment guide.</li>
-            <li>Connect circuits, sensors, or gears exactly as illustrated.</li>
-            <li>Observe scientific reactions or run custom code configurations.</li>
+        <div class="mt-4 p-3 w-100" style="background: #ffffff; border: 1px solid #111111; border-radius: 12px; text-align: left;">
+          <h6 style="font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; color: #111111 !important; text-transform: uppercase; margin-bottom: 8px;"><i class="bi bi-cpu-fill text-success me-1"></i> STEM Activity</h6>
+          <ul class="mb-0 ps-3 small" style="line-height: 1.45; font-size: 0.78rem; color: #555555 !important; list-style-type: disc;">
+            <li style="color: #555555 !important; margin-bottom: 4px;">Prep a flat workspace and open the experiment guide.</li>
+            <li style="color: #555555 !important; margin-bottom: 4px;">Connect circuits, sensors, or gears exactly as illustrated.</li>
+            <li style="color: #555555 !important;">Observe scientific reactions or run custom code configurations.</li>
           </ul>
         </div>
       `;
     } else {
       howToPlayHtml = `
-        <div class="mt-4 p-3 rounded-3 border-start border-primary border-3 text-start w-100" style="background: rgba(255,255,255,0.04);">
-          <h6 class="fw-bold text-white mb-2" style="font-size: 0.88rem;"><i class="bi bi-box2-fill text-secondary me-1"></i> Care & Display:</h6>
-          <ul class="mb-0 ps-3 text-white-50 small" style="line-height: 1.45;">
-            <li>Carefully clean details with a dry micro-fiber cloth.</li>
-            <li>Mount securely on the premium display stand.</li>
-            <li>Enjoy high-end table top play or shelf collection.</li>
+        <div class="mt-4 p-3 w-100" style="background: #ffffff; border: 1px solid #111111; border-radius: 12px; text-align: left;">
+          <h6 style="font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.5px; color: #111111 !important; text-transform: uppercase; margin-bottom: 8px;"><i class="bi bi-box2-fill text-secondary me-1"></i> Care & Display</h6>
+          <ul class="mb-0 ps-3 small" style="line-height: 1.45; font-size: 0.78rem; color: #555555 !important; list-style-type: disc;">
+            <li style="color: #555555 !important; margin-bottom: 4px;">Carefully clean details with a dry micro-fiber cloth.</li>
+            <li style="color: #555555 !important; margin-bottom: 4px;">Mount securely on the premium display stand.</li>
+            <li style="color: #555555 !important;">Enjoy high-end table top play or shelf collection.</li>
           </ul>
         </div>
       `;
@@ -341,38 +390,69 @@ async function openQuickView(productId) {
 
     contentArea.innerHTML = `
       <div class="row g-0">
-        <div class="col-md-6 d-flex flex-column align-items-center justify-content-center p-4" style="min-height: 380px; background: rgba(0,0,0,0.2);">
-          <img src="${product.images[0] || 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=600'}" class="img-fluid rounded shadow-sm" alt="${product.title}" style="max-height: 220px; object-fit: contain;" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=600';">
-          ${howToPlayHtml}
+        <!-- Left Column: Cream Background -->
+        <div class="col-md-6 p-4 d-flex flex-column align-items-center justify-content-center" style="background-color: #FAF5EE;">
+          <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; align-items: center;">
+            <img id="qv-main-img" src="${product.images[0] || 'https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=600'}" class="img-fluid" alt="${product.title}" style="max-height: 260px; object-fit: contain; border-radius: 16px; border: 1px solid #111111; background: #ffffff; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=600';">
+            ${galleryHtml}
+            ${howToPlayHtml}
+          </div>
         </div>
-        <div class="col-md-6 p-5 d-flex flex-column justify-content-center">
-          <span class="badge bg-primary text-white rounded-pill px-3 py-1 mb-2 align-self-start fw-bold" style="font-size: 0.75rem;">
-            ${product.category ? product.category.name : 'Toys'}
-          </span>
-          <h3 class="fw-extrabold text-white mb-2">${product.title}</h3>
-          <div class="d-flex align-items-center mb-3">
-            <div class="me-2">${starsHtml}</div>
-            <span class="text-white-50 small">(${product.ratingCount || 0} reviews)</span>
+        <!-- Right Column: Dark Charcoal Background -->
+        <div class="col-md-6 p-5 d-flex flex-column justify-content-between" style="background-color: #111111; color: #ffffff; min-height: 480px;">
+          <div>
+            <!-- SKU Badge -->
+            <div class="mb-3">
+              <span style="background-color: #E8291C; color: #ffffff; font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 4px; display: inline-block;">SKU: ${skuVal}</span>
+            </div>
+            <!-- Title -->
+            <h2 style="font-family: 'Fraunces', serif; font-size: 1.95rem; font-weight: 700; color: #ffffff; margin-bottom: 0.75rem; line-height: 1.3;">${product.title}</h2>
+            <!-- Price and Discount -->
+            <div class="d-flex align-items-center gap-2 mb-4 flex-wrap">
+              <span style="font-family: 'DM Sans', sans-serif; font-size: 1.85rem; font-weight: 800; color: #ffffff;">₹${finalPrice.toFixed(2)}</span>
+              ${hasDiscount ? `
+                <span style="font-family: 'DM Sans', sans-serif; font-size: 1.1rem; text-decoration: line-through; color: #888888; margin-left: 6px;">₹${product.price.toFixed(2)}</span>
+                <span style="background-color: #12B76A; color: #ffffff; font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; margin-left: 8px;">SAVE ₹${saveAmount.toFixed(2)}</span>
+              ` : ''}
+            </div>
+            
+            <!-- Specs Grid (2x2) -->
+            <div class="row g-2 mb-4">
+              <div class="col-6">
+                <div style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 14px; background: rgba(255, 255, 255, 0.02);">
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 800; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px;">Category</div>
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${categoryName}">${categoryName}</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 14px; background: rgba(255, 255, 255, 0.02);">
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 800; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px;">Age Group</div>
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${ageGroup}">${ageGroup}</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 14px; background: rgba(255, 255, 255, 0.02);">
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 800; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px;">Material</div>
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${material}">${material}</div>
+                </div>
+              </div>
+              <div class="col-6">
+                <div style="border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 10px 14px; background: rgba(255, 255, 255, 0.02);">
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 800; color: rgba(255, 255, 255, 0.4); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 2px;">Brand</div>
+                  <div style="font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${brandName}">${brandName}</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="mb-4">
-            ${hasDiscount ? `
-              <span class="text-decoration-line-through text-muted me-2" style="font-size: 1.1rem;">₹${product.price.toFixed(2)}</span>
-              <span class="text-primary fw-extrabold fs-3">₹${finalPrice.toFixed(2)}</span>
-            ` : `
-              <span class="text-white fw-extrabold fs-3">₹${finalPrice.toFixed(2)}</span>
-            `}
-          </div>
-          <p class="text-white-50 mb-4" style="font-size: 0.95rem;">${product.shortDescription || product.description || 'Discover a world of imaginative play with this premium ToyBerry selection.'}</p>
           
-          <div class="d-flex gap-3">
+          <!-- Bottom Action Buttons -->
+          <div class="d-flex gap-3 mt-3">
             ${isOutOfStock ? `
-              <button class="btn btn-outline-secondary w-100 py-3 fw-bold" disabled>Out of Stock</button>
+              <button class="btn w-100 py-3" style="border: 1px solid rgba(255, 255, 255, 0.15); background: transparent; color: rgba(255, 255, 255, 0.3); border-radius: 30px; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; text-transform: uppercase; cursor: not-allowed;" disabled>OUT OF STOCK</button>
             ` : `
-              <button class="btn-pill btn-mint w-100 py-3 fw-bold justify-content-center">
-                <i class="bi bi-shop me-2"></i> Available In Store
-              </button>
+              <button class="btn w-100 py-3" style="border: 1px solid rgba(255, 255, 255, 0.4); background: transparent; color: #ffffff; border-radius: 30px; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; text-transform: uppercase; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='transparent'">AVAILABLE IN STORE</button>
             `}
-            <a href="/toys/${product.slug}" class="btn-pill btn-outline-white w-100 py-3 fw-bold text-center justify-content-center">View Details</a>
+            <a href="/toys/${product.slug}" class="btn w-100 py-3 d-flex align-items-center justify-content-center" style="background-color: #E8291C; border: 1px solid #E8291C; color: #ffffff; border-radius: 30px; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; text-transform: uppercase; text-decoration: none; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#ff3e30'; this.style.borderColor='#ff3e30';" onmouseout="this.style.backgroundColor='#E8291C'; this.style.borderColor='#E8291C';">VIEW DETAILS</a>
           </div>
         </div>
       </div>

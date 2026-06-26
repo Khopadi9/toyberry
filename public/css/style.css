@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --bg-main: #f7f9ff;
@@ -9,9 +9,10 @@
   --accent-mint: #006b5b;
   --text-white: #181c21; /* Mapped to dark charcoal to keep text readable on light theme */
   --text-gray: #574143;
-  --font-family: 'Inter', sans-serif;
-  --font-display: 'Plus Jakarta Sans', sans-serif;
-  --font-label: 'Inter', sans-serif;
+  --font-family: 'DM Sans', sans-serif;
+  --font-display: 'Fraunces', serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-label: 'DM Sans', sans-serif;
   --navbar-bg: rgba(255, 255, 255, 0.8);
 
   --primary: #a63648;
@@ -361,21 +362,7 @@ a:hover {
   color: #ffffff !important;
 }
 
-/* Scrolled header search input styling */
-.navbar-premium.scrolled .search-wrapper .form-control {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid #ffffff !important;
-  color: #ffffff !important;
-}
 
-.navbar-premium.scrolled .search-wrapper .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.8) !important;
-}
-
-.navbar-premium.scrolled .search-wrapper .form-control:focus {
-  background: rgba(255, 255, 255, 0.08) !important;
-  border-color: var(--accent-coral) !important;
-}
 
 .search-wrapper button.btn-link {
   position: absolute;
@@ -458,14 +445,14 @@ a:hover {
 .carousel-hero-item {
   height: 100%;
   background-size: cover;
-  background-position: center;
+  background-position: center right;
   position: relative;
 }
 
 .carousel-hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(11, 15, 26, 0.6) 0%, rgba(11, 15, 26, 0.4) 60%, rgba(11, 15, 26, 0.1) 100%);
+  background: linear-gradient(90deg, #0b0f1a 0%, #0b0f1a 30%, rgba(11, 15, 26, 0.85) 50%, rgba(11, 15, 26, 0.4) 75%, rgba(11, 15, 26, 0.1) 100%);
   display: flex;
   align-items: center;
 }
@@ -477,33 +464,91 @@ a:hover {
 
 .badge-hero {
   display: inline-block;
-  background: rgba(255, 107, 53, 0.15);
-  border: 1px solid rgba(255, 107, 53, 0.3);
-  color: var(--accent-coral);
-  padding: 6px 16px;
+  background: #fce8eb !important;
+  border: none !important;
+  color: var(--accent-coral) !important;
+  padding: 8px 20px;
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
   border-radius: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .carousel-hero-content h1 {
-  font-size: clamp(2rem, 5vw, 3.8rem);
-  font-weight: 900;
-  line-height: 1.15;
-  margin-bottom: 18px;
-  color: var(--text-white);
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-serif) !important;
+  font-size: clamp(2.5rem, 5.5vw, 4.5rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  margin-bottom: 24px !important;
+  color: #ffffff !important;
+  text-shadow: none !important;
 }
 
 .carousel-hero-content p {
-  font-size: 1.1rem;
-  color: var(--text-white);
-  margin-bottom: 30px;
-  line-height: 1.6;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-family) !important;
+  font-size: 1.05rem !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  margin-bottom: 36px !important;
+  line-height: 1.65 !important;
+  text-shadow: none !important;
+}
+
+/* Custom Hero Buttons matching reference image */
+.hero-section .hero-btn-coral {
+  background: #f03e3e !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  width: 176px !important;
+  height: 88px !important;
+  line-height: 1.35 !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 15px rgba(240, 62, 62, 0.2) !important;
+}
+
+.hero-section .hero-btn-coral:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 24px rgba(240, 62, 62, 0.45) !important;
+  background: #ff5252 !important;
+}
+
+.hero-section .hero-btn-outline {
+  background: transparent !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  width: 176px !important;
+  height: 88px !important;
+  line-height: 1.35 !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+  text-decoration: none !important;
+}
+
+.hero-section .hero-btn-outline:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 .carousel-control-prev,
@@ -1143,53 +1188,41 @@ label {
 }
 
 /* Quick View Modal styling overrides */
-.modal-content {
-  background: #131929 !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+.modal-quickview .modal-content {
+  background: transparent !important;
+  border: none !important;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 24px !important;
+  overflow: hidden !important;
 }
 
-.modal-content h1,
-.modal-content h2,
-.modal-content h3,
-.modal-content h4,
-.modal-content h5,
-.modal-content h6,
-.modal-content p,
-.modal-content span:not(.badge),
-.modal-content li {
-  color: #ffffff !important;
+.modal-quickview .modal-content h1,
+.modal-quickview .modal-content h2,
+.modal-quickview .modal-content h3,
+.modal-quickview .modal-content h4,
+.modal-quickview .modal-content h5,
+.modal-quickview .modal-content h6,
+.modal-quickview .modal-content p,
+.modal-quickview .modal-content span:not(.badge),
+.modal-quickview .modal-content li {
+  color: inherit !important;
 }
 
-.modal-content .text-muted,
-.modal-content .text-white-50 {
-  color: rgba(255, 255, 255, 0.6) !important;
+.modal-quickview .modal-content .text-muted {
+  color: #888888 !important;
 }
 
-.modal-content .text-warning,
-.modal-content .text-warning i {
+.modal-quickview .modal-content .text-white-50 {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+
+.modal-quickview .modal-content .text-warning,
+.modal-quickview .modal-content .text-warning i {
   color: #ffc107 !important;
 }
 
-.modal-content .badge {
+.modal-quickview .modal-content .badge {
   color: #ffffff !important;
-}
-
-.modal-content .btn-mint,
-.modal-content .btn-mint * {
-  color: #0B0F1A !important;
-}
-
-.modal-content .btn-outline-white {
-  color: #ffffff !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
-}
-
-.modal-content .btn-outline-white:hover {
-  background: #ffffff !important;
-  color: #0B0F1A !important;
-  border-color: #ffffff !important;
 }
 
 .btn-close-custom {
@@ -1397,34 +1430,7 @@ footer a:hover {
   color: var(--accent-coral) !important;
 }
 
-/* Default state: transparent navbar on subpages with white page background */
-.navbar-premium .nav-action-btn i {
-  color: #0B0F1A !important;
-  /* dark profile icon on light page */
-}
 
-.navbar-premium .nav-link {
-  color: #0B0F1A !important;
-  /* dark nav links on light page */
-}
-
-.navbar-premium .brand-text {
-  color: #0B0F1A !important;
-  /* dark brand logo on light page */
-}
-
-body:not(.home-page-active) .navbar-premium:not(.scrolled) .search-wrapper .form-control {
-  border: 1px solid rgba(11, 15, 26, 0.3) !important;
-  color: #0B0F1A !important;
-}
-
-body:not(.home-page-active) .navbar-premium:not(.scrolled) .search-wrapper .form-control::placeholder {
-  color: rgba(11, 15, 26, 0.6) !important;
-}
-
-body:not(.home-page-active) .navbar-premium:not(.scrolled) .search-wrapper button.btn-link i {
-  color: #0B0F1A !important;
-}
 
 /* Homepage transparent navbar state: must have white text/icons over the carousel */
 body.home-page-active .navbar-premium:not(.scrolled) .nav-action-btn i,
@@ -1876,4 +1882,59 @@ body.home-page-active .navbar-premium:not(.scrolled) .brand-text {
   border-radius: 50% !important;
   width: 44px;
   height: 44px;
+}
+
+/* Global Cursor Trail */
+.cursor-trail {
+  pointer-events: none;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #E8291C;
+  border-radius: 50%;
+  z-index: 9999;
+  transition: transform 0.1s ease-out;
+  transform: translate(-100px, -100px);
+}
+
+/* Force Navbar Premium to be Always Dark */
+.navbar-premium {
+  background: #0B0F1A !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 12px 0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+}
+
+.navbar-premium .nav-action-btn i,
+.navbar-premium .nav-link,
+.navbar-premium .brand-text {
+  color: #ffffff !important;
+}
+
+/* Active and Hover states */
+.navbar-premium .nav-link:hover,
+.navbar-premium .nav-link.active,
+.navbar-premium .brand-text:hover,
+.navbar-premium .nav-action-btn:hover i {
+  color: #E8291C !important;
+}
+
+/* Search Input Styling */
+.navbar-premium .search-wrapper .form-control {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.navbar-premium .search-wrapper .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.navbar-premium .search-wrapper .form-control:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: #E8291C !important;
+}
+
+.navbar-premium .search-wrapper button.btn-link i {
+  color: #ffffff !important;
 }

@@ -1,82 +1,818 @@
-<div class="container py-5">
-  <div class="row align-items-center mb-5">
-    <div class="col-md-6 mb-4 mb-md-0">
-      <h1 class="display-4 fw-extrabold mb-3">About <span class="text-primary">ToyBerry</span></h1>
-      <h4 class="fw-semibold text-muted mb-4">Curating Moments of Wonder & Discovery</h4>
-      <p class="text-muted lh-lg mb-4">
-        Founded in 2026, ToyBerry was born out of a simple idea: that children's playtime is sacred, and their toys should be as inspiring, premium, and durable as the memories they create. We search the globe to curate an exclusive collection of luxury, educational, and high-quality toys.
-      </p>
-      <p class="text-muted lh-lg mb-4">
-        From STEM building sets that launch early scientific curiosity, to classic wooden toys crafted with organic child-safe materials, every ToyBerry item undergoes rigorous safety checks and aesthetic reviews.
-      </p>
-      <a href="/toys" class="btn btn-primary-custom rounded-pill px-4 py-3 fw-bold">Explore Our Catalog</a>
-    </div>
-    <div class="col-md-6 text-center">
-      <div class="rounded-4 overflow-hidden d-inline-block shadow-sm" style="max-width: 250px; border: 4px solid var(--primary-color);">
-        <img src="/uploads/toyberry.jpg" alt="ToyBerry Logo" class="img-fluid" style="object-fit: contain; width: 100%; height: 100%; display: block;">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+
+  /* Force cream background for About page */
+  body {
+    background-color: #FAF5EE !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .about-container {
+    background-color: #FAF5EE;
+    color: #111111;
+    overflow-x: hidden; /* Prevent horizontal scrollbars from image offsets */
+  }
+
+  /* Utility classes */
+  .text-serif {
+    font-family: 'Fraunces', serif !important;
+  }
+  .text-serif-italic {
+    font-family: 'Fraunces', serif !important;
+    font-style: italic !important;
+  }
+  
+  /* Sections styling */
+  .about-section-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #E8291C;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .about-section-title {
+    font-family: 'Fraunces', serif !important;
+    font-weight: 700;
+    font-size: 2.2rem;
+    line-height: 1.25;
+    color: #111111;
+    margin-bottom: 24px;
+  }
+
+  .about-section-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #444444;
+    margin-bottom: 20px;
+  }
+
+  /* Hero Specifics */
+  .about-hero-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #111111;
+    margin-bottom: 30px;
+  }
+  .about-hero-title .title-bold {
+    display: block;
+  }
+  .about-hero-title .title-italic {
+    display: block;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .about-hero-title .title-red {
+    display: block;
+    color: #E8291C;
+  }
+
+  .btn-explore {
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    padding: 16px 36px !important;
+    border-radius: 30px !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(232, 41, 28, 0.2);
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn-explore:hover {
+    background-color: #ff3e30 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 41, 28, 0.3);
+    color: #ffffff !important;
+  }
+
+  .scroll-discover-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .scroll-line {
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background-color: #888888;
+    margin-right: 12px;
+  }
+  .scroll-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #888888;
+  }
+
+  /* Offset Image Wrapper & Animations */
+  .offset-image-container {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: 480px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .offset-image-container .offset-bg {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: -16px;
+    bottom: -16px;
+    background-color: #111111;
+    border-radius: 20px;
+    z-index: -1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .offset-image-container .offset-img {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid #111111;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .offset-image-container:hover .offset-img {
+    transform: translateY(-8px) translateX(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  }
+  .offset-image-container:hover .offset-bg {
+    transform: translateY(6px) translateX(6px);
+  }
+
+  /* Framing Image Container & Animations */
+  .framed-image-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 450px;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .framed-image-container .offset-bg {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    right: -16px;
+    bottom: -16px;
+    background-color: #111111;
+    border-radius: 20px;
+    z-index: -1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .framed-image-container .frame-border {
+    background-color: #E2B489;
+    padding: 16px;
+    border-radius: 20px;
+    border: 1px solid #111111;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .framed-image-container .frame-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    display: block;
+  }
+  .framed-image-container:hover .frame-border {
+    transform: translateY(-8px) translateX(-8px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  }
+  .framed-image-container:hover .offset-bg {
+    transform: translateY(6px) translateX(6px);
+  }
+
+  /* Guiding Stars Cards & Animations */
+  .guiding-star-card {
+    background-color: #111111 !important;
+    border: none !important;
+    border-radius: 24px !important;
+    padding: 40px 30px !important;
+    color: #ffffff !important;
+    text-align: center;
+    height: 100%;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .guiding-star-card:hover {
+    transform: translateY(-10px) !important;
+    background-color: #1c1c1c !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+  }
+  .guiding-star-card .card-icon-circle {
+    width: 64px;
+    height: 64px;
+    background-color: #E8291C;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px auto;
+    font-size: 1.5rem;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .guiding-star-card:hover .card-icon-circle {
+    transform: scale(1.15) rotate(8deg);
+    background-color: #ff3e30 !important;
+  }
+  .guiding-star-card .card-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .guiding-star-card .card-body-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #b0b0b0;
+  }
+
+  /* Surat Quote Banner */
+  .surat-banner {
+    background-color: #111111;
+    color: #ffffff;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .surat-banner .surat-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fraunces', serif !important;
+    font-size: 12rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.035);
+    letter-spacing: 15px;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    text-transform: uppercase;
+  }
+  .surat-banner .quote-text {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.8rem;
+    font-style: italic;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.4;
+  }
+  .surat-banner .quote-line {
+    width: 80px;
+    height: 4px;
+    background-color: #E8291C;
+    margin: 24px auto 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Earth Commitment Card Stack & Animations */
+  .earth-card {
+    background-color: #ffffff !important;
+    border: 1px solid #111111 !important;
+    border-radius: 16px !important;
+    padding: 24px !important;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    text-decoration: none !important;
+  }
+  .earth-card:hover {
+    transform: translateX(8px) !important;
+    border-color: #E8291C !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05) !important;
+    background-color: #FDFAF6 !important;
+  }
+  .earth-card .earth-card-icon {
+    font-size: 1.4rem;
+    color: #E8291C;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .earth-card:hover .earth-card-icon {
+    transform: scale(1.2);
+  }
+  .earth-card .earth-card-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 0;
+  }
+
+  /* Instagram Mockup Card & Animations */
+  .insta-card {
+    background-color: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+    max-width: 420px;
+    width: 100%;
+    margin: 0 auto;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .insta-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08) !important;
+  }
+  .insta-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+  }
+  .insta-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #E8291C;
+    object-fit: contain;
+    margin-right: 12px;
+  }
+  .btn-insta-follow {
+    background-color: #0095f6 !important;
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 6px 18px !important;
+    border-radius: 20px !important;
+    border: none !important;
+    text-decoration: none !important;
+  }
+  .btn-insta-follow:hover {
+    background-color: #185797 !important;
+  }
+  .insta-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    background-color: #f7f7f7;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .insta-stat-val {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: #111111;
+  }
+  .insta-stat-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .insta-bio {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #444444;
+    text-align: left;
+  }
+
+  .btn-insta-visit {
+    border: 2px solid #111111 !important;
+    background-color: transparent !important;
+    color: #111111 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 14px 28px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn-insta-visit:hover {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+  }
+
+  /* WhatsApp Green Banner & Animations */
+  .whatsapp-banner {
+    background-color: #34C759;
+    border-radius: 24px;
+    padding: 48px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .whatsapp-banner:hover {
+    box-shadow: 0 20px 40px rgba(52, 199, 89, 0.3);
+  }
+  .whatsapp-banner .banner-bg-icon {
+    position: absolute;
+    right: -20px;
+    bottom: -40px;
+    font-size: 12rem;
+    color: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: -1;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .whatsapp-banner:hover .banner-bg-icon {
+    transform: scale(1.15) rotate(-5deg);
+  }
+  .whatsapp-banner-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .whatsapp-banner-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 500px;
+    margin-bottom: 0;
+  }
+  .btn-whatsapp-join {
+    background-color: #ffffff !important;
+    color: #34C759 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    padding: 16px 36px !important;
+    border-radius: 30px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease !important;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .btn-whatsapp-join:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    color: #34C759 !important;
+  }
+
+  /* Reveal Animations Core CSS */
+  .reveal-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal-fade-up.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-fade-in {
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity;
+  }
+  .reveal-fade-in.revealed {
+    opacity: 1;
+  }
+
+  .reveal-scale-in {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal-scale-in.revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  /* Delays */
+  .delay-50 { transition-delay: 50ms !important; }
+  .delay-100 { transition-delay: 100ms !important; }
+  .delay-150 { transition-delay: 150ms !important; }
+  .delay-200 { transition-delay: 200ms !important; }
+  .delay-250 { transition-delay: 250ms !important; }
+  .delay-300 { transition-delay: 300ms !important; }
+  .delay-400 { transition-delay: 400ms !important; }
+  .delay-500 { transition-delay: 500ms !important; }
+
+  /* Responsive Spacing & Centering Rules */
+  @media (max-width: 991px) {
+    .offset-image-container, .framed-image-container {
+      margin-left: auto !important;
+      margin-right: auto !important;
+      max-width: 100% !important;
+      margin-top: 20px;
+    }
+    .about-hero-actions {
+      justify-content: center;
+    }
+    .about-hero-title, .about-section-title {
+      text-align: center;
+    }
+    .about-section-tag {
+      text-align: center;
+    }
+    .about-section-desc {
+      text-align: center;
+    }
+    .btn-insta-visit {
+      display: block;
+      margin: 0 auto;
+    }
+    .whatsapp-banner {
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .btn-whatsapp-join {
+      width: 100%;
+      justify-content: center;
+      margin-top: 15px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about-hero-title {
+      font-size: 2.8rem;
+    }
+    .about-section-title {
+      font-size: 2rem;
+    }
+    .surat-banner .surat-bg-text {
+      font-size: 6rem;
+      letter-spacing: 5px;
+    }
+    .surat-banner .quote-text {
+      font-size: 1.3rem;
+      padding: 0 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .about-hero-title {
+      font-size: 2.4rem;
+    }
+    .about-section-title {
+      font-size: 1.7rem;
+    }
+    .surat-banner {
+      padding: 70px 0;
+    }
+    .surat-banner .quote-text {
+      font-size: 1.15rem;
+    }
+    .whatsapp-banner-title {
+      font-size: 1.7rem;
+    }
+    .whatsapp-banner {
+      padding: 30px 18px;
+    }
+  }
+</style>
+
+<div class="about-container">
+  <!-- Section 1: Hero Section -->
+  <div class="container py-5">
+    <div class="row align-items-center py-5 g-5">
+      <div class="col-lg-6">
+        <div class="about-section-tag reveal-fade-up">ARTISANAL WORKSHOP</div>
+        <h1 class="about-hero-title reveal-fade-up delay-100">
+          <span class="title-bold">The Art</span>
+          <span class="title-italic">of Play:</span>
+          <span class="title-red">Since 2014.</span>
+        </h1>
+        <div class="about-hero-actions d-flex align-items-center mt-4 flex-wrap gap-3 reveal-fade-up delay-200">
+          <a href="/toys" class="btn btn-explore">EXPLORE COLLECTION</a>
+          <div class="scroll-discover-wrapper d-none d-md-flex align-items-center ms-4">
+            <span class="scroll-line"></span>
+            <span class="scroll-text">SCROLL TO DISCOVER</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+        <div class="offset-image-container reveal-scale-in delay-300">
+          <div class="offset-bg"></div>
+          <img src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=800" alt="Artisanal Wooden Toys" class="offset-img">
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Instagram Section -->
-  <div class="row align-items-center my-5 py-5 border-top border-bottom" data-aos="fade-up">
-    <div class="col-md-6 order-md-2 text-center mb-4 mb-md-0">
-      <div class="instagram-mockup p-4 rounded-4 shadow-sm bg-white border mx-auto" style="max-width: 420px;">
-        <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
-          <div class="d-flex align-items-center">
-            <img src="/uploads/toyberry.jpg" alt="ToyBerry Logo" class="me-2 rounded-circle" style="width: 40px; height: 40px; object-fit: contain; border: 1.5px solid var(--primary-color);">
-            <div class="text-start">
-              <div class="fw-bold mb-0" style="font-size: 0.9rem;">toyberry_surat</div>
-              <div class="text-muted small" style="font-size: 0.75rem;">Surat, India</div>
+  <!-- Section 2: About ToyBerry -->
+  <div class="container py-5 my-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-2 order-lg-1 d-flex justify-content-center justify-content-lg-start">
+        <div class="offset-image-container reveal-scale-in">
+          <div class="offset-bg"></div>
+          <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800" alt="ToyBerry Store Front" class="offset-img">
+        </div>
+      </div>
+      <div class="col-lg-6 order-1 order-lg-2">
+        <div class="about-section-tag reveal-fade-up">ABOUT TOYBERRY</div>
+        <h2 class="about-section-title reveal-fade-up delay-100">Curating Moments of Wonder & Discovery</h2>
+        <p class="about-section-desc reveal-fade-up delay-200">
+          Founded in 2026, ToyBerry was born out of a simple idea: that children's playtime is sacred, and their toys should be as inspiring, premium, and durable as the memories they create. We search the globe to curate an exclusive collection of luxury, educational, and high-quality toys.
+        </p>
+        <p class="about-section-desc reveal-fade-up delay-250">
+          From STEM building sets that launch early scientific curiosity, to classic wooden toys crafted with organic child-safe materials, every ToyBerry item undergoes rigorous safety checks and aesthetic reviews.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Our Guiding Stars -->
+  <div class="container py-5 my-5">
+    <h2 class="text-serif text-center mb-5 reveal-fade-up" style="font-size: 2.5rem; font-weight: 700; color: #111111;">Our Guiding Stars</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card guiding-star-card reveal-fade-up delay-100">
+          <div class="card-icon-circle">
+            <i class="bi bi-shield-fill-check"></i>
+          </div>
+          <div class="card-title">100% Child Safe</div>
+          <div class="card-body-text">All toys are non-toxic, lead-free, and meet certified global safety protocols.</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card guiding-star-card reveal-fade-up delay-200">
+          <div class="card-icon-circle">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <div class="card-title">Educational Focus</div>
+          <div class="card-body-text">Designed to encourage spatial skill-building, critical analysis, and creative play.</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card guiding-star-card reveal-fade-up delay-300">
+          <div class="card-icon-circle">
+            <i class="bi bi-gem"></i>
+          </div>
+          <div class="card-title">Luxury Craftsmanship</div>
+          <div class="card-body-text">Engineered with robust premium details built to last for generations.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Surat Playground Quote Banner -->
+  <div class="surat-banner my-5 text-center reveal-fade-in">
+    <div class="surat-bg-text">SURAT</div>
+    <div class="quote-text reveal-scale-in delay-200">"Surat is not just where we work; it's our playground."</div>
+    <div class="quote-line reveal-fade-in delay-300"></div>
+  </div>
+
+  <!-- Section 5: Our Earth Commitment -->
+  <div class="container py-5 my-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="about-section-tag reveal-fade-up">OUR EARTH COMMITMENT</div>
+        <h2 class="about-section-title reveal-fade-up delay-100">Committed to Tomorrow</h2>
+        
+        <div class="mt-4">
+          <div class="earth-card reveal-fade-up delay-150">
+            <div class="earth-card-icon">
+              <i class="bi bi-tree-fill"></i>
+            </div>
+            <div class="earth-card-title">100% FSC-Certified Wood</div>
+          </div>
+          <div class="earth-card reveal-fade-up delay-200">
+            <div class="earth-card-icon">
+              <i class="bi bi-droplet-fill"></i>
+            </div>
+            <div class="earth-card-title">Non-Toxic Water-Based Dyes</div>
+          </div>
+          <div class="earth-card reveal-fade-up delay-250">
+            <div class="earth-card-icon">
+              <i class="bi bi-box-seam-fill"></i>
+            </div>
+            <div class="earth-card-title">Plastic-Free Packaging</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+        <div class="framed-image-container reveal-scale-in delay-200">
+          <div class="offset-bg"></div>
+          <div class="frame-border">
+            <img src="https://images.unsplash.com/photo-1515488042361-404e9250afef?auto=format&fit=crop&q=80&w=800" alt="Earth Commitment Toys" class="frame-img">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Instagram Community -->
+  <div class="container py-5 my-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-2 order-lg-1 d-flex justify-content-center justify-content-lg-start">
+        <div class="insta-card reveal-scale-in">
+          <div class="insta-header">
+            <div class="d-flex align-items-center">
+              <img src="/uploads/toyberry.jpg" alt="ToyBerry Logo" class="insta-avatar">
+              <div class="text-start">
+                <div class="fw-bold mb-0" style="font-size: 0.9rem; color: #111111;">toyberry_surat</div>
+                <div class="text-muted small" style="font-size: 0.75rem;">Surat, India</div>
+              </div>
+            </div>
+            <a href="https://www.instagram.com/toyberry_surat/" target="_blank" class="btn-insta-follow">Follow</a>
+          </div>
+          <div class="insta-stats-grid">
+            <div>
+              <div class="insta-stat-val">toyberry_surat</div>
+              <div class="insta-stat-lbl">Username</div>
+            </div>
+            <div>
+              <div class="insta-stat-val">Active</div>
+              <div class="insta-stat-lbl">Community</div>
             </div>
           </div>
-          <a href="https://www.instagram.com/toyberry_surat/" target="_blank" class="btn btn-primary btn-sm rounded-pill px-3" style="font-size: 0.8rem;">Follow</a>
+          <p class="insta-bio">Welcome to ToyBerry Surat! Discover a wonderful collection of premium, safe, and educational toys. Follow us for new arrivals & updates!</p>
         </div>
-        <div class="instagram-stats d-flex justify-content-around text-center py-2 mb-3 bg-light rounded-3">
-          <div>
-            <div class="fw-bold mb-0">toyberry_surat</div>
-            <div class="text-muted small">Username</div>
-          </div>
-          <div>
-            <div class="fw-bold mb-0">Active</div>
-            <div class="text-muted small">Community</div>
-          </div>
-        </div>
-        <p class="text-muted small mb-0 text-start">Welcome to ToyBerry Surat! Discover a wonderful collection of premium, safe, and educational toys. Follow us for new arrivals & updates!</p>
       </div>
-    </div>
-    <div class="col-md-6 order-md-1">
-      <span class="text-primary fw-bold text-uppercase" style="font-size: 0.8rem; letter-spacing: 1.5px;">Instagram Community</span>
-      <h2 class="fw-extrabold mt-2 mb-3" style="font-family: var(--font-heading);">Stay Connected With Us</h2>
-      <p class="text-muted lh-lg mb-4">
-        We post regular updates on our Instagram page <strong>@toyberry_surat</strong>! Check out actual videos of our wooden stackers, educational sets, and interactive board games. It's the best way to get real-time previews of what we have in store.
-      </p>
-      <a href="https://www.instagram.com/toyberry_surat/" target="_blank" class="btn btn-outline-custom rounded-pill px-4 py-2 fw-bold"><i class="bi bi-instagram me-2"></i>Visit Instagram Page</a>
+      <div class="col-lg-6 order-1 order-lg-2">
+        <div class="about-section-tag reveal-fade-up">INSTAGRAM COMMUNITY</div>
+        <h2 class="about-section-title reveal-fade-up delay-100">Stay Connected With Us</h2>
+        <p class="about-section-desc reveal-fade-up delay-200">
+          We post regular updates on our Instagram page <strong>@toyberry_surat</strong>! Check out actual videos of our wooden stackers, educational sets, and interactive board games. It's the best way to get real-time previews of what we have in store.
+        </p>
+        <div class="mt-4 reveal-fade-up delay-300">
+          <a href="https://www.instagram.com/toyberry_surat/" target="_blank" class="btn-insta-visit">
+            <i class="bi bi-instagram me-2"></i>VISIT INSTAGRAM PAGE
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Core Values -->
-  <div class="row g-4 text-center mt-5">
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 about-value-card">
-        <i class="bi bi-shield-check text-success fs-1 mb-3"></i>
-        <h5 class="fw-bold">100% Child Safe</h5>
-        <p class="text-muted small">All toys are non-toxic, lead-free, and meet certified global safety protocols.</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 about-value-card">
-        <i class="bi bi-lightbulb text-warning fs-1 mb-3"></i>
-        <h5 class="fw-bold">Educational Focus</h5>
-        <p class="text-muted small">Designed to encourage spatial skill-building, critical analysis, and creative play.</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 h-100 about-value-card">
-        <i class="bi bi-gem text-primary fs-1 mb-3"></i>
-        <h5 class="fw-bold">Luxury Craftsmanship</h5>
-        <p class="text-muted small">Engineered with robust premium details built to last for generations.</p>
+  <!-- Section 7: WhatsApp Community Banner -->
+  <div class="container py-5 mb-5">
+    <div class="whatsapp-banner reveal-fade-up">
+      <i class="bi bi-chat-square-text-fill banner-bg-icon"></i>
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <h3 class="whatsapp-banner-title">Join the Playroom</h3>
+          <p class="whatsapp-banner-desc">
+            Be the first to know about secret drops, warehouse sales, and community-exclusive events via our WhatsApp group.
+          </p>
+        </div>
+        <div class="col-lg-4 d-flex justify-content-lg-end justify-content-start">
+          <a href="https://chat.whatsapp.com/your-group-invite" target="_blank" class="btn-whatsapp-join">
+            <i class="bi bi-chat-right-text me-2"></i>JOIN COMMUNITY
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const revealElements = document.querySelectorAll('.reveal-fade-up, .reveal-fade-in, .reveal-scale-in');
+    
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.08,
+        rootMargin: "0px 0px -40px 0px"
+      });
+      
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      // Fallback for older browsers: show elements immediately
+      revealElements.forEach(el => el.classList.add('revealed'));
+    }
+  });
+</script>

@@ -1,163 +1,608 @@
 <style>
-  .boutique-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.5rem;
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
+
+  /* Force cream background for Contact page */
+  body {
+    background-color: #FAF5EE !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .contact-container {
+    background-color: #FAF5EE;
+    color: #111111;
+    overflow-x: hidden;
+  }
+
+  /* Utility classes */
+  .text-serif {
+    font-family: 'Fraunces', serif !important;
+  }
+  
+  .contact-section-tag {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #E8291C;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .contact-hero-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 3.8rem;
     font-weight: 700;
-    color: #1a202c;
-    margin-bottom: 0.5rem;
+    line-height: 1.1;
+    color: #111111;
+    margin-bottom: 16px;
   }
-  .boutique-subtitle {
-    font-size: 1.05rem;
-    max-width: 600px;
-    margin: 0 auto;
+
+  .contact-hero-subtitle {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 16px;
+  }
+
+  .contact-hero-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
     line-height: 1.6;
+    color: #555555;
+    max-width: 650px;
+    margin: 0 auto 40px auto;
   }
-  .boutique-card {
-    background: #ffffff;
-    border: 1px solid #f1f3f5;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* First Row Cards (Boutique Details) */
+  .boutique-card-custom {
+    background-color: #FAF5EE;
+    border: 1.5px solid #111111 !important;
+    border-radius: 24px !important;
+    padding: 48px 32px !important;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
-  .boutique-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  .boutique-card-custom:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
   }
-  .boutique-icon {
-    width: 60px;
-    height: 60px;
-    border: 1.5px solid #a5472a;
+
+  .boutique-card-title-custom {
+    font-family: 'Fraunces', serif !important;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #111111;
+    margin-bottom: 16px;
+  }
+
+  .boutique-card-text-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #555555;
+    margin-bottom: 16px;
+  }
+
+  /* Thin Outline Circle Icon */
+  .icon-circle-outline-custom {
+    width: 56px;
+    height: 56px;
+    border: 1.5px solid #111111;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.4rem;
-    color: #a5472a;
-  }
-  .boutique-card-title {
-    font-family: 'Playfair Display', Georgia, serif;
     font-size: 1.3rem;
-    font-weight: 700;
-    color: #1a202c;
+    color: #E8291C;
+    margin-bottom: 20px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .boutique-card-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
+  .boutique-card-custom:hover .icon-circle-outline-custom {
+    transform: scale(1.1) rotate(5deg);
+    background-color: #111111;
+    color: #ffffff;
+    border-color: #111111;
   }
-  .boutique-card-link {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #1a202c;
+
+  /* Red Underlined text link */
+  .text-link-red-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #E8291C;
     text-decoration: none;
-    letter-spacing: 1.5px;
-    border-bottom: 2px solid #a5472a;
+    border-bottom: 2px solid #E8291C;
     padding-bottom: 2px;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    margin-top: auto;
   }
-  .boutique-card-link:hover {
-    color: #a5472a;
-    border-bottom-color: #1a202c;
+  .text-link-red-custom:hover {
+    color: #111111;
+    border-bottom-color: #111111;
+  }
+
+  /* Full Map Card */
+  .map-card-custom {
+    border: 1.5px solid #111111 !important;
+    border-radius: 24px !important;
+    height: 100%;
+    min-height: 420px;
+    position: relative;
+    overflow: hidden;
+    padding: 0 !important;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .map-card-custom:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  }
+
+
+
+  /* Buttons for Hours Card */
+  .btn-appointment-custom {
+    border: 1.5px solid #111111 !important;
+    background-color: transparent !important;
+    color: #111111 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .btn-appointment-custom:hover {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+  }
+
+  /* WhatsApp Premium Banner */
+  .whatsapp-banner-custom {
+    background-color: #34C759;
+    border-radius: 24px;
+    padding: 48px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1.5px solid #111111;
+  }
+  .whatsapp-banner-custom:hover {
+    box-shadow: 0 20px 40px rgba(52, 199, 89, 0.3);
+  }
+  .whatsapp-banner-custom .banner-bg-icon {
+    position: absolute;
+    right: -20px;
+    bottom: -40px;
+    font-size: 12rem;
+    color: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: -1;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .whatsapp-banner-custom:hover .banner-bg-icon {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  .badge-updates-custom {
+    background-color: #ffffff;
+    color: #111111;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.7rem;
+    padding: 6px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .whatsapp-banner-title-custom {
+    font-family: 'Fraunces', serif !important;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .whatsapp-banner-desc-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 520px;
+    margin-bottom: 0;
+  }
+
+  .btn-whatsapp-join-custom {
+    background-color: #ffffff !important;
+    color: #34C759 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    padding: 16px 36px !important;
+    border-radius: 30px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease !important;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .btn-whatsapp-join-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    color: #34C759 !important;
+  }
+
+  /* Grid of Secondary Contacts Cards */
+  .grid-card-custom {
+    background-color: #FAF5EE;
+    border: 1.5px solid #111111 !important;
+    border-radius: 24px !important;
+    padding: 36px 28px !important;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .grid-card-custom:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
+  }
+
+  .grid-card-title-custom {
+    font-family: 'Fraunces', serif !important;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #111111;
+    margin-bottom: 12px;
+  }
+
+  .grid-card-desc-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #555555;
+    margin-bottom: 24px;
+    flex-grow: 1;
+  }
+
+  /* Dynamic Colored Badges for Icons */
+  .badge-icon-wrap-custom {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .grid-card-custom:hover .badge-icon-wrap-custom {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  /* Badge colors matching preview */
+  .badge-red {
+    background-color: #FDEDED;
+    color: #E8291C;
+  }
+  .badge-green {
+    background-color: #EAF9EE;
+    color: #34C759;
+  }
+  .badge-insta {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: #ffffff;
+  }
+  .badge-blue {
+    background-color: #E8F0FE;
+    color: #1877F2;
+  }
+  .badge-yt {
+    background-color: #FDEDED;
+    color: #FF0000;
+  }
+
+  /* Specific Action Buttons */
+  .btn-action-outline-red {
+    border: 1.5px solid #E8291C !important;
+    background-color: transparent !important;
+    color: #E8291C !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .btn-action-outline-red:hover {
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+  }
+
+  .btn-action-solid-green {
+    background-color: #34C759 !important;
+    color: #ffffff !important;
+    border: none !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 14px 24px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .btn-action-solid-green:hover {
+    background-color: #28a745 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(52, 199, 89, 0.2);
+    color: #ffffff !important;
+  }
+
+  .btn-action-outline-pink {
+    border: 1.5px solid #d62976 !important;
+    background-color: transparent !important;
+    color: #d62976 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .btn-action-outline-pink:hover {
+    background-color: #d62976 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-action-outline-blue {
+    border: 1.5px solid #1877F2 !important;
+    background-color: transparent !important;
+    color: #1877F2 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .btn-action-outline-blue:hover {
+    background-color: #1877F2 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-action-outline-yt {
+    border: 1.5px solid #FF0000 !important;
+    background-color: transparent !important;
+    color: #FF0000 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 12px 24px !important;
+    border-radius: 30px !important;
+    transition: all 0.2s ease !important;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .btn-action-outline-yt:hover {
+    background-color: #FF0000 !important;
+    color: #ffffff !important;
+  }
+
+  /* Reveal Animations CSS */
+  .reveal-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal-fade-up.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-scale-in {
+    opacity: 0;
+    transform: scale(0.96) translateY(10px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  .reveal-scale-in.revealed {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+
+  /* Stagger Delays */
+  .delay-50 { transition-delay: 50ms !important; }
+  .delay-100 { transition-delay: 100ms !important; }
+  .delay-150 { transition-delay: 150ms !important; }
+  .delay-200 { transition-delay: 200ms !important; }
+  .delay-250 { transition-delay: 250ms !important; }
+  .delay-300 { transition-delay: 300ms !important; }
+
+  /* Responsive Rules */
+  @media (max-width: 991px) {
+    .contact-hero-title {
+      font-size: 2.8rem;
+    }
+    .contact-hero-subtitle {
+      font-size: 1.5rem;
+    }
+    .map-card-custom {
+      min-height: 380px;
+    }
+    .whatsapp-banner-title-custom {
+      font-size: 2rem;
+    }
+    .whatsapp-banner-custom {
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .btn-whatsapp-join-custom {
+      width: 100%;
+      justify-content: center;
+      margin-top: 15px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .contact-hero-title {
+      font-size: 2.3rem;
+    }
+    .contact-hero-subtitle {
+      font-size: 1.35rem;
+    }
+    .whatsapp-banner-custom {
+      padding: 30px 18px;
+    }
+    .whatsapp-banner-title-custom {
+      font-size: 1.6rem;
+    }
+    .boutique-card-custom {
+      padding: 36px 20px !important;
+    }
   }
 </style>
 
-<div class="container py-5 my-5">
-  <div class="text-center mb-5" data-aos="fade-up">
-    <span class="text-primary fw-bold text-uppercase" style="font-size: 0.8rem; letter-spacing: 2px;">Direct
-      Contact</span>
-    <h1 class="fw-extrabold mt-2 display-4" style="font-family: var(--font-heading);">Get in Touch</h1>
+<div class="contact-container py-5">
+  <!-- Hero Section -->
+  <div class="container text-center pt-4">
+    <div class="contact-section-tag reveal-fade-up">DIRECT CONTACT</div>
+    <h1 class="contact-hero-title reveal-fade-up delay-100">Get in Touch</h1>
+    <h2 class="contact-hero-subtitle reveal-fade-up delay-150">Visit Our Boutique</h2>
+    <p class="contact-hero-desc reveal-fade-up delay-200">
+      Experience the wonder in person. Our flagship boutique in Surat offers a curated sanctuary for parents and children alike.
+    </p>
   </div>
 
-  <!-- Visit Our Boutique Section -->
-  <div class="row justify-content-center mb-5 mt-4" data-aos="fade-up">
-    <div class="col-lg-10 text-center mb-4">
-      <h2 class="boutique-title">Visit Our Boutique</h2>
-      <p class="boutique-subtitle text-muted">Experience the wonder in person. Our flagship boutique in Surat offers a curated sanctuary for parents and children alike.</p>
-    </div>
+  <!-- First Row: Boutique details grid -->
+  <div class="container mb-5 pb-4">
+    <div class="row g-4 justify-content-center align-items-stretch">
+      <!-- Address Card -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in">
+        <div class="boutique-card-custom">
+          <div class="icon-circle-outline-custom">
+            <i class="bi bi-geo-alt"></i>
+          </div>
+          <h4 class="boutique-card-title-custom">Surat Flagship Store</h4>
+          <p class="boutique-card-text-custom">
+            D8, Nilkanth Campus,<br>
+            Sardar Chowk to<br>
+            Khadasad Road, Surat,<br>
+            Gujarat — India
+          </p>
+          <p class="boutique-card-text-custom mb-4">
+            <i class="bi bi-telephone me-1"></i> +91 76007 79064<br>
+            <i class="bi bi-envelope me-1"></i> toyberry.surat@gmail.com
+          </p>
+          <a href="https://maps.google.com/?q=D8+Nilkanth+Campus,+Sardar+Chowk+to+Khadasad+Road,+Surat,+Gujarat" target="_blank" class="text-link-red-custom">VIEW ON MAPS</a>
+        </div>
+      </div>
 
-    <div class="col-lg-10">
-      <div class="row g-4 align-items-stretch">
+      <!-- Phone Map Card -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in delay-100">
+        <div class="map-card-custom h-100 p-0 overflow-hidden">
+          <iframe
+            src="https://maps.google.com/maps?q=Nilkanth+Campus,+Sardar+Chowk,+Surat,+Gujarat,+India&t=m&z=15&output=embed&iwloc=near"
+            width="100%"
+            height="100%"
+            style="border:0; display:block; min-height: 420px;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="ToyBerry Boutique Location Map"
+          ></iframe>
+        </div>
+      </div>
 
-        <!-- Address Card -->
-        <div class="col-md-4">
-          <div class="boutique-card h-100 p-5 d-flex flex-column align-items-center justify-content-center text-center">
-            <div class="boutique-icon mb-4">
-              <i class="bi bi-geo-alt"></i>
-            </div>
-            <h4 class="boutique-card-title mb-3">Surat Flagship Store</h4>
-            <p class="boutique-card-text text-muted mb-2">
-              D8, Nilkanth Campus<br>
-              Sardar Chowk to Khadasad Road<br>
-              Surat, Gujarat — India
-            </p>
-            <p class="boutique-card-text text-muted mb-4">
-              <i class="bi bi-telephone me-1"></i> +91 76007 79064<br>
-              <i class="bi bi-envelope me-1"></i> toyberry.surat@gmail.com
-            </p>
-            <a href="https://maps.google.com/?q=D8+Nilkanth+Campus,+Sardar+Chowk+to+Khadasad+Road,+Surat,+Gujarat" target="_blank" class="boutique-card-link mt-auto">VIEW ON MAPS</a>
+      <!-- Hours Card -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in delay-200">
+        <div class="boutique-card-custom">
+          <div class="icon-circle-outline-custom">
+            <i class="bi bi-clock"></i>
+          </div>
+          <h4 class="boutique-card-title-custom">Store Hours</h4>
+          <p class="boutique-card-text-custom mb-5">
+            Mon — Sat: 10 AM — 8 PM<br>
+            <span class="text-danger fw-bold">Sunday: Closed</span>
+          </p>
+          <div class="d-flex flex-column gap-3 w-100 mt-auto">
+            <a href="https://wa.me/917600779064" target="_blank" class="btn-action-solid-green">
+              <i class="bi bi-whatsapp me-2"></i>WHATSAPP US
+            </a>
+            <a href="mailto:toyberry.surat@gmail.com?subject=Store Visit Appointment Request" class="btn-appointment-custom">
+              REQUEST APPOINTMENT
+            </a>
           </div>
         </div>
-
-        <!-- Live Google Maps Embed -->
-        <div class="col-md-4">
-          <div class="boutique-card h-100 p-0 overflow-hidden" style="border-radius: 16px; min-height: 300px;">
-            <iframe
-              src="https://maps.google.com/maps?q=Nilkanth+Campus,+Sardar+Chowk,+Surat,+Gujarat,+India&t=m&z=15&output=embed&iwloc=near"
-              width="100%"
-              height="100%"
-              style="border:0; min-height: 300px; display:block;"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="ToyBerry Store Location — Surat, India"
-            ></iframe>
-          </div>
-        </div>
-
-        <!-- Hours Card -->
-        <div class="col-md-4">
-          <div class="boutique-card h-100 p-5 d-flex flex-column align-items-center justify-content-center text-center">
-            <div class="boutique-icon mb-4">
-              <i class="bi bi-clock"></i>
-            </div>
-            <h4 class="boutique-card-title mb-3">Store Hours</h4>
-            <p class="boutique-card-text text-muted mb-4">
-              Mon – Sat: 10 AM – 8 PM<br>
-              <span class="text-danger fw-semibold">Sunday: Closed</span>
-            </p>
-            <div class="d-flex flex-column gap-2 w-100">
-              <a href="https://wa.me/917600779064" target="_blank" class="boutique-card-link">
-                <i class="bi bi-whatsapp me-1"></i> WHATSAPP US
-              </a>
-              <a href="mailto:toyberry.surat@gmail.com?subject=Store Visit Enquiry" class="boutique-card-link mt-2">
-                REQUEST APPOINTMENT
-              </a>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
 
-  <!-- WhatsApp Group Daily Updates Premium Banner -->
-  <div class="row g-4 justify-content-center mb-5" data-aos="fade-up">
-    <div class="col-md-8">
-      <div class="card border-0 shadow-lg rounded-4 p-4 text-center text-white position-relative overflow-hidden"
-        style="background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);">
-        <!-- Decorative background elements -->
-        <div class="position-absolute end-0 bottom-0 opacity-10"
-          style="font-size: 10rem; transform: translate(20px, 30px);">
-          <i class="bi bi-whatsapp"></i>
+  <!-- WhatsApp Premium Banner -->
+  <div class="container py-4 mb-5">
+    <div class="whatsapp-banner-custom reveal-fade-up">
+      <i class="bi bi-chat-square-text-fill banner-bg-icon"></i>
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <span class="badge-updates-custom">DAILY UPDATES</span>
+          <h2 class="whatsapp-banner-title-custom">Join Our WhatsApp Group</h2>
+          <p class="whatsapp-banner-desc-custom">
+            Get instant updates on daily new arrivals, exclusive discounts, premium restocks, and direct store manager updates straight to your chat!
+          </p>
         </div>
-        <div class="position-relative z-1 py-3">
-          <span class="badge bg-white text-success fw-bold text-uppercase px-3 py-2 mb-3 rounded-pill"
-            style="font-size: 0.75rem;">Daily Updates</span>
-          <h2 class="fw-extrabold mb-3">Join Our WhatsApp Group</h2>
-          <p class="mx-auto mb-4 text-white-50" style="max-width: 500px; font-size: 1.05rem;">Get instant updates on
-            daily new arrivals, exclusive discounts, premium restocks, and direct store manager updates straight to your
-            chat!</p>
-          <a href="https://chat.whatsapp.com/FMz7qU3xDCOFlJYFw4aCYZ" target="_blank"
-            class="btn btn-light rounded-pill px-5 py-3 fw-extrabold text-success shadow fs-6 hover-scale">
+        <div class="col-lg-4 d-flex justify-content-lg-end justify-content-start">
+          <a href="https://chat.whatsapp.com/FMz7qU3xDCOFlJYFw4aCYZ" target="_blank" class="btn-whatsapp-join-custom">
             <i class="bi bi-whatsapp me-2"></i>Join WhatsApp Group
           </a>
         </div>
@@ -165,108 +610,121 @@
     </div>
   </div>
 
-  <div class="row g-4 justify-content-center" data-aos="fade-up" data-aos-delay="100">
-    <!-- Store Location -->
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
-        <div
-          class="bg-primary-subtle text-primary rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
-          style="width: 80px; height: 80px; font-size: 2.2rem;">
-          <i class="bi bi-geo-alt-fill"></i>
+  <!-- Grid of Secondary Contacts Section -->
+  <div class="container mb-5">
+    <div class="row g-4 justify-content-center">
+      <!-- Store Location -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in">
+        <div class="grid-card-custom">
+          <div class="badge-icon-wrap-custom badge-red">
+            <i class="bi bi-geo-alt-fill"></i>
+          </div>
+          <h4 class="grid-card-title-custom">Our Store Location</h4>
+          <p class="grid-card-desc-custom">
+            D8 Nilkanth Campus, Sardar Chowk to Khadasad Road
+          </p>
+          <a href="https://maps.google.com/?q=D8+Nilkanth+Campus,+Sardar+Chowk+to+Khadasad+Road" target="_blank" class="btn-action-outline-red">Get Directions</a>
         </div>
-        <h4 class="fw-bold mb-3 text-dark">Our Store Location</h4>
-        <p class="text-muted mb-4 flex-grow-1">D8 Nilkanth Campus, Sardar Chowk to Khadasad Road</p>
-        <a href="https://maps.google.com/?q=D8+Nilkanth+Campus,+Sardar+Chowk+to+Khadasad+Road" target="_blank"
-          class="btn btn-outline-primary rounded-pill px-4 py-2 mt-auto fw-bold">Get Directions</a>
       </div>
-    </div>
 
-    <!-- WhatsApp Contact -->
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
-        <div
-          class="bg-success-subtle text-success rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
-          style="width: 80px; height: 80px; font-size: 2.2rem;">
-          <i class="bi bi-whatsapp"></i>
+      <!-- Chat on WhatsApp -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in delay-100">
+        <div class="grid-card-custom">
+          <div class="badge-icon-wrap-custom badge-green">
+            <i class="bi bi-whatsapp"></i>
+          </div>
+          <h4 class="grid-card-title-custom">Chat on WhatsApp</h4>
+          <p class="grid-card-desc-custom">
+            +91 7600779064<br>
+            Click to chat directly with our manager.
+          </p>
+          <a href="https://wa.me/917600779064" target="_blank" class="btn-action-solid-green">Message Us</a>
         </div>
-        <h4 class="fw-bold mb-3 text-dark">Chat on WhatsApp</h4>
-        <p class="text-muted mb-2">+91 7600779064</p>
-        <p class="text-muted small mb-4 flex-grow-1">Click to chat directly with our store manager for enquiries or
-          stock checking.</p>
-        <a href="https://wa.me/917600779064" target="_blank"
-          class="btn btn-success rounded-pill px-4 py-2 mt-auto fw-bold text-white"
-          style="background-color: #25D366; border-color: #25D366;">Message Us</a>
       </div>
-    </div>
 
-    <!-- Instagram Page -->
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
-        <div
-          class="bg-danger-subtle text-danger rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
-          style="width: 80px; height: 80px; font-size: 2.2rem; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white !important;">
-          <i class="bi bi-instagram"></i>
+      <!-- Follow Instagram -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in delay-200">
+        <div class="grid-card-custom">
+          <div class="badge-icon-wrap-custom badge-insta">
+            <i class="bi bi-instagram"></i>
+          </div>
+          <h4 class="grid-card-title-custom">Follow Instagram</h4>
+          <p class="grid-card-desc-custom">
+            @toyberry_surat<br>
+            Catch daily updates and new arrivals!
+          </p>
+          <a href="https://www.instagram.com/toyberry_surat/" target="_blank" class="btn-action-outline-pink">Follow Instagram</a>
         </div>
-        <h4 class="fw-bold mb-3 text-dark">Follow Instagram</h4>
-        <p class="text-muted mb-2">@toyberry_surat</p>
-        <p class="text-muted small mb-4 flex-grow-1">Catch daily updates, new arrivals, custom wooden toys collection
-          showcase, and stories!</p>
-        <a href="https://www.instagram.com/toyberry_surat/" target="_blank"
-          class="btn btn-outline-danger rounded-pill px-4 py-2 mt-auto fw-bold">Follow Instagram</a>
       </div>
-    </div>
 
-    <!-- Email Support -->
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
-        <div
-          class="bg-primary-subtle text-primary rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
-          style="width: 80px; height: 80px; font-size: 2.2rem;">
-          <i class="bi bi-envelope-fill"></i>
+      <!-- Email Support -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in">
+        <div class="grid-card-custom">
+          <div class="badge-icon-wrap-custom badge-red">
+            <i class="bi bi-envelope-fill"></i>
+          </div>
+          <h4 class="grid-card-title-custom">Email Support</h4>
+          <p class="grid-card-desc-custom">
+            toyberry.surat@gmail.com<br>
+            Reach out for orders and inquiries.
+          </p>
+          <a href="mailto:toyberry.surat@gmail.com" class="btn-action-outline-red">Send Email</a>
         </div>
-        <h4 class="fw-bold mb-3 text-dark">Email Support</h4>
-        <p class="text-muted mb-2">toyberry.surat@gmail.com</p>
-        <p class="text-muted small mb-4 flex-grow-1">Reach out to us via email for orders, partnerships, feedback, or
-          customer service queries.</p>
-        <a href="mailto:toyberry.surat@gmail.com"
-          class="btn btn-outline-primary rounded-pill px-4 py-2 mt-auto fw-bold">Send Email</a>
       </div>
-    </div>
 
-    <!-- Facebook Page -->
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
-        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
-          style="width: 80px; height: 80px; font-size: 2.2rem; background: #1877F2; color: white !important;">
-          <i class="bi bi-facebook"></i>
+      <!-- Follow Facebook -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in delay-100">
+        <div class="grid-card-custom">
+          <div class="badge-icon-wrap-custom badge-blue">
+            <i class="bi bi-facebook"></i>
+          </div>
+          <h4 class="grid-card-title-custom">Follow Facebook</h4>
+          <p class="grid-card-desc-custom">
+            ToyBerry Surat<br>
+            Like our page to connect with us.
+          </p>
+          <a href="https://www.facebook.com/share/1C79iz3pvq/?mibextid=wwXIfr" target="_blank" class="btn-action-outline-blue">Follow Facebook</a>
         </div>
-        <h4 class="fw-bold mb-3 text-dark">Follow Facebook</h4>
-        <p class="text-muted mb-2">ToyBerry Surat</p>
-        <p class="text-muted small mb-4 flex-grow-1">Like our page to connect, view customer reviews, and share your
-          kids' joy with us.</p>
-        <a href="https://www.facebook.com/share/1C79iz3pvq/?mibextid=wwXIfr" target="_blank"
-          class="btn btn-outline-primary rounded-pill px-4 py-2 mt-auto fw-bold"
-          style="color: #1877F2; border-color: #1877F2; --bs-btn-hover-bg: #1877F2; --bs-btn-hover-border-color: #1877F2; --bs-btn-hover-color: white;">Follow
-          Facebook</a>
       </div>
-    </div>
 
-    <!-- YouTube Channel -->
-    <div class="col-md-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 text-center h-100 bg-white">
-        <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-4"
-          style="width: 80px; height: 80px; font-size: 2.2rem; background: #FF0000; color: white !important;">
-          <i class="bi bi-youtube"></i>
+      <!-- Subscribe YouTube -->
+      <div class="col-lg-4 col-md-6 reveal-scale-in delay-200">
+        <div class="grid-card-custom">
+          <div class="badge-icon-wrap-custom badge-yt">
+            <i class="bi bi-youtube"></i>
+          </div>
+          <h4 class="grid-card-title-custom">Subscribe YouTube</h4>
+          <p class="grid-card-desc-custom">
+            @toyberry-surat<br>
+            Watch unboxings and detailed features.
+          </p>
+          <a href="https://youtube.com/@toyberry-surat?si=2Q7XAmiL6dzGQJsZ" target="_blank" class="btn-action-outline-yt">Subscribe Channel</a>
         </div>
-        <h4 class="fw-bold mb-3 text-dark">Subscribe YouTube</h4>
-        <p class="text-muted mb-2">@toyberry-surat</p>
-        <p class="text-muted small mb-4 flex-grow-1">Watch unboxings, detailed features, and gameplay of our luxury
-          educational toys.</p>
-        <a href="https://youtube.com/@toyberry-surat?si=2Q7XAmiL6dzGQJsZ" target="_blank"
-          class="btn btn-outline-danger rounded-pill px-4 py-2 mt-auto fw-bold"
-          style="color: #FF0000; border-color: #FF0000; --bs-btn-hover-bg: #FF0000; --bs-btn-hover-border-color: #FF0000; --bs-btn-hover-color: white;">Subscribe
-          Channel</a>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const revealElements = document.querySelectorAll('.reveal-fade-up, .reveal-scale-in');
+    
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.06,
+        rootMargin: "0px 0px -30px 0px"
+      });
+      
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      revealElements.forEach(el => el.classList.add('revealed'));
+    }
+  });
+</script>

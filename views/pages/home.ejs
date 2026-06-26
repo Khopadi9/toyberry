@@ -1,719 +1,1358 @@
+<!-- Custom Style Overrides for Home Page (Scoped to .home-page-active) -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+  /* Core Layout & Theme overrides */
+  body.home-page-active {
+    background-color: #FDFAF6 !important;
+    color: #111111 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 1.08rem !important; /* Scale default body font size slightly */
+  }
+
+  body.home-page-active h1,
+  body.home-page-active h2,
+  body.home-page-active h3,
+  body.home-page-active h4,
+  body.home-page-active h5,
+  body.home-page-active h6,
+  .featured-collections-title {
+    font-family: 'Fraunces', serif !important;
+    color: #111111 !important;
+  }
+
+  .soft-spring {
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Custom Navbar Overrides */
+  #main-navbar {
+    background: #111111 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 15px 0;
+  }
+  #main-navbar .navbar-brand,
+  #main-navbar .nav-link,
+  #main-navbar .nav-action-btn,
+  #main-navbar .nav-action-btn i {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+  #main-navbar .nav-link:hover,
+  #main-navbar .navbar-brand:hover,
+  #main-navbar .nav-action-btn:hover i {
+    color: #E8291C !important;
+  }
+  #global-search-input {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+  }
+  #global-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+
+  /* Hero Section */
+  .hero-section {
+    position: relative;
+    height: 90vh !important;
+    min-height: 650px;
+    background-color: #111111;
+  }
+  .carousel-hero-overlay {
+    background: linear-gradient(90deg, #111111 0%, #111111 30%, rgba(17, 17, 17, 0.7) 55%, rgba(17, 17, 17, 0.1) 100%) !important;
+  }
+  .carousel-hero-content h1 {
+    font-family: 'Fraunces', serif !important;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem) !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    line-height: 1.1 !important;
+  }
+  .carousel-hero-content p {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 1.15rem !important;
+    color: rgba(255, 255, 255, 0.85) !important;
+    max-width: 500px;
+  }
+  .badge-hero {
+    background-color: rgba(232, 41, 28, 0.15) !important;
+    color: #E8291C !important;
+    border: none !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+  }
+  .hero-btn-coral {
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    padding: 16px 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: transform 0.3s ease, background-color 0.3s ease !important;
+    box-shadow: 0 10px 20px rgba(232, 41, 28, 0.2) !important;
+    height: auto !important;
+    width: auto !important;
+    white-space: nowrap !important; /* Prevent text wrapping to next line */
+    flex-shrink: 0 !important;
+    font-size: 1.05rem !important;
+  }
+  .hero-btn-coral:hover {
+    transform: scale(1.05) !important;
+    background-color: #ff3e30 !important;
+  }
+  .hero-btn-outline {
+    background: transparent !important;
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 700 !important;
+    border-radius: 8px !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 16px 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: transform 0.3s ease, background-color 0.3s ease !important;
+    height: auto !important;
+    width: auto !important;
+    white-space: nowrap !important; /* Prevent text wrapping to next line */
+    flex-shrink: 0 !important;
+    font-size: 1.05rem !important;
+  }
+  .hero-btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transform: scale(1.05) !important;
+  }
+
+  /* Infinite Brand Marquee */
+  .marquee-wrapper {
+    background-color: #111111;
+    border-top: 2px solid #111111;
+    border-bottom: 2px solid #111111;
+    overflow: hidden;
+    padding: 24px 0;
+    width: 100%;
+  }
+  .marquee-content {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee-scroll 30s linear infinite;
+  }
+  .marquee-content div {
+    display: flex;
+    gap: 60px;
+    align-items: center;
+    padding-right: 60px;
+  }
+  .marquee-item {
+    font-family: 'Fraunces', serif !important;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    opacity: 0.2;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  @keyframes marquee-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Bento Featured Collections Section */
+  .featured-collections-sec {
+    margin: 4.5rem 0;
+  }
+  .featured-collections-title {
+    font-size: 3.45rem !important; /* Increased font size */
+    font-weight: 900;
+    color: #111111 !important;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .featured-collections-subtitle {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 1.35rem !important; /* Increased font size */
+    color: #5d3f3b !important;
+    margin-bottom: 3rem;
+  }
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 24px;
+  }
+  @media (min-width: 768px) {
+    .bento-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: repeat(2, 1fr);
+      height: 800px;
+    }
+  }
+  .bento-large {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #111111;
+    background-color: #FFF8EE;
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+  }
+  @media (min-width: 768px) {
+    .bento-large {
+      grid-column: span 8;
+      grid-row: span 2;
+      height: 100%;
+    }
+  }
+  @media (max-width: 767px) {
+    .bento-large {
+      height: 400px;
+    }
+  }
+  .bento-large .bento-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .bento-large:hover .bento-bg {
+    transform: scale(1.08);
+  }
+  .bento-large .bento-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(17, 17, 17, 0.85) 0%, rgba(17, 17, 17, 0.3) 60%, transparent 100%);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #ffffff !important;
+    z-index: 2;
+  }
+  .bento-large .bento-badge {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    padding: 6px 14px;
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 16px;
+  }
+  .bento-large h3 {
+    font-family: 'Fraunces', serif !important;
+    font-size: clamp(2rem, 4.5vw, 2.8rem) !important; /* Increased font size */
+    font-weight: 700;
+    color: #ffffff !important;
+    margin-bottom: 8px;
+  }
+  .bento-large p {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.1rem !important; /* Increased font size */
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 24px;
+    max-width: 380px;
+  }
+  .bento-large .bento-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem !important; /* Increased font size */
+    color: #ffffff !important;
+    background: transparent;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-transform: uppercase;
+    padding: 0;
+    transition: gap 0.2s ease;
+    text-decoration: none !important;
+  }
+  .bento-large .bento-btn:hover {
+    gap: 16px;
+  }
+
+  /* Typographic Quote Card */
+  .bento-quote {
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #111111;
+  }
+  @media (min-width: 768px) {
+    .bento-quote {
+      grid-column: span 4;
+      height: 100% !important;
+    }
+  }
+  @media (max-width: 767px) {
+    .bento-quote {
+      min-height: 280px;
+    }
+  }
+  .bento-quote h3 {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.55rem !important; /* Increased font size */
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.45;
+    color: #ffffff !important;
+    margin-top: 16px;
+  }
+  .bento-quote .quote-author {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem !important; /* Increased font size */
+    margin-bottom: 4px;
+    color: #ffffff !important;
+  }
+  .bento-quote .quote-role {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem !important; /* Increased font size */
+    opacity: 0.75;
+    color: #ffffff !important;
+  }
+
+  body.home-page-active .bento-quote h3,
+  body.home-page-active .bento-quote .quote-author,
+  body.home-page-active .bento-quote .quote-role,
+  body.home-page-active .bento-large .bento-overlay h3,
+  body.home-page-active .bento-small .bento-overlay h3,
+  body.home-page-active .bento-small h3 {
+    color: #ffffff !important;
+  }
+
+  /* Small Secondary Card */
+  .bento-small {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #111111;
+    background-color: #FFF8EE;
+    min-height: 300px;
+  }
+  @media (min-width: 768px) {
+    .bento-small {
+      grid-column: span 4;
+      height: 100% !important;
+    }
+  }
+  .bento-small .bento-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .bento-small:hover .bento-bg {
+    transform: scale(1.08);
+  }
+  .bento-small .bento-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    transition: background-color 0.3s ease;
+    z-index: 2;
+  }
+  .bento-small:hover .bento-overlay {
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+  .bento-small h3 {
+    font-family: 'Fraunces', serif !important;
+    font-size: 2rem !important; /* Increased font size */
+    font-weight: 700;
+    color: #ffffff !important;
+    text-align: center;
+    margin: 0;
+  }
+
+  .home-page-active .card-premium {
+    background-color: #FFF8EE !important;
+    border: 1px solid #111111 !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: transform 0.3s ease, border-color 0.3s ease !important;
+  }
+  body.home-page-active .trending-now-section-wrapper .card-premium {
+    background-color: #ffffff !important;
+  }
+  .home-page-active .card-premium:hover {
+    transform: scale(1.03) !important;
+    border-color: #E8291C !important;
+  }
+  .home-page-active .card-premium .product-card-img-wrapper {
+    border-radius: 0px !important;
+    border-bottom: 1px solid #111111 !important;
+  }
+  
+  /* OVERRIDE BOOTSTRAP WHITE TEXT IN CARDS TO FORCE READABLE BLACK */
+  body.home-page-active .card-premium .text-white,
+  body.home-page-active .card-premium a.text-white,
+  body.home-page-active .card-premium div.text-white,
+  body.home-page-active .card-premium h5,
+  body.home-page-active .card-premium h5 a {
+    color: #111111 !important;
+    --bs-text-opacity: 1 !important;
+  }
+  body.home-page-active .card-premium .text-muted,
+  body.home-page-active .card-premium p,
+  body.home-page-active .card-premium span:not(.badge-tag) {
+    color: #5d3f3b !important;
+  }
+  body.home-page-active .card-premium .text-primary,
+  body.home-page-active .card-premium .text-danger {
+    color: #E8291C !important;
+  }
+
+  .home-page-active .card-premium .quick-view-overlay .btn-quick-view {
+    border-radius: 0px !important;
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    font-weight: 700;
+  }
+
+  /* Flash Drop Section */
+  .flash-drop-section {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    position: relative;
+    overflow: hidden;
+    padding: 80px 0;
+  }
+  .flash-drop-section p,
+  .flash-drop-section span,
+  .flash-drop-section h2,
+  .flash-drop-section h4 {
+    color: #ffffff !important;
+  }
+  .flash-drop-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    color: #ffffff !important;
+  }
+  .flash-drop-title span {
+    color: #E8291C !important;
+    font-style: italic;
+  }
+  .flash-drop-timer-box {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #E8291C !important;
+    line-height: 1;
+    font-family: 'Fraunces', serif !important;
+  }
+  .pulse-accent {
+    animation: pulse-red-glow 2s infinite;
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 700;
+    border-radius: 8px !important;
+    border: none;
+    padding: 16px 32px;
+    width: 100%;
+    transition: transform 0.2s ease;
+  }
+  .pulse-accent:hover {
+    transform: scale(1.02);
+  }
+  @keyframes pulse-red-glow {
+    0% { box-shadow: 0 0 0 0 rgba(232, 41, 28, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(232, 41, 28, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(232, 41, 28, 0); }
+  }
+  .flash-drop-product {
+    display: flex;
+    gap: 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    transition: background-color 0.3s ease;
+  }
+  .flash-drop-product:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .flash-drop-product h4 {
+    color: #ffffff !important;
+  }
+  .flash-drop-product .price-drop-accent {
+    color: #E8291C !important;
+    font-weight: 700;
+  }
+  .flash-drop-product .price-original-accent {
+    color: rgba(255, 255, 255, 0.5) !important;
+    text-decoration: line-through;
+  }
+  .flash-drop-img-box {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .flash-drop-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .progress-sold {
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .progress-sold-bar {
+    height: 100%;
+    background-color: #E8291C !important;
+  }
+
+  /* Cinematic Video Section */
+  .cinematic-video-sec {
+    position: relative;
+    height: 80vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .cinematic-video-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1UCzqc_46a1LdaWqjoRm899OEbnN794k7Aopt2NZLnsUFWEz3pUFjfh9S6bzxElYhph4drm1v5DYb2ALkAoCG1VyGej5k7PfgB2-zZMyMyy5Q3vBT-Yr7kegcKISDqud2PIrxC9MK3sAy4EXQA4x3lgIwEzwtyjFTW02cXCqguA9bRZLYQfwvBIRq0TWCGQYNfgx0f444l7foPCHCr4jlcGCa450adJI3PZuzz1ZOQu4vpQLlUuQOrF9yVf1XunjE2v2LGMKZH0Q');
+  }
+  .cinematic-video-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+  }
+  .play-btn-circle {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-color: #E8291C;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    margin: 0 auto 24px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    box-shadow: 0 10px 30px rgba(232, 41, 28, 0.5);
+    cursor: pointer;
+  }
+  .play-btn-circle:hover {
+    transform: scale(1.1);
+    background-color: #ff3e30;
+  }
+
+  /* FAQ Section side-by-side */
+  .faq-row-layout {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+  }
+  @media (min-width: 768px) {
+    .faq-row-layout {
+      flex-direction: row;
+      gap: 80px;
+    }
+    .faq-left-col {
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+      width: 40%;
+    }
+    .faq-right-col {
+      width: 60%;
+    }
+  }
+  .faq-item-custom {
+    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+  }
+  .faq-btn-custom {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #111111;
+  }
+  .faq-icon-custom {
+    transition: transform 0.3s ease;
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
+  .faq-icon-custom.rotate-45 {
+    transform: rotate(45deg);
+  }
+  .faq-content-custom {
+    margin-top: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05rem;
+    color: #5d3f3b;
+    line-height: 1.65;
+  }
+
+  /* WhatsApp Community bento banner */
+  .whatsapp-bento-card {
+    background-color: #25D366 !important;
+    padding: 60px 48px;
+    position: relative;
+    overflow: hidden;
+    color: #ffffff !important;
+  }
+  .whatsapp-btn-custom {
+    background-color: #ffffff !important;
+    color: #25D366 !important;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 9999px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease;
+    text-decoration: none !important;
+    z-index: 10;
+  }
+  .whatsapp-btn-custom:hover {
+    transform: scale(1.05);
+    color: #25D366 !important;
+  }
+
+  /* Global Footer Color Overrides */
+  footer {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+    border-top: 2px solid #111111 !important;
+  }
+  body.home-page-active footer h1,
+  body.home-page-active footer h2,
+  body.home-page-active footer h3,
+  body.home-page-active footer h4,
+  body.home-page-active footer h5,
+  body.home-page-active footer h6 {
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+  footer h4 {
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+  footer a,
+  footer p,
+  footer span {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+  footer a:hover {
+    color: #ffffff !important;
+  }
+
+  /* Cinematic Video Section Text Contrast Overrides */
+  body.home-page-active .cinematic-video-sec h2,
+  body.home-page-active .cinematic-video-sec p,
+  body.home-page-active .cinematic-video-sec span {
+    color: #ffffff !important;
+  }
+
+  /* Premium Scroll Reveal Animation Classes */
+  .reveal-fade-up {
+    opacity: 0 !important;
+    transform: translateY(35px) !important;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .reveal-fade-up.revealed {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .reveal-scale-in {
+    opacity: 0 !important;
+    transform: scale(0.95) translateY(15px) !important;
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .reveal-scale-in.revealed {
+    opacity: 1 !important;
+    transform: scale(1) translateY(0) !important;
+  }
+
+  .reveal-fade-in {
+    opacity: 0 !important;
+    transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+  .reveal-fade-in.revealed {
+    opacity: 1 !important;
+  }
+
+  /* Transition delays for staggered elements */
+  .delay-100 { transition-delay: 100ms !important; }
+  .delay-150 { transition-delay: 150ms !important; }
+  .delay-200 { transition-delay: 200ms !important; }
+  .delay-300 { transition-delay: 300ms !important; }
+  .delay-400 { transition-delay: 400ms !important; }
+
+  /* Staggered entrance animation for active hero slide components */
+  @keyframes heroEntrance {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .carousel-item.active .carousel-hero-content .badge-hero {
+    animation: heroEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 100ms;
+  }
+  .carousel-item.active .carousel-hero-content h1 {
+    animation: heroEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 200ms;
+  }
+  .carousel-item.active .carousel-hero-content p {
+    animation: heroEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 300ms;
+  }
+  .carousel-item.active .carousel-hero-content .d-flex {
+    animation: heroEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: 400ms;
+  }
+</style>
+
 <!-- Full-width Premium Hero Carousel -->
-<div id="heroCarousel" class="carousel slide container-fluid p-0 mb-4 hero-section" data-bs-ride="carousel"
-  data-bs-interval="6000">
-  <div class="carousel-inner">
-    <% if (locals.banners && banners.length> 0) { %>
-      <% banners.forEach((banner, index)=> { %>
-        <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-          <div class="carousel-hero-item" style="background-image: url('<%= banner.image %>'); cursor: pointer;"
-            onclick="window.location.href='<%= banner.link || '/toys' %>'">
-            <div class="carousel-hero-overlay">
-              <div class="container">
+<div id="heroCarousel" class="carousel slide container-fluid p-0 hero-section" data-bs-ride="carousel" data-bs-interval="6000">
+  <div class="carousel-inner h-100">
+    <% if (locals.banners && banners.length > 0) { %>
+      <% banners.forEach((banner, index) => { %>
+        <div class="carousel-item h-100 <%= index === 0 ? 'active' : '' %>">
+          <div class="carousel-hero-item h-100" style="background-image: url('<%= banner.image %>'); cursor: pointer;" onclick="window.location.href='<%= banner.link || '/toys' %>'">
+            <div class="carousel-hero-overlay h-100">
+              <div class="container h-100 d-flex align-items-center">
                 <div class="carousel-hero-content">
-                  <span class="badge-hero">Exclusive Collection</span>
-                  <h1 class="display-3 fw-black mb-3 text-white">
+                  <span class="badge badge-hero mb-3">Exclusive Collection</span>
+                  <h1 class="mb-4 text-white">
                     <%= banner.title %>
                   </h1>
-                  <p class="fs-5 mb-4 text-white-50">
+                  <p class="mb-4 text-white-50">
                     <%= banner.subtitle %>
                   </p>
                   <div class="d-flex gap-3" onclick="event.stopPropagation();">
-                    <a href="<%= banner.link || '/toys' %>" class="btn-pill btn-coral">Shop Collection</a>
-                    <a href="/toys" class="btn-pill btn-outline-white">View All Toys</a>
+                    <a href="<%= banner.link || '/toys' %>" class="hero-btn-coral">SHOP COLLECTION</a>
+                    <a href="/toys" class="hero-btn-outline">VIEW ALL TOYS</a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <% }) %>
-          <% } else { %>
-            <!-- Premium Fallback Slide -->
-            <div class="carousel-item active">
-              <div class="carousel-hero-item"
-                style="background-image: url('https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&q=80&w=1600'); cursor: pointer;"
-                onclick="window.location.href='/toys'">
-                <div class="carousel-hero-overlay">
-                  <div class="container">
-                    <div class="carousel-hero-content">
-                      <span class="badge-hero">Welcome to ToyBerry</span>
-                      <h1 class="display-3 mb-3 text-white">Premium Toys for Growing Minds</h1>
-                      <p class="fs-5 mb-4 text-white-50">Explore curated educational, STEM, and creative play sets from
-                        Hamleys, LEGO, and Melissa & Doug.</p>
-                      <div class="d-flex gap-3" onclick="event.stopPropagation();">
-                        <a href="/toys" class="btn-pill btn-coral">Shop Catalog</a>
-                        <a href="/about" class="btn-pill btn-outline-white">Our Story</a>
-                      </div>
-                    </div>
-                  </div>
+      <% }) %>
+    <% } else { %>
+      <!-- Premium Fallback Slide -->
+      <div class="carousel-item h-100 active">
+        <div class="carousel-hero-item h-100" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDOZiK0XPuud3nRaXMkCVpLGOX8G8l42U5BzblIMHmfga8knXZsRQqhJxnD5qQF_cDLUzUvbEt9EQz_jslUohnoNjrEuPTRA6QINwm9yKPr4C18rnKKv9eRhShx71YJQILBe4pgkaInZTjaXXuybLqqXq1_EbOaFe0m58PqSmT4JtKdv0rWbSKcTWZY7ynCWMEfulTgMSSgiPTgUlCvnb7lUqHCi_7M9Q18LHkcPEDwt406M_XKmtJC20mnDb8kzH1BZV0sJgZyi14'); cursor: pointer;" onclick="window.location.href='/toys'">
+          <div class="carousel-hero-overlay h-100">
+            <div class="container h-100 d-flex align-items-center">
+              <div class="carousel-hero-content">
+                <span class="badge badge-hero mb-3">Exclusive Collection</span>
+                <h1 class="mb-4 text-white">Futuristic STEM Kits</h1>
+                <p class="mb-4 text-white-50">Discover child-safe electronics, robotics, and coding kits with sub-second shipping.</p>
+                <div class="d-flex gap-3" onclick="event.stopPropagation();">
+                  <a href="/toys" class="hero-btn-coral">SHOP COLLECTION</a>
+                  <a href="/about" class="hero-btn-outline">VIEW ALL TOYS</a>
                 </div>
               </div>
             </div>
-            <% } %>
+          </div>
+        </div>
+      </div>
+    <% } %>
   </div>
 
   <!-- Carousel Navigation Controls -->
   <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-    <i class="bi bi-chevron-left fs-3"></i>
+    <i class="bi bi-chevron-left fs-3 text-white"></i>
     <span class="visually-hidden">Previous</span>
   </button>
   <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-    <i class="bi bi-chevron-right fs-3"></i>
+    <i class="bi bi-chevron-right fs-3 text-white"></i>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
 
-<!-- Featured Collections Section -->
-<style>
-  .featured-collections-sec {
-    background: linear-gradient(180deg, #edf5f4 0%, #f7faf9 100%);
-    border-radius: 24px;
-    margin: 3rem 0;
-    padding: 3.5rem 2rem;
-  }
-  .featured-collections-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.2rem;
-    color: #1a202c;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .featured-collections-underline {
-    width: 60px;
-    height: 4px;
-    background-color: #a5472a;
-    border-radius: 2px;
-    margin-bottom: 2rem;
-  }
-  .collection-card {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    height: 280px;
-    background-size: cover;
-    background-position: center;
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  }
-  .collection-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-  }
-  .collection-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.05) 100%);
-    padding: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    color: #ffffff;
-  }
-  .collection-overlay-vertical {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.05) 100%);
-    justify-content: flex-end;
-  }
-  .collection-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.25);
-  }
-  .collection-subtitle {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 0;
-    max-width: 80%;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
-  .btn-collection {
-    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
-    font-size: 0.85rem;
-    border: none;
-  }
-  .btn-collection:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(255,255,255,0.4);
-  }
-  .btn-collection-coral {
-    background-color: #a5472a;
-    color: #ffffff;
-  }
-  .btn-collection-coral:hover {
-    background-color: #8c3b22 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(165,71,42,0.4);
-  }
-</style>
+<!-- Infinite sliding Brand Marquee -->
+<section class="marquee-wrapper">
+  <div class="marquee-content">
+    <div>
+      <span class="marquee-item">LEGO</span>
+      <span class="marquee-item">Hamleys</span>
+      <span class="marquee-item">MATTEL</span>
+      <span class="marquee-item">Hasbro</span>
+      <span class="marquee-item">Melissa &amp; Doug</span>
+      <span class="marquee-item">Steiff</span>
+    </div>
+    <div>
+      <span class="marquee-item">LEGO</span>
+      <span class="marquee-item">Hamleys</span>
+      <span class="marquee-item">MATTEL</span>
+      <span class="marquee-item">Hasbro</span>
+      <span class="marquee-item">Melissa &amp; Doug</span>
+      <span class="marquee-item">Steiff</span>
+    </div>
+  </div>
+</section>
 
-<section class="container mb-5">
+<!-- Bento Featured Collections Section -->
+<section class="container py-5">
   <div class="featured-collections-sec">
     <div class="section-title-wrap">
       <h2 class="featured-collections-title">Featured Collections</h2>
-      <div class="featured-collections-underline"></div>
+      <p class="featured-collections-subtitle">Hand-picked selections for every age, interest, and stage of development.</p>
     </div>
 
-    
-    <div class="row g-4">
-      <% const validCollections = (locals.collections || []).filter(c => c.image && c.image.trim() !== ''); %>
-      <% if (validCollections.length > 0) { %>
-        <% validCollections.forEach(item => { %>
+    <div class="bento-grid">
+      <% 
+        const validCollections = (locals.collections || []).filter(c => c.image && c.image.trim() !== '');
+        const col1 = validCollections.length > 0 ? validCollections[0] : null;
+        const col2 = validCollections.length > 1 ? validCollections[1] : null;
+      %>
+
+      <!-- Large Feature Card (Left Column) -->
+      <div class="bento-large reveal-fade-up delay-100">
+        <div class="bento-bg" style="background-image: url('<%= col1 ? col1.image : 'https://lh3.googleusercontent.com/aida-public/AB6AXuB8vUGTdAMbYv-DhSjrQTk-wWcY1LP-rrZe9RMPNaLmw79_f0z11Ycgux-3w8eGpJRKUxA_FQnYFtjUqfO_QIMQdbzNx9AXYc8e5m59-m6o0hePQrJhSMqFeEmKDDsGfI0yEBY-O8uB9K_YOK93iSe66px-lnyyBKpWagGWTVTws4H7CIy2gW4Txt99v8RikI7qAdOPY5Su0Oz1BkRrXkAT5iS82lJGduu6SPfX9X5lx-NP-V7BRpsDnp5BJPUihjgKmYZYv7Wx1ik' %>');"></div>
+        <div class="bento-overlay">
+          <span class="bento-badge">Seasonal</span>
+          <h3><%= col1 ? col1.title : 'The Wooden Workshop' %></h3>
+          <p><%= col1 ? col1.subtitle : 'Sustainable, non-toxic, and built to last for generations.' %></p>
+          <a href="<%= col1 ? col1.buttonLink : '/toys' %>" class="bento-btn">
+            <%= col1 ? (col1.buttonText || 'SHOP COLLECTION') : 'SHOP COLLECTION' %>
+            <i class="bi bi-arrow-right fs-5"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Editor's Pick (Typographic Quote Card - Right Column Top) -->
+      <div class="bento-quote reveal-fade-up delay-200">
+        <div>
+          <i class="bi bi-star text-white" style="font-size: 2.2rem; display: block; margin-bottom: 1rem;"></i>
+          <h3>"Selection is everything. We only stock what we would give our own children."</h3>
+        </div>
+        <div>
+          <p class="quote-author">— Sarah Berry</p>
+          <p class="quote-role">Chief Curator</p>
+        </div>
+      </div>
+
+      <!-- Small Secondary Card (Right Column Bottom) -->
+      <div class="bento-small reveal-fade-up delay-300">
+        <a href="<%= col2 ? col2.buttonLink : '/toys' %>" style="text-decoration:none;display:block;height:100%;width:100%;">
+          <div class="bento-bg" style="background-image: url('<%= col2 ? col2.image : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAaQ3BKJrJjkcMHauX9gWDcZuFi_xPTe3XS4AGFbv4maNixi8sbU9djJrYulYML3Ty12XXNkU0HTaim2VHBdL5z_E4UpGenTk-UMpWaEWUpwzqRiTS0tLQfYrsq7SxKQW5tYwzjeImvw15sbOUQkF3xqXlaN5FI4DVXZAlky1I9p98PugUamKtTn6B5dBdjK71uV74qWKvoFdO7Z2mEu3AcS10OE8wEUfuxKhHvC-AIjjga752bcbnWyPlHSJKWnW3YzO5mtyuXSXc' %>'); height:100%; width:100%;"></div>
+          <div class="bento-overlay">
+            <h3><%= col2 ? col2.title : 'STEM Creators' %></h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Render any additional collections defined by admin -->
+    <% if (validCollections.length > 2) { %>
+      <div class="row g-4 mt-4">
+        <% validCollections.slice(2).forEach((item, idx) => { %>
           <% const colClass = item.cardSize === 'wide' ? 'col-lg-8 col-md-12' : 'col-lg-4 col-md-12'; %>
-          <div class="<%= colClass %> collection-card-wrap">
+          <div class="<%= colClass %> collection-card-wrap reveal-fade-up delay-<%= (idx % 3) * 100 %>">
             <a href="<%= item.buttonLink || '#' %>" style="text-decoration:none;display:block;">
-              <div class="collection-card">
-                <img
-                  src="<%= item.image %>"
-                  alt="collection"
-                  onerror="this.closest('.collection-card-wrap').style.display='none';"
-                  style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:20px;"
-                >
+              <div class="bento-small" style="min-height: 280px;">
+                <div class="bento-bg" style="background-image: url('<%= item.image %>');"></div>
+                <div class="bento-overlay">
+                  <h3><%= item.title %></h3>
+                </div>
               </div>
             </a>
           </div>
         <% }) %>
-      <% } else { %>
-        <div class="col-12 text-center py-5">
-          <p class="text-muted">No collections found. Manage them in the admin dashboard.</p>
-        </div>
-      <% } %>
-    </div>
+      </div>
+    <% } %>
+
   </div>
 </section>
 
-<!-- Dynamic Product Showcase (Discover Our Toys) -->
-<section class="container py-5 mb-5 overflow-hidden">
-  <div class="section-header">
-    <span class="section-subtitle-tag">Trending Now</span>
-    <h2 class="section-main-title text-white">Discover Our Toys</h2>
-    <p class="text-muted max-w-600">Hand-picked premium choices that spark imagination and discovery</p>
-  </div>
+<!-- Dynamic Product Showcase (Trending Now) -->
+<section class="trending-now-section-wrapper" style="background-color: #FFF8EE !important; border-top: 1px solid rgba(17, 17, 17, 0.1) !important; border-bottom: 1px solid rgba(17, 17, 17, 0.1) !important; width: 100% !important; padding: 5rem 0 !important; margin: 4rem 0 0px 0 !important;">
+  <div class="container overflow-hidden">
+    <div class="d-flex justify-content-between align-items-center mb-5">
+      <h2 class="featured-collections-title m-0">Trending Now</h2>
+      <div class="d-flex gap-2">
+        <!-- Direct Pagination / Showcase Controls -->
+        <a href="/toys" class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
 
-  <div class="mt-4">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-      <% if (locals.paginatedProducts && paginatedProducts.length > 0) { %>
-        <% paginatedProducts.forEach((product, index) => { %>
-          <div class="col animate-<%= (index % 2 === 0) ? 'left' : 'right' %>">
+    <div class="mt-4">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <% 
+          let displayProducts = locals.paginatedProducts;
+          if (!displayProducts || displayProducts.length === 0) {
+            // Bulletproof Premium Fallback Products
+            displayProducts = [
+              {
+                title: "Astro-Explorer Mk II",
+                slug: "astro-explorer-mk-ii",
+                price: 85.00,
+                salePrice: null,
+                images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDmeCYtIPt6WEbZj2SRvVgwEb5s9_inV2czmyZ4jiAYsxW5fZgbDBgBfA0gJfbLLgRVj_GHePdvqzYXgnHUORPqNupmfJFPXR7s2ghJbFVxJmCtmzMAxtZqdNvKsXiKIMh-rWqRAxIFL_tKx-8Wb134b9TtSwUtZLFzN1MeGxo90TU8_CBITrEhHDolJnFcyuDBkBUZZfGPDQc808hU9aW1QiuyaR1OG0lMZJMY2w5dFXJBtZxwD5NADfX56X36JWwZvf8ABAhXyNQ"],
+                stock: 10,
+                status: "In Stock"
+              },
+              {
+                title: "Red Rocket Racer",
+                slug: "red-rocket-racer",
+                price: 249.00,
+                salePrice: null,
+                images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuBYGl9SQ_yj_YBWMxINCva78IcXAZvJApFMMME_vIDlmewt8aDFPsrFGyyF_Nag1IsRfOmtvRLuoIXSCzbSbBaV4juGDZidnPXWwOLp5CVtIon_9mc7gMGqUwtE2y5CWfIj8MOIKTt4Gy5UD_Dga_1o0lH-mJQYAvdV9JAhhlgACvKoRlQ9pwBvYalCQBZnMkDHfD68VKX6hIdXeYLVVoFXGvoXhD9o0Beov1HA-lBCh7xFZTogdfMJQUBVj_LMYbv5XG4KkS6toWQ"],
+                stock: 5,
+                status: "In Stock"
+              },
+              {
+                title: "RoboCode Buddy V3",
+                slug: "robocode-buddy-v3",
+                price: 120.00,
+                salePrice: null,
+                images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuBch5QQE_rT2UVflHpnziy2g8aYqqPoZJJ4QmQaMAEjTe7XiqRzQnkZQ_6w9kEwnK3YwylQ-lSmUAyGV2TB_Mp5IjXrxC8MxM2cIQ_NexMZKoHkpPkewCHNG-s--JTcJxRZYGj5xDkcbmVBIvSn6bFumYpjNzlWX0anG5GUudai8nmpTBP3hlQbNntOtz6DeSXESUNlwRlGygN11Ib3T4KN3q25gA7t8SgaKrtPJHMLA8nQ679byoJyWzyA3oou3BoRg70EJCQyhP4"],
+                stock: 0,
+                status: "Out of Stock"
+              },
+              {
+                title: "The Enigma Forest Puzzle",
+                slug: "the-enigma-forest-puzzle",
+                price: 34.99,
+                salePrice: null,
+                images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDOPWsgptpphvP-Ap7kkKhdyQRnSN8Ka5Cr5eG6wju7L4HHbY0z8IhbOwBq0MBkUbsDo002t2o3jeE9Umr0r-hKkrIfNpfibJ5cMLrrAShQY1hLqK7cFr9ZEcTWuvrunL6ThgIldMhmwOjlU3T5JNCqz2eCgsUE-hYDGYpJkzD4mkGKrPxnm12SOdcWgxAHEsZIef5NHrBeUaePwqCBXFETPGbRRYTs7mMcgonQd3xLJDRYJgGadHf8JsEGVxHKkrR-Ffb8_JGjyxI"],
+                stock: 12,
+                status: "In Stock"
+              }
+            ];
+          }
+        %>
+        <% displayProducts.forEach((product, index) => { %>
+          <div class="col animate-<%= (index % 2 === 0) ? 'left' : 'right' %> reveal-fade-up delay-<%= (index % 4) * 100 %>">
             <%- include('../components/product-card', { product }) %>
           </div>
         <% }) %>
-      <% } else { %>
-        <div class="col-12 text-center py-5">
-          <p class="text-muted">No toys found</p>
+      </div>
+
+      <% if (locals.pagination && pagination.totalPages > 1 && locals.paginatedProducts && paginatedProducts.length > 0) { %>
+        <div id="pagination-container" class="mt-5">
+          <%- include('../components/pagination') %>
         </div>
       <% } %>
     </div>
-
-    <% if (locals.pagination && pagination.totalPages > 1) { %>
-      <div id="pagination-container" class="mt-5">
-        <%- include('../components/pagination') %>
-      </div>
-    <% } %>
   </div>
 </section>
 
-<!-- Flash Deals / Special Deal Banner (Coral Gradient) -->
-<% let flashToys=toys.dealsOfTheWeek || []; if (flashToys.length===0) { const discountedToys=[]; if (toys.featured) {
-  discountedToys.push(...toys.featured.filter(t=> t.salePrice && t.salePrice < t.price)); } if (toys.trending) {
-    discountedToys.push(...toys.trending.filter(t=> t.salePrice && t.salePrice < t.price)); }
-      flashToys=discountedToys.slice(0, 10); } if (flashToys.length===0 && toys.featured && toys.featured.length> 0) {
-      flashToys = toys.featured.slice(0, 10).map(t => {
+<!-- Flash Drop Section -->
+<% 
+  let flashToys = toys.dealsOfTheWeek || []; 
+  if (flashToys.length === 0) { 
+    const discountedToys = []; 
+    if (toys.featured) { discountedToys.push(...toys.featured.filter(t => t.salePrice && t.salePrice < t.price)); } 
+    if (toys.trending) { discountedToys.push(...toys.trending.filter(t => t.salePrice && t.salePrice < t.price)); }
+    flashToys = discountedToys.slice(0, 10); 
+  } 
+  if (flashToys.length === 0 && toys.featured && toys.featured.length > 0) {
+    flashToys = toys.featured.slice(0, 10).map(t => {
       const cloned = t.toObject ? t.toObject() : JSON.parse(JSON.stringify(t));
       cloned.salePrice = Math.round(cloned.price * 0.85);
       return cloned;
-      });
+    });
+  }
+  if (flashToys.length === 0) {
+    // Premium Fallback Flash Drop items
+    flashToys = [
+      {
+        _id: "mockdeal1",
+        title: "Golden Eagle GT",
+        slug: "golden-eagle-gt",
+        price: 250.00,
+        salePrice: 120.00,
+        images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuCtAKq4t1w1_1I3-Fof8RM_iEqsDNuq0C_gkODMk2YgPFVbIg1n0AjZTOTMI3VitEoRGw_DvkMId515HUJNNj_BDVPlP9jeUgaXvNwSoX0xGJ_UNK7A-VmR9eJZY2gw9r3h4yZ8UBrzAL4KvdzzZyn4HOOjjVsPbxZN7uyj7IcaAzpSwqXA16kR-U3LW4eSReBdsXADQGurP_E1iZzZazUawbodnE1k0DobBm2fllvt7uOFjr56c6_ZciTIVK3F-d_8VmftgQA3lTg"]
+      },
+      {
+        _id: "mockdeal2",
+        title: "Urban Kaiju Trio",
+        slug: "urban-kaiju-trio",
+        price: 89.00,
+        salePrice: 45.00,
+        images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuD6cTSv4wfHCwngBGXuhaT5IcrmKM3P9KOb8obbwxXBvgeeK6FIighcyx0ZDDI_Hgm3eDFKJozvyP5HTkse2Kv4RNmWJXaP3543u40Vqh7wQaM-CFS9J1YtkXEFBaoIK2QRi3D1o_GoQcM4IcnGAnbt188MGs5A8L9c3iOwWbl30ET2pXRmIqpHAHENcPxOaZ_MzcggVQJhrRz4E3SoH-d43d4VyQ1X1yPvasJ4FLsLSBPw-wulvpLMDbiv8jFzKSv3yby_Hoham3g"]
       }
-      %>
-      <% if (flashToys.length> 0) { %>
-        <style>
-          .deals-carousel-item {
-            flex: 0 0 calc(33.333% - 14px);
-            min-width: 250px;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-          }
-
-          @media (max-width: 991px) {
-            .deals-carousel-item {
-              flex: 0 0 calc(50% - 10px);
-            }
-          }
-
-          @media (max-width: 576px) {
-            .deals-carousel-item {
-              flex: 0 0 100%;
-            }
-          }
-
-          #deal-prev-btn:hover,
-          #deal-next-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-          }
-        </style>
-
-        <section class="container py-5 mb-5">
-          <div class="flash-deals-banner">
-            <div class="row align-items-center g-4">
-              <div class="col-lg-4 text-white">
-                <span class="badge bg-dark mb-2 px-3 py-2 text-uppercase fw-extrabold text-white"
-                  style="font-size: 0.75rem; letter-spacing: 1px;">Flash Deal</span>
-                <h2 class="fw-extrabold text-white mb-3" style="font-size: 2.4rem;">Deals of the Week</h2>
-                <p class="text-white-50 mb-4">Hurry! Grab these premium toys at limited-time discounted prices before
-                  stock runs out.</p>
-
-                <!-- Countdown Timer -->
-                <div class="d-flex gap-3 mb-4" id="flash-deal-countdown"
-                  data-end-time="<%= new Date(Date.now() + 86400 * 3000).toISOString() %>">
-                  <div class="countdown-box">
-                    <h3 id="cd-hours">72</h3>
-                    <span>Hours</span>
-                  </div>
-                  <div class="countdown-box">
-                    <h3 id="cd-mins">00</h3>
-                    <span>Mins</span>
-                  </div>
-                  <div class="countdown-box">
-                    <h3 id="cd-secs">00</h3>
-                    <span>Secs</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-8 position-relative">
-                <div class="d-flex justify-content-end align-items-center gap-3 mb-3">
-                  <span id="deals-carousel-counter"
-                    style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; font-weight: 700; font-family: monospace; letter-spacing: 0.5px;"></span>
-                  <button type="button" onclick="window.dealsCarouselState.slide('prev')"
-                    class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-                    id="deal-prev-btn"
-                    style="width: 40px; height: 40px; display: flex; position: relative; z-index: 10; pointer-events: auto !important; cursor: pointer;"
-                    aria-label="Previous Deal">
-                    <i class="bi bi-chevron-left fs-5" style="pointer-events: none;"></i>
-                  </button>
-                  <button type="button" onclick="window.dealsCarouselState.slide('next')"
-                    class="btn btn-outline-light rounded-circle p-0 d-flex align-items-center justify-content-center"
-                    id="deal-next-btn"
-                    style="width: 40px; height: 40px; display: flex; position: relative; z-index: 10; pointer-events: auto !important; cursor: pointer;"
-                    aria-label="Next Deal">
-                    <i class="bi bi-chevron-right fs-5" style="pointer-events: none;"></i>
-                  </button>
-                </div>
-                <div class="deals-carousel-viewport" style="overflow: hidden; width: 100%; touch-action: pan-y;">
-                  <div class="deals-carousel-track d-flex flex-nowrap"
-                    style="transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); gap: 20px; flex-wrap: nowrap !important; transform: translate3d(0, 0, 0); will-change: transform;">
-                    <% flashToys.forEach((product)=> { %>
-                      <div class="deals-carousel-item" style="flex-shrink: 0 !important;">
-                        <%- include('../components/product-card', { product, showDiscountBadge: true }) %>
-                      </div>
-                      <% }) %>
-                  </div>
-                </div>
-              </div>
+    ];
+  }
+%>
+<% if (flashToys.length > 0) { %>
+  <section class="flash-drop-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-4 reveal-fade-up">
+          <h2 class="flash-drop-title mb-3" style="color:#ffffff !important;">Flash <br><span style="color:#E8291C !important;">Drop.</span></h2>
+          <p class="mb-4 fs-5" style="max-width: 320px; color: rgba(255, 255, 255, 0.75) !important;">Exclusive 24-hour deals on our most-wanted toys and collectibles. When they're gone, they're gone.</p>
+          
+          <!-- Countdown Timer -->
+          <div class="d-flex align-items-center gap-3 mb-5 text-white" id="flash-deal-countdown" data-end-time="<%= new Date(Date.now() + 86400 * 3000).toISOString() %>">
+            <div class="text-center">
+              <div class="flash-drop-timer-box" id="cd-hours" style="color:#E8291C !important;">23</div>
+              <span class="text-uppercase small fw-bold mt-1 d-block" style="font-size: 0.72rem; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.5) !important;">Hours</span>
+            </div>
+            <div class="flash-drop-timer-box" style="color:#E8291C !important;">:</div>
+            <div class="text-center">
+              <div class="flash-drop-timer-box" id="cd-mins" style="color:#E8291C !important;">59</div>
+              <span class="text-uppercase small fw-bold mt-1 d-block" style="font-size: 0.72rem; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.5) !important;">Mins</span>
+            </div>
+            <div class="flash-drop-timer-box" style="color:#E8291C !important;">:</div>
+            <div class="text-center">
+              <div class="flash-drop-timer-box" id="cd-secs" style="color:#E8291C !important;">59</div>
+              <span class="text-uppercase small fw-bold mt-1 d-block" style="font-size: 0.72rem; letter-spacing: 0.1em; color: rgba(255, 255, 255, 0.5) !important;">Secs</span>
             </div>
           </div>
-        </section>
-
-        <script>
-          (function () {
-            window.dealsCarouselState = {
-              currentIndex: 0,
-              getVisibleItems: function () {
-                if (window.innerWidth <= 576) return 1;
-                if (window.innerWidth <= 991) return 2;
-                return 3;
-              },
-              slide: function (direction) {
-                const track = document.querySelector('.deals-carousel-track');
-                if (!track) return;
-                const items = track.querySelectorAll('.deals-carousel-item');
-                if (items.length === 0) return;
-
-                const totalItems = items.length;
-                const visibleItems = this.getVisibleItems();
-                const maxIndex = Math.max(0, totalItems - visibleItems);
-
-                if (maxIndex === 0) return;
-
-                if (direction === 'next') {
-                  if (this.currentIndex < maxIndex) {
-                    this.currentIndex++;
-                  } else {
-                    this.currentIndex = 0;
-                  }
-                } else if (direction === 'prev') {
-                  if (this.currentIndex > 0) {
-                    this.currentIndex--;
-                  } else {
-                    this.currentIndex = maxIndex;
-                  }
-                }
-                this.update();
-              },
-              update: function () {
-                const track = document.querySelector('.deals-carousel-track');
-                const prevBtn = document.getElementById('deal-prev-btn');
-                const nextBtn = document.getElementById('deal-next-btn');
-                const viewport = document.querySelector('.deals-carousel-viewport');
-                const counter = document.getElementById('deals-carousel-counter');
-                if (!track || !viewport) return;
-
-                const items = track.querySelectorAll('.deals-carousel-item');
-                if (items.length === 0) return;
-
-                const totalItems = items.length;
-                const visibleItems = this.getVisibleItems();
-                const maxIndex = Math.max(0, totalItems - visibleItems);
-
-                if (maxIndex === 0) {
-                  if (prevBtn) prevBtn.style.display = 'none';
-                  if (nextBtn) nextBtn.style.display = 'none';
-                  track.style.transform = 'translate3d(0, 0, 0)';
-                  if (counter) counter.textContent = '';
-                  return;
-                } else {
-                  if (prevBtn) prevBtn.style.display = 'flex';
-                  if (nextBtn) nextBtn.style.display = 'flex';
-                }
-
-                if (this.currentIndex > maxIndex) {
-                  this.currentIndex = maxIndex;
-                }
-
-                const firstItem = items[0];
-                const itemWidth = firstItem.getBoundingClientRect().width || firstItem.offsetWidth;
-                const computedStyle = window.getComputedStyle(track);
-                const gap = parseFloat(computedStyle.gap) || 20;
-
-                const amountToMove = this.currentIndex * (itemWidth + gap);
-                track.style.transform = `translate3d(-${amountToMove}px, 0, 0)`;
-
-                if (counter) {
-                  counter.textContent = `${this.currentIndex + 1} / ${maxIndex + 1}`;
-                }
-              }
-            };
-
-            // Set up listeners
-            if (window.ResizeObserver) {
-              const viewport = document.querySelector('.deals-carousel-viewport');
-              if (viewport) {
-                const observer = new ResizeObserver(() => {
-                  window.dealsCarouselState.update();
-                });
-                observer.observe(viewport);
-              }
-            } else {
-              window.addEventListener('resize', () => window.dealsCarouselState.update());
-            }
-
-            window.addEventListener('load', () => window.dealsCarouselState.update());
-            document.addEventListener('DOMContentLoaded', () => window.dealsCarouselState.update());
-
-            // Touch swipe detection for mobile users
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchEndX = 0;
-            let touchEndY = 0;
-
-            const viewportEl = document.querySelector('.deals-carousel-viewport');
-            if (viewportEl) {
-              viewportEl.addEventListener('touchstart', (e) => {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-              }, { passive: true });
-
-              viewportEl.addEventListener('touchend', (e) => {
-                touchEndX = e.changedTouches[0].clientX;
-                touchEndY = e.changedTouches[0].clientY;
-
-                const thresholdX = 40; // minimum horizontal swipe distance
-                const thresholdY = 60; // maximum vertical deviation to ignore swipe if scrolling the page
-                const diffX = touchStartX - touchEndX;
-                const diffY = Math.abs(touchStartY - touchEndY);
-
-                if (Math.abs(diffX) > thresholdX && diffY < thresholdY) {
-                  if (diffX > 0) {
-                    window.dealsCarouselState.slide('next');
-                  } else {
-                    window.dealsCarouselState.slide('prev');
-                  }
-                }
-              }, { passive: true });
-            }
-
-            // Initial settles
-            window.dealsCarouselState.update();
-            setTimeout(() => window.dealsCarouselState.update(), 100);
-            setTimeout(() => window.dealsCarouselState.update(), 500);
-            setTimeout(() => window.dealsCarouselState.update(), 1000);
-          })();
-        </script>
-        <% } %>
-
-          <!-- Brands Section -->
-          <section class="py-5 mb-5"
-            style="background: transparent; border-top: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06);">
-            <div class="container">
-              <div class="row align-items-center justify-content-center text-center g-5">
-                <div class="col-6 col-md-3 brand-item">
-                  <span class="fw-black text-white"
-                    style="font-size: 1.6rem; letter-spacing: -1px; font-family: var(--font-family);">
-                    <span style="background: #FF6B35; color: white; padding: 4px 10px; border-radius: 6px;">LEGO</span>
-                  </span>
-                </div>
-                <div class="col-6 col-md-3 brand-item">
-                  <span class="fw-bold" style="font-size: 1.7rem; color: #FF6B35;">Hamleys</span>
-                </div>
-                <div class="col-6 col-md-3 brand-item">
-                  <span class="fw-semibold text-white-50" style="font-size: 1.5rem; letter-spacing: 0.5px;">Melissa &
-                    Doug</span>
-                </div>
-                <div class="col-6 col-md-3 brand-item">
-                  <span class="fw-black text-white" style="font-size: 1.6rem; font-family: var(--font-family);">
-                    <span
-                      style="background: #00E5A0; color: #0B0F1A; padding: 4px 10px; border-radius: 50%;">Play-Doh</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- Featured Video Section -->
-          <style>
-            .video-preview-wrapper {
-              transition: transform 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            .video-preview-wrapper:hover {
-              transform: translateY(-5px);
-              box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
-            }
-
-            .video-preview-wrapper:hover .video-thumbnail {
-              transform: scale(1.03);
-              filter: brightness(1.15);
-            }
-
-            .video-preview-wrapper:hover .video-overlay {
-              background: rgba(0, 0, 0, 0.2) !important;
-            }
-
-            .video-preview-wrapper:hover .play-btn-glow {
-              transform: scale(1.1);
-              background: #ff7c4d !important;
-              box-shadow: 0 0 50px rgba(255, 107, 53, 0.9) !important;
-            }
-
-            .video-thumbnail {
-              transition: transform 0.5s ease, filter 0.5s ease;
-              object-fit: cover;
-            }
-
-            .play-btn-glow {
-              animation: play-pulse 2s infinite;
-              transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-            }
-
-            @keyframes play-pulse {
-              0% {
-                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7);
-              }
-
-              70% {
-                box-shadow: 0 0 0 20px rgba(255, 107, 53, 0);
-              }
-
-              100% {
-                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
-              }
-            }
-          </style>
-
-          <section class="container py-5 mb-5" data-aos="fade-up">
-            <div class="section-header">
-              <span class="section-subtitle-tag">See Us in Action</span>
-              <h2 class="section-main-title text-white">Experience ToyBerry</h2>
-              <p class="text-muted max-w-600">Take a look at our premium toy collections, unboxings, and see why kids
-                love our products!</p>
-            </div>
-            <div class="row justify-content-center mt-4">
-              <div class="col-lg-10">
-                <a href="https://youtu.be/iJ-rXAGwz78?si=BeryBPGuVcImiuyg" target="_blank"
-                  class="text-decoration-none d-block video-preview-wrapper position-relative overflow-hidden"
-                  style="border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); border: 1px solid rgba(255, 255, 255, 0.1);">
-                  <div class="ratio ratio-16x9 position-relative">
-                    <!-- Official YouTube Video Thumbnail -->
-                    <img src="https://img.youtube.com/vi/iJ-rXAGwz78/maxresdefault.jpg" alt="ToyBerry Video Preview"
-                      class="w-100 h-100 video-thumbnail"
-                      onerror="this.src='https://img.youtube.com/vi/iJ-rXAGwz78/hqdefault.jpg'">
-                    <!-- Video Hover Overlay & Pulsing Play Button -->
-                    <div
-                      class="video-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
-                      style="background: rgba(0,0,0,0.45); transition: background 0.3s ease;">
-                      <div class="play-btn-glow d-flex align-items-center justify-content-center"
-                        style="width: 85px; height: 85px; border-radius: 50%; background: #FF6B35; color: white; box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);">
-                        <i class="bi bi-play-fill" style="font-size: 3.5rem; margin-left: 6px;"></i>
+          
+          <a href="/toys" class="btn pulse-accent">VIEW ALL DEALS</a>
+        </div>
+        
+        <div class="col-lg-8">
+          <div class="row g-4">
+            <% flashToys.slice(0, 4).forEach((product, idx) => { %>
+              <% 
+                const primaryImg = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.png';
+                const finalPrice = product.salePrice || product.price;
+                const originalPrice = product.price;
+                const soldPct = Math.min(95, Math.max(30, (product._id && product._id.toString().length === 24 ? parseInt(product._id.toString().substring(18, 24), 16) % 65 : 45) + 30));
+              %>
+              <div class="col-md-6 reveal-scale-in delay-<%= (idx % 2) * 150 %>">
+                <a href="/toys/<%= product.slug %>" class="text-decoration-none text-white d-block">
+                  <div class="flash-drop-product">
+                    <div class="flash-drop-img-box">
+                      <img src="<%= primaryImg %>" alt="<%= product.title %>">
+                    </div>
+                    <div class="d-flex flex-column justify-content-between flex-grow-1">
+                      <div>
+                        <h4 class="fs-5 fw-bold mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; color: #ffffff !important;"><%= product.title %></h4>
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="price-drop-accent fs-5" style="color: #E8291C !important; font-weight:700;">₹<%= finalPrice.toFixed(2) %></span>
+                          <% if (product.salePrice) { %>
+                            <span class="price-original-accent small" style="color: rgba(255, 255, 255, 0.5) !important; text-decoration: line-through;">₹<%= originalPrice.toFixed(2) %></span>
+                          <% } %>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="progress-sold">
+                          <div class="progress-sold-bar" style="width: <%= soldPct %>%"></div>
+                        </div>
+                        <span class="mt-1 d-block" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; color: rgba(255,255,255,0.6) !important;"><%= soldPct %>% SOLD OUT</span>
                       </div>
                     </div>
                   </div>
                 </a>
               </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% } %>
+
+<!-- Cinematic Video Section -->
+<section class="cinematic-video-sec reveal-fade-in">
+  <div class="cinematic-video-bg"></div>
+  <div class="cinematic-video-overlay"></div>
+  <div class="position-relative z-3 text-center text-white px-4">
+    <a href="https://youtube.com/@toyberry-surat?si=2Q7XAmiL6dzGQJsZ" target="_blank" class="play-btn-circle text-decoration-none" id="playVideoBtn">
+      <i class="bi bi-play-fill text-white fs-1 ms-1"></i>
+    </a>
+    <h2 class="font-headline-xl text-white italic mb-3 max-w-3xl mx-auto" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; color: #ffffff !important;">"Every toy has a story. We help you write the first chapter."</h2>
+    <p class="text-uppercase text-white-50 mt-4 tracking-widest fw-bold" style="font-size: 0.85rem; letter-spacing: 0.3em; color: rgba(255, 255, 255, 0.75) !important;">The Art of Play (Film 2026)</p>
+  </div>
+</section>
+
+<!-- Lightweight YouTube Video Modal -->
+<div id="videoModal" class="d-none" style="position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.9); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+  <button id="closeVideoBtn" style="position: absolute; top: 30px; right: 30px; background: transparent; border: none; color: white; font-size: 3rem; cursor: pointer; z-index: 10001; line-height: 1;">&times;</button>
+  <div style="position: relative; width: 90%; max-width: 900px; aspect-ratio: 16/9; background: black; border: 1px solid #111111; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+    <iframe id="videoPlayerFrame" src="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</div>
+
+<!-- Frequently Asked Questions side-by-side layout -->
+<% if (locals.faqs && faqs.length > 0) { %>
+  <section class="container py-5 my-5">
+    <div class="faq-row-layout">
+      <!-- FAQ Left: Sticky title and support concierge block -->
+      <div class="faq-left-col reveal-fade-up">
+        <h2 class="featured-collections-title text-black" style="font-size: 3.5rem; line-height: 1.1;">Frequently <br>Asked Questions</h2>
+        <p class="fs-5 text-muted mb-5 mt-3" style="max-width: 320px;">Everything you need to know about our sourcing, shipping, and heirloom return policies.</p>
+        
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center justify-content-center bg-danger rounded-circle text-white" style="width: 50px; height: 50px;">
+            <i class="bi bi-headset fs-4 text-white"></i>
+          </div>
+          <div>
+            <p class="fw-bold mb-1 text-black">Still have questions?</p>
+            <a href="/contact" class="text-danger hover-underline fw-bold text-decoration-none">Contact our concierge team</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Right: Accordion items custom styled -->
+      <div class="faq-right-col mt-4 mt-md-0">
+        <% faqs.forEach((faq, index) => { %>
+          <div class="faq-item-custom reveal-fade-up delay-<%= (index % 5) * 100 %>">
+            <button class="faq-btn-custom" type="button">
+              <span><%= faq.question %></span>
+              <i class="bi bi-plus-lg faq-icon-custom"></i>
+            </button>
+            <div class="faq-content-custom d-none">
+              <%= faq.answer %>
             </div>
-          </section>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+<% } else { %>
+  <!-- Premium Fallback FAQs if Database FAQs not populated -->
+  <section class="container py-5 my-5">
+    <div class="faq-row-layout">
+      <div class="faq-left-col">
+        <h2 class="featured-collections-title text-black" style="font-size: 3.5rem; line-height: 1.1;">Frequently <br>Asked Questions</h2>
+        <p class="fs-5 text-muted mb-5 mt-3" style="max-width: 320px;">Everything you need to know about our sourcing, shipping, and heirloom return policies.</p>
+        
+        <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center justify-content-center bg-danger rounded-circle text-white" style="width: 50px; height: 50px;">
+            <i class="bi bi-headset fs-4 text-white"></i>
+          </div>
+          <div>
+            <p class="fw-bold mb-1 text-black">Still have questions?</p>
+            <a href="/contact" class="text-danger hover-underline fw-bold text-decoration-none">Contact our concierge team</a>
+          </div>
+        </div>
+      </div>
 
-          <!-- WhatsApp Group Daily Updates Homepage Banner -->
-          <section class="container py-5 mb-5 overflow-hidden">
-            <div class="row justify-content-center" data-aos="fade-up">
-              <div class="col-lg-10">
-                <div
-                  class="card border-0 shadow-lg rounded-4 p-5 text-center text-white position-relative overflow-hidden"
-                  style="background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);">
-                  <!-- Decorative background elements -->
-                  <div class="position-absolute end-0 bottom-0 opacity-10"
-                    style="font-size: 12rem; transform: translate(30px, 40px);">
-                    <i class="bi bi-whatsapp"></i>
-                  </div>
-                  <div class="position-relative z-1 py-2">
-                    <span class="badge bg-white text-success fw-bold text-uppercase px-3 py-2 mb-3 rounded-pill"
-                      style="font-size: 0.75rem;">Daily Updates Channel</span>
-                    <h2 class="fw-extrabold mb-3 text-white display-5">Join Our Official WhatsApp Group</h2>
-                    <p class="mx-auto mb-4 text-white-50 fs-5" style="max-width: 600px;">Get first-hand daily updates on
-                      premium toy arrivals, flash sales, custom wooden collection updates, and stock availability
-                      notices!</p>
-                    <a href="https://chat.whatsapp.com/FMz7qU3xDCOFlJYFw4aCYZ" target="_blank"
-                      class="btn btn-light rounded-pill px-5 py-3 fw-extrabold text-success shadow fs-6 hover-scale d-inline-flex align-items-center">
-                      <i class="bi bi-whatsapp me-2 fs-5"></i>Join Updates Group
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+      <div class="faq-right-col mt-4 mt-md-0">
+        <div class="faq-item-custom">
+          <button class="faq-btn-custom" type="button">
+            <span>Where do you source your toys?</span>
+            <i class="bi bi-plus-lg faq-icon-custom"></i>
+          </button>
+          <div class="faq-content-custom d-none">
+            We partner with over 450 artisan makers and heritage brands globally, focusing on sustainable materials, ethical labor, and timeless design quality.
+          </div>
+        </div>
+        <div class="faq-item-custom">
+          <button class="faq-btn-custom" type="button">
+            <span>How fast is international shipping?</span>
+            <i class="bi bi-plus-lg faq-icon-custom"></i>
+          </button>
+          <div class="faq-content-custom d-none">
+            We offer express 48-hour delivery to major global hubs and standard tracked shipping (5-7 days) everywhere else.
+          </div>
+        </div>
+        <div class="faq-item-custom">
+          <button class="faq-btn-custom" type="button">
+            <span>What is your "Heirloom Guarantee"?</span>
+            <i class="bi bi-plus-lg faq-icon-custom"></i>
+          </button>
+          <div class="faq-content-custom d-none">
+            Our Heirloom Guarantee means we offer lifetime repairs on any wooden toy purchased from us, ensuring it can be passed down for generations.
+          </div>
+        </div>
+        <div class="faq-item-custom">
+          <button class="faq-btn-custom" type="button">
+            <span>Do you offer gift wrapping?</span>
+            <i class="bi bi-plus-lg faq-icon-custom"></i>
+          </button>
+          <div class="faq-content-custom d-none">
+            Yes, we provide bespoke gift wrapping with recycled materials and hand-lettered cards for a truly premium unboxing experience.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% } %>
 
-          <!-- Frequently Asked Questions -->
-          <% if (locals.faqs && faqs.length> 0) { %>
-            <section class="container py-5 mb-5">
-              <div class="section-header">
-                <span class="section-subtitle-tag">Got Questions?</span>
-                <h2 class="section-main-title text-white">Frequently Asked Questions</h2>
-                <p class="text-muted max-w-600">Explore common answers regarding safety, shipping, and return policies
-                </p>
-              </div>
-              <div class="row justify-content-center">
-                <div class="col-lg-8">
-                  <div class="accordion" id="faqAccordion">
-                    <% faqs.forEach((faq, index)=> { %>
-                      <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading<%= index %>">
-                          <button class="accordion-button <%= index !== 0 ? 'collapsed' : '' %>" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>"
-                            aria-expanded="<%= index === 0 %>" aria-controls="collapse<%= index %>">
-                            <%= faq.question %>
-                          </button>
-                        </h2>
-                        <div id="collapse<%= index %>"
-                          class="accordion-collapse collapse <%= index === 0 ? 'show' : '' %>"
-                          aria-labelledby="heading<%= index %>" data-bs-parent="#faqAccordion">
-                          <div class="accordion-body">
-                            <%= faq.answer %>
-                          </div>
-                        </div>
-                      </div>
-                      <% }) %>
-                  </div>
-                </div>
-              </div>
-            </section>
-            <% } %>
+<!-- WhatsApp Community Bento banner -->
+<section class="container py-5 mb-5 reveal-scale-in">
+  <div class="whatsapp-bento-card border border-dark rounded-4">
+    <!-- Overlay graphic element -->
+    <div class="position-absolute end-0 bottom-0 opacity-10" style="font-size: 15rem; transform: translate(30px, 40px); pointer-events: none;">
+      <i class="bi bi-whatsapp text-white"></i>
+    </div>
+    
+    <div class="position-relative z-3">
+      <h2 class="fw-extrabold mb-3 text-white display-5 font-headline-xl" style="font-family: 'Fraunces', serif !important;">Join the Playroom</h2>
+      <p class="mb-4 text-white-50 fs-5" style="max-width: 600px;">Be the first to know about secret drops, warehouse sales, and community-exclusive events via our WhatsApp group.</p>
+      <a href="https://chat.whatsapp.com/FMz7qU3xDCOFlJYFw4aCYZ" target="_blank" class="btn whatsapp-btn-custom">
+        <i class="bi bi-whatsapp fs-5"></i> JOIN COMMUNITY
+      </a>
+    </div>
+  </div>
+</section>
 
+<!-- Footer Ajax Newsletter subscription and dynamic script bindings -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 2. Custom FAQ Accordion Toggler
+    document.querySelectorAll('.faq-btn-custom').forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        const icon = button.querySelector('.faq-icon-custom');
+        const isHidden = content.classList.contains('d-none');
+        
+        // Close all other accordion items
+        document.querySelectorAll('.faq-content-custom').forEach(c => c.classList.add('d-none'));
+        document.querySelectorAll('.faq-icon-custom').forEach(i => {
+          i.classList.remove('rotate-45');
+        });
 
+        // Toggle clicked item
+        if (isHidden) {
+          content.classList.remove('d-none');
+          icon.classList.add('rotate-45');
+        }
+      });
+    });
 
-              <!-- Countdown Timer JS script -->
-              <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                  const countdownEl = document.getElementById('flash-deal-countdown');
-                  if (countdownEl) {
-                    const endTimeStr = countdownEl.getAttribute('data-end-time');
-                    const endTime = new Date(endTimeStr).getTime();
+    // 3. Countdown timer logic
+    const countdownEl = document.getElementById('flash-deal-countdown');
+    if (countdownEl) {
+      const endTimeStr = countdownEl.getAttribute('data-end-time');
+      const endTime = new Date(endTimeStr).getTime();
 
-                    const hoursVal = document.getElementById('cd-hours');
-                    const minsVal = document.getElementById('cd-mins');
-                    const secsVal = document.getElementById('cd-secs');
+      const hoursVal = document.getElementById('cd-hours');
+      const minsVal = document.getElementById('cd-mins');
+      const secsVal = document.getElementById('cd-secs');
 
-                    function updateCountdown() {
-                      const now = new Date().getTime();
-                      const diff = endTime - now;
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const diff = endTime - now;
 
-                      if (diff <= 0) {
-                        clearInterval(timerInterval);
-                        if (hoursVal) hoursVal.textContent = '00';
-                        if (minsVal) minsVal.textContent = '00';
-                        if (secsVal) secsVal.textContent = '00';
-                        return;
-                      }
+        if (diff <= 0) {
+          clearInterval(timerInterval);
+          if (hoursVal) hoursVal.textContent = '00';
+          if (minsVal) minsVal.textContent = '00';
+          if (secsVal) secsVal.textContent = '00';
+          return;
+        }
 
-                      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const secs = Math.floor((diff % (1000 * 60)) / 1000);
 
-                      if (hoursVal) hoursVal.textContent = hours.toString().padStart(2, '0');
-                      if (minsVal) minsVal.textContent = mins.toString().padStart(2, '0');
-                      if (secsVal) secsVal.textContent = secs.toString().padStart(2, '0');
-                    }
+        if (hoursVal) hoursVal.textContent = hours.toString().padStart(2, '0');
+        if (minsVal) minsVal.textContent = mins.toString().padStart(2, '0');
+        if (secsVal) secsVal.textContent = secs.toString().padStart(2, '0');
+      }
 
-                    updateCountdown();
-                    const timerInterval = setInterval(updateCountdown, 1000);
-                  }
+      updateCountdown();
+      const timerInterval = setInterval(updateCountdown, 1000);
+    }
 
-                  // Intersection Observer for Left/Right slide-in animations
-                  const cardObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                      if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                      }
-                    });
-                  }, { threshold: 0.05 });
+    // 4. Scroll Animation Observer for product cards and reveal animations
+    const revealElements = document.querySelectorAll('.animate-left, .animate-right, .reveal-fade-up, .reveal-scale-in, .reveal-fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.classList.add('revealed');
+          // Stop observing to improve scroll performance
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: "0px 0px -40px 0px"
+    });
+    revealElements.forEach(el => observer.observe(el));
 
-                  document.querySelectorAll('.animate-left, .animate-right').forEach(el => cardObserver.observe(el));
+    // 5. Cinematic Video Modal Toggler
+    const playVideoBtn = document.getElementById('playVideoBtn');
+    const videoModal = document.getElementById('videoModal');
+    const closeVideoBtn = document.getElementById('closeVideoBtn');
+    const videoPlayerFrame = document.getElementById('videoPlayerFrame');
 
-                  // Ajax newsletter subscription form
-                  const newsForm = document.getElementById('newsletter-form-home');
-                  const newsMsg = document.getElementById('newsletter-message');
-                  if (newsForm && newsMsg) {
-                    newsForm.addEventListener('submit', async (e) => {
-                      e.preventDefault();
-                      const emailInput = newsForm.querySelector('input[type="email"]');
-                      const email = emailInput.value;
+    if (playVideoBtn && videoModal && closeVideoBtn && videoPlayerFrame) {
+      playVideoBtn.addEventListener('click', (e) => {
+        const href = playVideoBtn.getAttribute('href');
+        
+        // If it is a channel link (cannot be embedded in iframes), open in new tab
+        if (href.includes('/@') || href.includes('/channel/') || href.includes('/user/')) {
+          return; // Let the browser handle standard anchor navigation to _blank
+        }
+        
+        e.preventDefault();
+        let embedUrl = href;
+        if (href.includes('youtube.com/watch?v=')) {
+          const videoId = href.split('v=')[1].split('&')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        } else if (href.includes('youtu.be/')) {
+          const videoId = href.split('youtu.be/')[1].split('?')[0];
+          embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        } else if (!href.includes('embed')) {
+          embedUrl = "https://www.youtube.com/embed/iJ-rXAGwz78?autoplay=1";
+        }
+        
+        videoPlayerFrame.src = embedUrl;
+        videoModal.classList.remove('d-none');
+        setTimeout(() => {
+          videoModal.style.opacity = '1';
+        }, 10);
+      });
 
-                      try {
-                        const response = await fetch('/api/newsletter/subscribe', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json'
-                          },
-                          body: JSON.stringify({ email })
-                        });
-                        const data = await response.json();
+      closeVideoBtn.addEventListener('click', () => {
+        videoModal.style.opacity = '0';
+        setTimeout(() => {
+          videoModal.classList.add('d-none');
+          videoPlayerFrame.src = "";
+        }, 300);
+      });
 
-                        newsMsg.classList.remove('d-none', 'text-danger', 'text-success');
-                        if (data.success) {
-                          newsMsg.classList.add('text-success');
-                          newsMsg.textContent = data.message || 'Thank you for subscribing!';
-                          emailInput.value = '';
-                        } else {
-                          newsMsg.classList.add('text-danger');
-                          newsMsg.textContent = data.message || 'Subscription failed. Please try again.';
-                        }
-                      } catch (err) {
-                        newsMsg.classList.remove('d-none');
-                        newsMsg.classList.add('text-danger');
-                        newsMsg.textContent = 'A network error occurred. Please try again.';
-                      }
-                    });
-                  }
-                });
-              </script>
+      // Close modal when clicking outside the video container
+      videoModal.addEventListener('click', (e) => {
+        if (e.target === videoModal) {
+          closeVideoBtn.click();
+        }
+      });
+    }
+  });
+</script>

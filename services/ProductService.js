@@ -38,17 +38,17 @@ class ProductService {
     return { product, related, reviews };
   }
 
-  async getFilteredProducts({ category, brand, minPrice, maxPrice, search, sort, limit, skip }) {
-    const filter = { status: { $ne: 'Inactive' } };
+  async getFilteredProducts({ category, brand, minPrice, maxPrice, search, sort, inStore, outOfStock, ageRange, limit, skip }) {
+    const conditions = [{ status: { $ne: 'Inactive' } }];
 
     if (category) {
       const catObj = await Category.findOne({ slug: category });
-      if (catObj) filter.category = catObj._id;
+      if (catObj) conditions.push({ category: catObj._id });
     }
 
     if (brand) {
       const brandObj = await Brand.findOne({ slug: brand });
-      if (brandObj) filter.brand = brandObj._id;
+      if (brandObj) conditions.push({ brand: brandObj._id });
     }
 
     if (search) {
@@ -59,20 +59,83 @@ class ProductService {
       const matchingCategories = await Category.find({ name: { $regex: escapedSearch, $options: 'i' } });
       const catIds = matchingCategories.map(c => c._id);
 
-      filter.$or = [
-        { title: { $regex: escapedSearch, $options: 'i' } },
-        { description: { $regex: escapedSearch, $options: 'i' } },
-        { tags: { $regex: escapedSearch, $options: 'i' } },
-        { brand: { $in: brandIds } },
-        { category: { $in: catIds } }
-      ];
+      conditions.push({
+        $or: [
+          { title: { $regex: escapedSearch, $options: 'i' } },
+          { description: { $regex: escapedSearch, $options: 'i' } },
+          { tags: { $regex: escapedSearch, $options: 'i' } },
+          { brand: { $in: brandIds } },
+          { category: { $in: catIds } }
+        ]
+      });
     }
 
     if ((minPrice !== undefined && minPrice !== '') || (maxPrice !== undefined && maxPrice !== '')) {
-      filter.price = {};
-      if (minPrice !== undefined && minPrice !== '') filter.price.$gte = Number(minPrice);
-      if (maxPrice !== undefined && maxPrice !== '') filter.price.$lte = Number(maxPrice);
+      const min = minPrice !== undefined && minPrice !== '' ? Number(minPrice) : 0;
+      const max = maxPrice !== undefined && maxPrice !== '' ? Number(maxPrice) : Infinity;
+
+      conditions.push({
+        $or: [
+          {
+            salePrice: { $exists: true, $ne: null },
+            salePrice: { $gte: min, $lte: max }
+          },
+          {
+            $or: [
+              { salePrice: { $exists: false } },
+              { salePrice: null }
+            ],
+            price: { $gte: min, $lte: max }
+          }
+        ]
+      });
     }
+
+    // Availability Filter
+    const activeInStore = (inStore === undefined && outOfStock === undefined) ? 'true' : inStore;
+    const activeOutOfStock = (inStore === undefined && outOfStock === undefined) ? 'false' : outOfStock;
+
+    if (activeInStore === 'true' && activeOutOfStock !== 'true') {
+      conditions.push({
+        stock: { $gt: 0 },
+        status: { $ne: 'Out of Stock' }
+      });
+    } else if (activeOutOfStock === 'true' && activeInStore !== 'true') {
+      conditions.push({
+        $or: [
+          { stock: { $lte: 0 } },
+          { status: 'Out of Stock' }
+        ]
+      });
+    }
+
+    // Age Range Filter
+    if (ageRange) {
+      if (ageRange === '0-3') {
+        conditions.push({
+          $or: [
+            { tags: { $in: ['0-3', 'baby', 'toddler'] } },
+            { 'specs.ageGroup': { $regex: /0-3|toddler|baby|1|2|3/i } }
+          ]
+        });
+      } else if (ageRange === '4-8') {
+        conditions.push({
+          $or: [
+            { tags: { $in: ['4-8', 'kids'] } },
+            { 'specs.ageGroup': { $regex: /4-8|kids|4|5|6|7|8/i } }
+          ]
+        });
+      } else if (ageRange === '9+') {
+        conditions.push({
+          $or: [
+            { tags: { $in: ['9+', 'teen', '9-12'] } },
+            { 'specs.ageGroup': { $regex: /9|10|11|12|13|14|teen/i } }
+          ]
+        });
+      }
+    }
+
+    const filter = conditions.length > 1 ? { $and: conditions } : conditions[0];
 
     let sortOption = { createdAt: -1 };
     if (sort === 'price-low') sortOption = { price: 1 };

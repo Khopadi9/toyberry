@@ -9,7 +9,7 @@ const PaginationHelper = require('../../helpers/paginationHelper');
 class ProductController extends BaseController {
   async list(req, res) {
     try {
-      const { category, brand, minPrice, maxPrice, search, sort, page: qPage, limit: qLimit } = req.query;
+      const { category, brand, minPrice, maxPrice, search, sort, inStore, outOfStock, ageRange, page: qPage, limit: qLimit } = req.query;
       const { page, limit, skip } = PaginationHelper.getPaginationParams(qPage, qLimit, 12);
 
       const { products, total } = await ProductService.getFilteredProducts({
@@ -19,6 +19,9 @@ class ProductController extends BaseController {
         maxPrice,
         search,
         sort,
+        inStore,
+        outOfStock,
+        ageRange,
         limit,
         skip
       });
@@ -41,7 +44,7 @@ class ProductController extends BaseController {
         categories,
         brands,
         pagination,
-        filters: { category, brand, minPrice, maxPrice, search, sort },
+        filters: { category, brand, minPrice, maxPrice, search, sort, inStore, outOfStock, ageRange },
         seo: {
           title: 'Shop Toys | ToyBerry',
           description: 'Browse through our premium selection of toys. Filter by category, price, and brand.'

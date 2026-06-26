@@ -1,92 +1,715 @@
-<div class="container py-4">
-  <!-- Breadcrumb -->
-  <%- include('../components/breadcrumb', { breadcrumbs: [{ name: 'Catalog', url: '/toys' }] }) %>
+<div class="catalog-page-wrapper">
+  <div class="container">
 
-  <!-- Top Horizontal Filter Bar -->
-  <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
-    <form action="/toys" method="GET" id="catalog-filter-form" class="row g-3 align-items-end">
-      
-      <!-- Price Range Filter Column -->
-      <div class="col-md-4 col-lg-3">
-        <label class="fw-bold text-muted text-uppercase mb-2 d-block" style="font-size: 0.75rem; letter-spacing: 0.5px;">Price Range</label>
-        <div class="d-flex gap-2 align-items-center">
-          <input type="number" name="minPrice" class="form-control rounded-pill text-center shadow-sm py-2" placeholder="Min ₹" value="<%= filters.minPrice || '' %>" min="0">
-          <span class="text-muted">-</span>
-          <input type="number" name="maxPrice" class="form-control rounded-pill text-center shadow-sm py-2" placeholder="Max ₹" value="<%= filters.maxPrice || '' %>" min="0">
-        </div>
+    <!-- Header Row -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5 mt-3">
+      <div>
+        <h1 class="catalog-title">Every toy, one place.</h1>
       </div>
-
-      <!-- Sort Filter Column -->
-      <div class="col-md-4 col-lg-3">
-        <label class="fw-bold text-muted text-uppercase mb-2 d-block" style="font-size: 0.75rem; letter-spacing: 0.5px;">Sort By</label>
-        <select name="sort" class="form-select rounded-pill shadow-sm py-2">
+      <div class="sort-dropdown-wrap d-flex align-items-center gap-2">
+        <span class="sort-label">SORT BY:</span>
+        <select name="sort" class="form-select sort-select-custom" form="catalog-filter-form">
           <option value="newest" <%= filters.sort === 'newest' ? 'selected' : '' %>>Newest Arrivals</option>
           <option value="price-low" <%= filters.sort === 'price-low' ? 'selected' : '' %>>Price: Low to High</option>
           <option value="price-high" <%= filters.sort === 'price-high' ? 'selected' : '' %>>Price: High to Low</option>
         </select>
       </div>
+    </div>
 
-      <!-- Active Search Pass-Through -->
-      <% if (filters.search) { %>
-        <input type="hidden" name="search" value="<%= filters.search %>">
-      <% } %>
-
-      <!-- Action Buttons Column -->
-      <div class="col-md-4 col-lg-6 d-flex gap-2 justify-content-md-end justify-content-start">
-        <button type="submit" class="btn btn-primary-custom rounded-pill px-4 py-2 fw-bold flex-grow-1 flex-md-grow-0">Apply Filters</button>
-        <button type="button" id="btn-clear-all" class="btn btn-outline-secondary rounded-pill px-4 py-2 fw-bold flex-grow-1 flex-md-grow-0">Clear All</button>
-      </div>
-
-    </form>
-  </div>
-
-  <div class="row">
-    <!-- Product Grid Area -->
-    <div class="col-12">
-      <!-- Catalog Header -->
-      <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-3 rounded-4 shadow-sm">
-        <div>
-          <span class="text-muted">Showing <strong><%= products.length %></strong> toys</span>
-          <% if (filters.search) { %>
-            <span class="text-muted ms-2">for "<strong><%= filters.search %></strong>"</span>
-          <% } %>
-        </div>
-      </div>
-
-      <!-- Grid list -->
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="product-grid-container">
-        <% if (products && products.length > 0) { %>
-          <% products.forEach(product => { %>
-            <div class="col">
-              <%- include('../components/product-card', { product }) %>
+    <!-- Horizontal Filters Bar -->
+    <div class="horizontal-filter-bar mb-4">
+      <form action="/toys" method="GET" id="catalog-filter-form" class="row align-items-center g-0">
+        
+        <!-- Price Range -->
+        <div class="col-lg-3 col-md-6 filter-col pe-4 mb-3 mb-lg-0">
+          <label class="filter-label">PRICE RANGE</label>
+          <div class="d-flex align-items-center gap-2">
+            <div class="price-input-wrapper">
+              <span class="currency-symbol">₹</span>
+              <input type="number" name="minPrice" id="minPriceInput" class="filter-input-price" placeholder="0" value="<%= filters.minPrice || '' %>" min="0">
             </div>
-          <% }) %>
-        <% } else { %>
-          <div class="col-12 text-center py-5">
-            <div class="py-5">
-              <i class="bi bi-emoji-frown fs-1 text-muted mb-3"></i>
-              <h4 class="fw-bold">No Toys Found</h4>
-              <p class="text-muted">Try adjusting your filters or search criteria</p>
-              <a href="/toys" class="btn btn-primary-custom rounded-pill mt-3">Reset Catalog</a>
+            <span class="filter-separator">-</span>
+            <div class="price-input-wrapper">
+              <span class="currency-symbol">₹</span>
+              <input type="number" name="maxPrice" id="maxPriceInput" class="filter-input-price" placeholder="500" value="<%= filters.maxPrice || '' %>" min="0">
             </div>
           </div>
-        <% } %>
-      </div>
+        </div>
+        
+        <!-- Availability -->
+        <div class="col-lg-3 col-md-6 filter-col px-lg-4 mb-3 mb-lg-0">
+          <label class="filter-label">AVAILABILITY</label>
+          <div class="d-flex align-items-center gap-3">
+            <div class="form-check custom-checkbox-wrap mb-0">
+              <% 
+                const displayInStore = (filters.inStore === undefined && filters.outOfStock === undefined) ? 'true' : filters.inStore;
+                const displayOutOfStock = (filters.inStore === undefined && filters.outOfStock === undefined) ? 'false' : filters.outOfStock;
+              %>
+              <input class="form-check-input" type="checkbox" name="inStore" id="inStoreCheck" value="true" <%= displayInStore === 'true' ? 'checked' : '' %>>
+              <label class="form-check-label" for="inStoreCheck">In Store</label>
+            </div>
+            <div class="form-check custom-checkbox-wrap mb-0">
+              <input class="form-check-input" type="checkbox" name="outOfStock" id="outOfStockCheck" value="true" <%= displayOutOfStock === 'true' ? 'checked' : '' %>>
+              <label class="form-check-label" for="outOfStockCheck">Out of Stock</label>
+            </div>
+          </div>
+        </div>
 
-      <!-- Pagination -->
-      <div id="pagination-container">
-        <%- include('../components/pagination') %>
+        <!-- Age Range -->
+        <div class="col-lg-3 col-md-6 filter-col px-lg-4 mb-3 mb-lg-0">
+          <label class="filter-label">AGE RANGE</label>
+          <div class="d-flex gap-2">
+            <input type="hidden" name="ageRange" id="ageRangeInput" value="<%= filters.ageRange || '' %>">
+            <button type="button" class="btn age-pill-btn <%= filters.ageRange === '0-3' ? 'active' : '' %>" data-age="0-3">0-3</button>
+            <button type="button" class="btn age-pill-btn <%= filters.ageRange === '4-8' ? 'active' : '' %>" data-age="4-8">4-8</button>
+            <button type="button" class="btn age-pill-btn <%= filters.ageRange === '9+' ? 'active' : '' %>" data-age="9+">9+</button>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="col-lg-3 col-md-6 ps-lg-4 d-flex gap-2 justify-content-end align-items-center">
+          <button type="submit" class="btn btn-apply-filters">
+            APPLY FILTERS <i class="bi bi-sliders ms-1"></i>
+          </button>
+          <button type="button" id="btn-clear-all" class="btn btn-clear-filters">
+            CLEAR
+          </button>
+        </div>
+
+        <!-- Pass-through values -->
+        <input type="hidden" name="category" id="activeCategoryInput" value="<%= filters.category || '' %>">
+        <% if (filters.search) { %>
+          <input type="hidden" name="search" value="<%= filters.search %>">
+        <% } %>
+      </form>
+    </div>
+
+    <!-- Category Pills Navigation Row -->
+    <div class="categories-filter-scroll-wrapper mb-5">
+      <div class="categories-filter-list">
+        <button type="button" class="btn category-pill-btn <%= !filters.category ? 'active' : '' %>" data-category="">ALL</button>
+        <% categories.forEach(cat => { %>
+          <button type="button" class="btn category-pill-btn <%= filters.category === cat.slug ? 'active' : '' %>" data-category="<%= cat.slug %>">
+            <%= cat.name.toUpperCase() %>
+          </button>
+        <% }) %>
       </div>
+    </div>
+
+    <!-- Custom Bento Product Card Grid -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="product-grid-container">
+      <% if (products && products.length > 0) { %>
+        <% products.forEach(product => { %>
+          <div class="col">
+            <div class="catalog-product-card">
+              <!-- Image Wrapper -->
+              <div class="catalog-card-img-wrapper">
+                <!-- Badges (Top Left) -->
+                <% 
+                  const isOutOfStock = product.stock <= 0 || product.status === 'Out of Stock';
+                  const originalPrice = product.price;
+                  const finalPrice = product.salePrice || product.price;
+                  const hasDiscount = product.salePrice && product.salePrice < product.price;
+                  const discountPct = hasDiscount ? Math.round(((product.price - product.salePrice) / product.price) * 100) : 0;
+                  const primaryImg = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.png';
+                  const categoryName = product.category && product.category.name ? product.category.name : 'Toys';
+                %>
+                <div class="card-badge-container">
+                  <% if (hasDiscount) { %>
+                    <span class="badge-tag-custom bg-danger text-white"><%= discountPct %>% OFF</span>
+                  <% } else if (product.isFeatured) { %>
+                    <span class="badge-tag-custom bg-dark text-white">FEATURED</span>
+                  <% } else if (product.isNewArrival) { %>
+                    <span class="badge-tag-custom bg-primary text-white">NEW</span>
+                  <% } %>
+                </div>
+
+                <!-- Quick Action / Wishlist Button (Top Right) -->
+                <button class="wishlist-btn-circle" data-action="wishlist" data-product-id="<%= product._id %>">
+                  <i class="bi bi-heart"></i>
+                </button>
+
+                <!-- Product Image -->
+                <a href="/toys/<%= product.slug %>">
+                  <img src="<%= primaryImg %>" class="catalog-card-img" alt="<%= product.title %>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=400';">
+                </a>
+
+                <!-- Out of stock Overlay -->
+                <% if (isOutOfStock) { %>
+                  <div class="out-of-stock-overlay-diagonal">
+                    <span>OUT OF STOCK</span>
+                  </div>
+                <% } %>
+              </div>
+
+              <!-- Details -->
+              <div class="catalog-card-body">
+                <div class="catalog-card-category"><%= categoryName.toUpperCase() %></div>
+                <h3 class="catalog-card-title">
+                  <a href="/toys/<%= product.slug %>"><%= product.title %></a>
+                </h3>
+                <p class="catalog-card-desc"><%= product.shortDescription || 'Heirloom quality build. Designed to stimulate imagination and cognitive growth.' %></p>
+                
+                <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                  <div class="catalog-card-price">
+                    <% if (hasDiscount) { %>
+                      <span class="price-original">₹<%= originalPrice.toFixed(2) %></span>
+                      <span class="price-final text-danger">₹<%= finalPrice.toFixed(2) %></span>
+                    <% } else { %>
+                      <span class="price-final">₹<%= finalPrice.toFixed(2) %></span>
+                    <% } %>
+                  </div>
+                  <span class="stock-indicator <%= isOutOfStock ? 'out-of-stock' : 'in-store' %>">
+                    <%= isOutOfStock ? 'Out of Stock' : 'In Store' %>
+                  </span>
+                </div>
+              </div>
+
+              <!-- Bottom Actions -->
+              <div class="catalog-card-actions">
+                <button class="btn btn-quick-view-card w-100" data-action="quick-view" data-product-id="<%= product._id %>">
+                  QUICK VIEW
+                </button>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="col-12 text-center py-5">
+          <div class="py-5">
+            <i class="bi bi-emoji-frown fs-1 text-muted mb-3"></i>
+            <h4 class="fw-bold text-dark">No Toys Found</h4>
+            <p class="text-muted">Try adjusting your filters or search criteria</p>
+            <button type="button" id="btn-reset-catalog" class="btn btn-apply-filters rounded-pill mt-3 px-4">Reset Catalog</button>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination-container">
+      <%- include('../components/pagination') %>
     </div>
   </div>
 </div>
 
+<!-- Floating WhatsApp Chat Widget -->
+<a href="https://chat.whatsapp.com/FMz7qU3xDCOFlJYFw4aCYZ" target="_blank" class="floating-chat-widget">
+  <i class="bi bi-whatsapp"></i>
+</a>
+
+<!-- Scoped CSS Styles -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+
+  /* Scoped Catalog styles matching Stitch Design */
+  .catalog-page-wrapper {
+    background-color: #FDFAF6 !important;
+    min-height: 100vh;
+    padding: 3rem 0;
+  }
+  
+  .catalog-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 3.2rem !important;
+    font-weight: 800;
+    color: #111111;
+    margin-bottom: 0.5rem;
+  }
+
+  .sort-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #111111;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .sort-select-custom {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    border: 1px solid #111111 !important;
+    border-radius: 8px !important;
+    padding: 6px 36px 6px 12px !important;
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+  }
+
+  /* Horizontal Filter Bar Styling */
+  .horizontal-filter-bar {
+    background: #FAF5EE; /* Soft warm cream background */
+    border: 1px solid #111111;
+    border-radius: 16px;
+    padding: 1.2rem 2rem;
+  }
+
+  @media (min-width: 992px) {
+    .filter-col {
+      border-right: 1px solid rgba(17, 17, 17, 0.15);
+    }
+  }
+
+  .filter-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #555555;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  /* Price inputs */
+  .price-input-wrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .currency-symbol {
+    position: absolute;
+    left: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #111111;
+  }
+  .filter-input-price {
+    border: 1px solid #111111 !important;
+    border-radius: 8px !important;
+    padding: 6px 10px 6px 20px !important;
+    width: 85px !important;
+    height: 38px !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    color: #111111 !important;
+    background: #ffffff !important;
+    outline: none !important;
+    text-align: center;
+  }
+
+  .filter-separator {
+    color: #111111;
+    font-weight: 700;
+  }
+
+  /* Custom Checkbox */
+  .custom-checkbox-wrap .form-check-input {
+    border: 1px solid #111111 !important;
+    border-radius: 4px !important;
+    width: 18px;
+    height: 18px;
+    margin-top: 0.15rem;
+    cursor: pointer;
+    box-shadow: none !important;
+  }
+  .custom-checkbox-wrap .form-check-input:checked {
+    background-color: #E8291C !important;
+    border-color: #E8291C !important;
+  }
+  .custom-checkbox-wrap .form-check-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #111111;
+    cursor: pointer;
+    margin-left: 0.25rem;
+  }
+
+  /* Age Pill Buttons */
+  .age-pill-btn {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.8rem !important;
+    font-weight: 800 !important;
+    border: 1px solid #111111 !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    border-radius: 30px !important;
+    padding: 5px 14px !important;
+    transition: all 0.2s ease !important;
+  }
+  .age-pill-btn:hover {
+    background: rgba(17, 17, 17, 0.05) !important;
+  }
+  .age-pill-btn.active {
+    background: #111111 !important;
+    border-color: #111111 !important;
+    color: #ffffff !important;
+  }
+
+  /* Apply Filters Button */
+  .btn-apply-filters {
+    background-color: #E8291C !important;
+    color: #ffffff !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 0.8rem !important;
+    border-radius: 30px !important;
+    padding: 10px 24px !important;
+    letter-spacing: 0.5px !important;
+    border: none !important;
+    transition: background-color 0.2s ease !important;
+  }
+  .btn-apply-filters:hover {
+    background-color: #ff3e30 !important;
+  }
+
+  .btn-clear-filters {
+    background-color: transparent !important;
+    color: #555555 !important;
+    border: 1px solid #111111 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 0.8rem !important;
+    border-radius: 30px !important;
+    padding: 10px 18px !important;
+    transition: all 0.2s ease !important;
+  }
+  .btn-clear-filters:hover {
+    background-color: rgba(17, 17, 17, 0.05) !important;
+    color: #111111 !important;
+  }
+
+  /* Categories Filter list */
+  .categories-filter-scroll-wrapper {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 5px;
+  }
+  .categories-filter-scroll-wrapper::-webkit-scrollbar {
+    height: 4px;
+  }
+  .categories-filter-scroll-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(17, 17, 17, 0.1);
+    border-radius: 4px;
+  }
+  .categories-filter-list {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .category-pill-btn {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 0.8rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 1px !important;
+    border: 1px solid #111111 !important;
+    background: transparent !important;
+    color: #111111 !important;
+    border-radius: 30px !important;
+    padding: 8px 20px !important;
+    transition: all 0.2s ease !important;
+  }
+  .category-pill-btn:hover {
+    background-color: rgba(17, 17, 17, 0.05) !important;
+  }
+  .category-pill-btn.active {
+    background: #111111 !important;
+    border-color: #111111 !important;
+    color: #ffffff !important;
+  }
+
+  /* Catalog Product Card */
+  .catalog-product-card {
+    background: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .catalog-product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.06);
+  }
+
+  .catalog-card-img-wrapper {
+    position: relative;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #fdfaf6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #111111;
+  }
+
+  .catalog-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .catalog-product-card:hover .catalog-card-img {
+    transform: scale(1.05);
+  }
+
+  .card-badge-container {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .badge-tag-custom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 6px 12px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    color: #ffffff !important;
+  }
+
+  .wishlist-btn-circle {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 5;
+    background: #ffffff;
+    border: 1px solid #111111;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .wishlist-btn-circle:hover {
+    background: #FDFAF6;
+    transform: scale(1.08);
+  }
+  .wishlist-btn-circle i {
+    font-size: 1rem;
+    color: #111111;
+  }
+  .wishlist-btn-circle.active i {
+    color: #E8291C;
+    -webkit-text-stroke: 1px #E8291C;
+  }
+
+  .out-of-stock-overlay-diagonal {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+  }
+  .out-of-stock-overlay-diagonal span {
+    background: #111111;
+    color: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    transform: rotate(-10deg);
+    border: 1px solid #ffffff;
+  }
+
+  .catalog-card-body {
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .catalog-card-category {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #888888;
+    margin-bottom: 0.15rem;
+  }
+
+  .catalog-card-title {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.15rem !important;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 0.15rem;
+  }
+  .catalog-card-title a {
+    color: #111111;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: 3.2rem;
+  }
+
+  .catalog-card-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #666666;
+    line-height: 1.5;
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-height: 2.5rem;
+  }
+
+  .catalog-card-price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .price-original {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    text-decoration: line-through;
+    color: #999999;
+  }
+  .price-final {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: #111111;
+  }
+
+  .stock-indicator {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .stock-indicator.in-store {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  .stock-indicator.out-of-stock {
+    background: #ffebee;
+    color: #c62828;
+  }
+
+  .catalog-card-actions {
+    border-top: 1px solid #111111;
+    background: #ffffff;
+  }
+
+  .btn-quick-view-card {
+    border: none !important;
+    background: transparent !important;
+    color: #111111 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 12px !important;
+    border-radius: 0px !important;
+    transition: all 0.2s ease !important;
+  }
+  .btn-quick-view-card:hover {
+    background: #111111 !important;
+    color: #ffffff !important;
+  }
+
+  .btn-notify-me {
+    border: none !important;
+    background: #f5f5f5 !important;
+    color: #888888 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 800 !important;
+    font-size: 0.82rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 12px !important;
+    border-radius: 0px !important;
+    cursor: not-allowed;
+  }
+
+  /* Custom Pagination for Catalog */
+  .pagination .page-link {
+    font-family: 'DM Sans', sans-serif !important;
+    font-weight: 700 !important;
+    color: #111111 !important;
+    border: 1px solid #111111 !important;
+    background-color: transparent !important;
+    transition: all 0.2s ease !important;
+    margin: 0 4px;
+    border-radius: 8px !important;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pagination .page-link:hover {
+    background-color: #111111 !important;
+    color: #ffffff !important;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #111111 !important;
+    border-color: #111111 !important;
+    color: #ffffff !important;
+  }
+  .pagination .page-item.disabled .page-link {
+    border-color: #e0e0e0 !important;
+    color: #cccccc !important;
+  }
+
+  /* Floating WhatsApp Chat Widget */
+  .floating-chat-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    background: #E8291C;
+    color: #ffffff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(232, 41, 28, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-decoration: none !important;
+  }
+  .floating-chat-widget:hover {
+    transform: scale(1.1) rotate(5deg);
+    background-color: #ff3e30;
+    color: #ffffff !important;
+  }
+  .floating-chat-widget i {
+    font-size: 1.8rem;
+  }
+</style>
+
+<!-- Script Logic to update AJAX Catalog -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const filterForm = document.getElementById('catalog-filter-form');
     const productGrid = document.getElementById('product-grid-container');
     const paginationContainer = document.getElementById('pagination-container');
-    const countIndicator = document.querySelector('.text-muted strong');
+    const countIndicator = document.getElementById('catalog-count-indicator');
+
+    const categoryButtons = document.querySelectorAll('.category-pill-btn');
+    const activeCategoryInput = document.getElementById('activeCategoryInput');
+    
+    const ageButtons = document.querySelectorAll('.age-pill-btn');
+    const ageRangeInput = document.getElementById('ageRangeInput');
 
     // Helper to render product card client side
     function renderProductCard(product) {
@@ -97,77 +720,58 @@
       const discountPct = hasDiscount ? Math.round(((product.price - product.salePrice) / product.price) * 100) : 0;
       
       const primaryImg = product.images && product.images.length > 0 ? product.images[0] : '/images/placeholder.png';
-      const secondaryImg = product.images && product.images.length > 1 ? product.images[1] : primaryImg;
+      const categoryName = product.category && product.category.name ? product.category.name : 'Toys';
       
       let badgeHtml = '';
-      if (product.isFeatured) {
-        badgeHtml = '<span class="badge-tag badge-featured">Featured</span>';
+      if (hasDiscount) {
+        badgeHtml = `<span class="badge-tag-custom bg-danger text-white">${discountPct}% OFF</span>`;
+      } else if (product.isFeatured) {
+        badgeHtml = '<span class="badge-tag-custom bg-dark text-white">FEATURED</span>';
       } else if (product.isNewArrival) {
-        badgeHtml = '<span class="badge-tag badge-new">New</span>';
-      } else if (product.isTrending) {
-        badgeHtml = '<span class="badge-tag badge-trending">Trending</span>';
+        badgeHtml = '<span class="badge-tag-custom bg-primary text-white">NEW</span>';
       }
       
-      let discountBadge = '';
-      if (hasDiscount) {
-        const badgeOffsetStyle = (product.isFeatured || product.isNewArrival || product.isTrending) ? 'margin-left: 95px;' : '';
-        discountBadge = `
-          <span class="badge bg-danger position-absolute" style="top: 15px; left: 15px; z-index: 5; ${badgeOffsetStyle} padding: 6px 10px; font-weight: 800; font-size: 0.72rem; border-radius: var(--radius-sm);">
-            ${discountPct}% OFF
-          </span>
-        `;
-      }
-      
-      let priceHtml = '';
-      if (hasDiscount) {
-        priceHtml = `
-          <div class="text-decoration-line-through text-muted" style="font-size: 0.82rem;">₹${originalPrice.toFixed(2)}</div>
-          <div class="text-primary fw-extrabold fs-5">₹${finalPrice.toFixed(2)}</div>
-        `;
-      } else {
-        priceHtml = `<div class="text-dark fw-extrabold fs-5">₹${finalPrice.toFixed(2)}</div>`;
-      }
- 
-      let availabilityBadge = '';
-      if (isOutOfStock) {
-        availabilityBadge = '<span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2.5 py-1.5 fw-bold" style="font-size: 0.72rem; border-radius: var(--radius-sm);">Out of Stock</span>';
-      } else {
-        availabilityBadge = '<span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1.5 fw-bold" style="font-size: 0.72rem; border-radius: var(--radius-sm);">In Store</span>';
-      }
- 
-      const categoryName = product.category && product.category.name ? product.category.name : 'Toys';
- 
+      let actionBtnHtml = `<button class="btn btn-quick-view-card w-100" data-action="quick-view" data-product-id="${product._id}">QUICK VIEW</button>`;
+
       return `
         <div class="col">
-          <div class="card card-premium h-100">
-            <div class="product-card-img-wrapper">
-              ${badgeHtml}
-              ${discountBadge}
+          <div class="catalog-product-card">
+            <div class="catalog-card-img-wrapper">
+              <div class="card-badge-container">
+                ${badgeHtml}
+              </div>
+              <button class="wishlist-btn-circle" data-action="wishlist" data-product-id="${product._id}">
+                <i class="bi bi-heart"></i>
+              </button>
               <a href="/toys/${product.slug}">
-                <img src="${primaryImg}" class="product-card-img img-primary" alt="${product.title}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=400';">
-                <img src="${secondaryImg}" class="product-card-img img-secondary" alt="${product.title}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=400';">
+                <img src="${primaryImg}" class="catalog-card-img" alt="${product.title}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=400';">
               </a>
-              <div class="quick-view-overlay">
-                <button class="btn btn-quick-view w-100 shadow-sm" data-action="quick-view" data-product-id="${product._id}">
-                  <i class="bi bi-eye me-1"></i> Quick View
-                </button>
+              ${isOutOfStock ? `
+                <div class="out-of-stock-overlay-diagonal">
+                  <span>OUT OF STOCK</span>
+                </div>
+              ` : ''}
+            </div>
+            <div class="catalog-card-body">
+              <div class="catalog-card-category">${categoryName.toUpperCase()}</div>
+              <h3 class="catalog-card-title">
+                <a href="/toys/${product.slug}">${product.title}</a>
+              </h3>
+              <p class="catalog-card-desc">${product.shortDescription || 'Heirloom quality build. Designed to stimulate imagination and cognitive growth.'}</p>
+              <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                <div class="catalog-card-price">
+                  ${hasDiscount ? `
+                    <span class="price-original">₹${originalPrice.toFixed(2)}</span>
+                    <span class="price-final text-danger">₹${finalPrice.toFixed(2)}</span>
+                  ` : `
+                    <span class="price-final">₹${finalPrice.toFixed(2)}</span>
+                  `}
+                </div>
+                <span class="stock-indicator ${isOutOfStock ? 'out-of-stock' : 'in-store'}">${isOutOfStock ? 'Out of Stock' : 'In Store'}</span>
               </div>
             </div>
-            <div class="card-body d-flex flex-column">
-              <div class="text-uppercase text-muted mb-1 fw-bold" style="font-size: 0.7rem; letter-spacing: 0.5px;">
-                ${categoryName}
-              </div>
-              <h5 class="card-title mb-2">
-                <a href="/toys/${product.slug}" class="text-dark text-decoration-none hover-color-primary fw-bold" style="font-size: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 3rem; line-height: 1.5;">
-                  ${product.title}
-                </a>
-              </h5>
-              <div class="mt-auto d-flex justify-content-between align-items-center pt-2">
-                <div>
-                  ${priceHtml}
-                </div>
-                ${availabilityBadge}
-              </div>
+            <div class="catalog-card-actions">
+              ${actionBtnHtml}
             </div>
           </div>
         </div>
@@ -183,33 +787,30 @@
           <ul class="pagination justify-content-center">
       `;
 
-      // Previous
       const prevDisabled = !pagination.hasPrevPage ? 'disabled' : '';
       html += `
         <li class="page-item ${prevDisabled}">
-          <a class="page-item page-link rounded-start-pill px-3" href="#" data-page="${pagination.prevPage}" aria-label="Previous">
+          <a class="page-link" href="#" data-page="${pagination.prevPage}" aria-label="Previous">
             <i class="bi bi-chevron-left"></i>
           </a>
         </li>
       `;
 
-      // Pages
       for (let i = 1; i <= pagination.totalPages; i++) {
         const activeClass = pagination.page === i ? 'active' : '';
         html += `
           <li class="page-item ${activeClass}">
-            <a class="page-item page-link px-3" href="#" data-page="${i}">
+            <a class="page-link" href="#" data-page="${i}">
               ${i}
             </a>
           </li>
         `;
       }
 
-      // Next
       const nextDisabled = !pagination.hasNextPage ? 'disabled' : '';
       html += `
         <li class="page-item ${nextDisabled}">
-          <a class="page-item page-link rounded-end-pill px-3" href="#" data-page="${pagination.nextPage}" aria-label="Next">
+          <a class="page-link" href="#" data-page="${pagination.nextPage}" aria-label="Next">
             <i class="bi bi-chevron-right"></i>
           </a>
         </li>
@@ -229,9 +830,25 @@
       const params = new URLSearchParams();
 
       for (const [key, value] of formData.entries()) {
-        if (value) {
+        if (value && key !== 'inStore' && key !== 'outOfStock') {
           params.append(key, value);
         }
+      }
+
+      // Explicitly set inStore and outOfStock status
+      const inStoreCheck = document.getElementById('inStoreCheck');
+      const outOfStockCheck = document.getElementById('outOfStockCheck');
+      if (inStoreCheck) {
+        params.set('inStore', inStoreCheck.checked ? 'true' : 'false');
+      }
+      if (outOfStockCheck) {
+        params.set('outOfStock', outOfStockCheck.checked ? 'true' : 'false');
+      }
+
+      // Also get sort selector from outside form
+      const sortSelect = document.querySelector('select[name="sort"]');
+      if (sortSelect && sortSelect.value) {
+        params.set('sort', sortSelect.value);
       }
 
       params.set('page', pageNumber);
@@ -252,9 +869,9 @@
             <div class="col-12 text-center py-5">
               <div class="py-5">
                 <i class="bi bi-emoji-frown fs-1 text-muted mb-3"></i>
-                <h4 class="fw-bold">No Toys Found</h4>
+                <h4 class="fw-bold text-dark">No Toys Found</h4>
                 <p class="text-muted">Try adjusting your filters or search criteria</p>
-                <button type="button" id="btn-reset-catalog" class="btn btn-primary-custom rounded-pill mt-3">Reset Catalog</button>
+                <button type="button" id="btn-reset-catalog" class="btn btn-apply-filters rounded-pill mt-3 px-4">Reset Catalog</button>
               </div>
             </div>
           `;
@@ -277,28 +894,81 @@
     // Function to clear all filters
     function clearFilters() {
       filterForm.reset();
-      // Manually clean up values
+      
+      // Clean text / number inputs
       filterForm.querySelectorAll('input').forEach(input => {
-        if (input.type !== 'hidden') input.value = '';
+        if (input.type !== 'hidden') {
+          input.value = '';
+          if (input.type === 'checkbox') input.checked = false;
+        }
       });
-      filterForm.querySelectorAll('select').forEach(select => {
-        select.selectedIndex = 0;
-      });
-      // Clear hidden search if any
+
+      // Default checkbox state to match first load (In Store checked, Out of Stock unchecked)
+      const inStoreCheck = document.getElementById('inStoreCheck');
+      if (inStoreCheck) inStoreCheck.checked = true;
+      const outOfStockCheck = document.getElementById('outOfStockCheck');
+      if (outOfStockCheck) outOfStockCheck.checked = false;
+
+      // Clear hidden values
+      activeCategoryInput.value = '';
+      ageRangeInput.value = '';
+      
       const searchHidden = filterForm.querySelector('input[name="search"]');
       if (searchHidden) {
         searchHidden.value = '';
       }
-      const headerSearch = document.getElementById('global-search-input');
+      
+      const headerSearch = document.getElementById('global-search-input'); 
       if (headerSearch) {
         headerSearch.value = '';
       }
+
+      // Reset pill classes
+      categoryButtons.forEach(b => b.classList.remove('active'));
+      const allCatBtn = document.querySelector('.category-pill-btn[data-category=""]');
+      if (allCatBtn) allCatBtn.classList.add('active');
+      
+      ageButtons.forEach(b => b.classList.remove('active'));
+      
       updateCatalog(1);
     }
 
-    // Listen to changes on checkboxes, radios, select dropdowns
-    filterForm.querySelectorAll('input[type="radio"], select').forEach(elem => {
-      elem.addEventListener('change', () => {
+    // Category button click handlers
+    categoryButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategoryInput.value = btn.getAttribute('data-category');
+        updateCatalog(1);
+      });
+    });
+
+    // Age button click handlers
+    ageButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('active')) {
+          btn.classList.remove('active');
+          ageRangeInput.value = '';
+        } else {
+          ageButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          ageRangeInput.value = btn.getAttribute('data-age');
+        }
+        updateCatalog(1);
+      });
+    });
+
+    // Sort select listener
+    const sortSelect = document.querySelector('select[name="sort"]');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', () => {
+        updateCatalog(1);
+      });
+    }
+
+    // Checkbox state change listeners
+    filterForm.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
         updateCatalog(1);
       });
     });
@@ -310,7 +980,7 @@
         clearTimeout(priceTimeout);
         priceTimeout = setTimeout(() => {
           updateCatalog(1);
-        }, 400);
+        }, 450);
       });
     });
 
