@@ -52,7 +52,8 @@ app.use(compression());
 app.use(
   helmet({
     contentSecurityPolicy: false,
-    crossOriginEmbedderPolicy: false
+    crossOriginEmbedderPolicy: false,
+    referrerPolicy: { policy: 'no-referrer-when-downgrade' }
   })
 );
 

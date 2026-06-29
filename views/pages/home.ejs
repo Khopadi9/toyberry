@@ -480,11 +480,13 @@
   }
   .flash-drop-product {
     display: flex;
-    gap: 24px;
+    flex-direction: column;
+    gap: 20px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 20px;
     transition: background-color 0.3s ease;
+    height: 100%;
   }
   .flash-drop-product:hover {
     background: rgba(255, 255, 255, 0.08);
@@ -501,8 +503,8 @@
     text-decoration: line-through;
   }
   .flash-drop-img-box {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     flex-shrink: 0;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -564,6 +566,15 @@
   .play-btn-circle:hover {
     transform: scale(1.1);
     background-color: #ff3e30;
+  }
+
+  .style-video-container:hover .video-bg-hover {
+    transform: scale(1.05);
+  }
+  .style-video-container:hover .play-btn-circle {
+    transform: scale(1.1);
+    background-color: #ff3e30 !important;
+    box-shadow: 0 15px 35px rgba(232, 41, 28, 0.7) !important;
   }
 
   /* FAQ Section side-by-side */
@@ -851,27 +862,20 @@
 
       <!-- Large Feature Card (Left Column) -->
       <div class="bento-large reveal-fade-up delay-100">
-        <div class="bento-bg" style="background-image: url('<%= col1 ? col1.image : 'https://lh3.googleusercontent.com/aida-public/AB6AXuB8vUGTdAMbYv-DhSjrQTk-wWcY1LP-rrZe9RMPNaLmw79_f0z11Ycgux-3w8eGpJRKUxA_FQnYFtjUqfO_QIMQdbzNx9AXYc8e5m59-m6o0hePQrJhSMqFeEmKDDsGfI0yEBY-O8uB9K_YOK93iSe66px-lnyyBKpWagGWTVTws4H7CIy2gW4Txt99v8RikI7qAdOPY5Su0Oz1BkRrXkAT5iS82lJGduu6SPfX9X5lx-NP-V7BRpsDnp5BJPUihjgKmYZYv7Wx1ik' %>');"></div>
-        <div class="bento-overlay">
-          <span class="bento-badge">Seasonal</span>
-          <h3><%= col1 ? col1.title : 'The Wooden Workshop' %></h3>
-          <p><%= col1 ? col1.subtitle : 'Sustainable, non-toxic, and built to last for generations.' %></p>
-          <a href="<%= col1 ? col1.buttonLink : '/toys' %>" class="bento-btn">
-            <%= col1 ? (col1.buttonText || 'SHOP COLLECTION') : 'SHOP COLLECTION' %>
-            <i class="bi bi-arrow-right fs-5"></i>
-          </a>
-        </div>
+        <a href="<%= col1 ? col1.buttonLink : '/toys' %>" style="display: block; width: 100%; height: 100%;">
+          <div class="bento-bg" style="background-image: url('<%= col1 ? col1.image : 'https://lh3.googleusercontent.com/aida-public/AB6AXuB8vUGTdAMbYv-DhSjrQTk-wWcY1LP-rrZe9RMPNaLmw79_f0z11Ycgux-3w8eGpJRKUxA_FQnYFtjUqfO_QIMQdbzNx9AXYc8e5m59-m6o0hePQrJhSMqFeEmKDDsGfI0yEBY-O8uB9K_YOK93iSe66px-lnyyBKpWagGWTVTws4H7CIy2gW4Txt99v8RikI7qAdOPY5Su0Oz1BkRrXkAT5iS82lJGduu6SPfX9X5lx-NP-V7BRpsDnp5BJPUihjgKmYZYv7Wx1ik' %>'); height: 100%; width: 100%;"></div>
+        </a>
       </div>
 
-      <!-- Editor's Pick (Typographic Quote Card - Right Column Top) -->
+      <!-- Editor's Pick (Info Card - Right Column Top) -->
       <div class="bento-quote reveal-fade-up delay-200">
         <div>
-          <i class="bi bi-star text-white" style="font-size: 2.2rem; display: block; margin-bottom: 1rem;"></i>
-          <h3>"Selection is everything. We only stock what we would give our own children."</h3>
+          <i class="bi bi-patch-check text-white" style="font-size: 2.2rem; display: block; margin-bottom: 1rem;"></i>
+          <h3>"We curate high-quality STEM kits, premium collectibles, and creative games to inspire learning and imaginative play."</h3>
         </div>
         <div>
-          <p class="quote-author">— Sarah Berry</p>
-          <p class="quote-role">Chief Curator</p>
+          <p class="quote-author">Toyberry Surat</p>
+          <p class="quote-role">Premium Play & Learn</p>
         </div>
       </div>
 
@@ -879,9 +883,6 @@
       <div class="bento-small reveal-fade-up delay-300">
         <a href="<%= col2 ? col2.buttonLink : '/toys' %>" style="text-decoration:none;display:block;height:100%;width:100%;">
           <div class="bento-bg" style="background-image: url('<%= col2 ? col2.image : 'https://lh3.googleusercontent.com/aida-public/AB6AXuAaQ3BKJrJjkcMHauX9gWDcZuFi_xPTe3XS4AGFbv4maNixi8sbU9djJrYulYML3Ty12XXNkU0HTaim2VHBdL5z_E4UpGenTk-UMpWaEWUpwzqRiTS0tLQfYrsq7SxKQW5tYwzjeImvw15sbOUQkF3xqXlaN5FI4DVXZAlky1I9p98PugUamKtTn6B5dBdjK71uV74qWKvoFdO7Z2mEu3AcS10OE8wEUfuxKhHvC-AIjjga752bcbnWyPlHSJKWnW3YzO5mtyuXSXc' %>'); height:100%; width:100%;"></div>
-          <div class="bento-overlay">
-            <h3><%= col2 ? col2.title : 'STEM Creators' %></h3>
-          </div>
         </a>
       </div>
     </div>
@@ -895,9 +896,6 @@
             <a href="<%= item.buttonLink || '#' %>" style="text-decoration:none;display:block;">
               <div class="bento-small" style="min-height: 280px;">
                 <div class="bento-bg" style="background-image: url('<%= item.image %>');"></div>
-                <div class="bento-overlay">
-                  <h3><%= item.title %></h3>
-                </div>
               </div>
             </a>
           </div>
@@ -1094,16 +1092,23 @@
 <% } %>
 
 <!-- Cinematic Video Section -->
-<section class="cinematic-video-sec reveal-fade-in">
-  <div class="cinematic-video-bg"></div>
-  <div class="cinematic-video-overlay"></div>
-  <div class="position-relative z-3 text-center text-white px-4">
-    <a href="https://youtube.com/@toyberry-surat?si=2Q7XAmiL6dzGQJsZ" target="_blank" class="play-btn-circle text-decoration-none" id="playVideoBtn">
-      <i class="bi bi-play-fill text-white fs-1 ms-1"></i>
-    </a>
-    <h2 class="font-headline-xl text-white italic mb-3 max-w-3xl mx-auto" style="font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 700; color: #ffffff !important;">"Every toy has a story. We help you write the first chapter."</h2>
-    <p class="text-uppercase text-white-50 mt-4 tracking-widest fw-bold" style="font-size: 0.85rem; letter-spacing: 0.3em; color: rgba(255, 255, 255, 0.75) !important;">The Art of Play (Film 2026)</p>
-  </div>
+<section class="container py-5 reveal-fade-in">
+  <a href="https://youtu.be/iJ-rXAGwz78?si=-DdZlaaNbXwM6Gc7" target="_blank" class="text-decoration-none d-block position-relative style-video-container" style="width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+    <!-- Background Image with YouTube Thumbnail / LH3 Fallback -->
+    <div class="video-bg-hover" style="position: absolute; inset: 0; background-image: url('https://img.youtube.com/vi/iJ-rXAGwz78/maxresdefault.jpg'), url('https://img.youtube.com/vi/iJ-rXAGwz78/hqdefault.jpg'), url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1UCzqc_46a1LdaWqjoRm899OEbnN794k7Aopt2NZLnsUFWEz3pUFjfh9S6bzxElYhph4drm1v5DYb2ALkAoCG1VyGej5k7PfgB2-zZMyMyy5Q3vBT-Yr7kegcKISDqud2PIrxC9MK3sAy4EXQA4x3lgIwEzwtyjFTW02cXCqguA9bRZLYQfwvBIRq0TWCGQYNfgx0f444l7foPCHCr4jlcGCa450adJI3PZuzz1ZOQu4vpQLlUuQOrF9yVf1XunjE2v2LGMKZH0Q'); background-size: cover; background-position: center; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);"></div>
+    
+    <!-- Dark Gradient Overlay -->
+    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.55)); z-index: 1;"></div>
+    
+    <!-- Video Section Content -->
+    <div class="d-flex flex-column align-items-center justify-content-center h-100 w-100 position-relative text-center text-white px-4" style="z-index: 2;">
+      <div class="play-btn-circle d-flex align-items-center justify-content-center mb-3" id="playVideoBtn" style="width: 84px; height: 84px; border-radius: 50%; background-color: #E8291C; border: 4px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(232, 41, 28, 0.5); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; margin: 0 auto 16px;">
+        <i class="bi bi-play-fill text-white fs-1 ms-1"></i>
+      </div>
+      <h2 class="font-headline-xl text-headline-xl italic mb-2 text-white" style="font-family: 'Fraunces', serif; text-shadow: 0 2px 10px rgba(0,0,0,0.6); max-width: 750px; font-size: clamp(1.6rem, 4.5vw, 3rem); font-weight: 700; line-height: 1.2;">"Every toy has a story. We help you write the first chapter."</h2>
+      <p class="text-label-md uppercase tracking-[0.3em] font-bold text-white mb-0" style="font-size: clamp(0.7rem, 2vw, 0.85rem); text-shadow: 0 2px 6px rgba(0,0,0,0.6);">The Art of Play (Film 2024)</p>
+    </div>
+  </a>
 </section>
 
 <!-- Lightweight YouTube Video Modal -->
@@ -1315,8 +1320,8 @@
       playVideoBtn.addEventListener('click', (e) => {
         const href = playVideoBtn.getAttribute('href');
         
-        // If it is a channel link (cannot be embedded in iframes), open in new tab
-        if (href.includes('/@') || href.includes('/channel/') || href.includes('/user/')) {
+        // If the video has embedding disabled (e.g. iJ-rXAGwz78) or is a channel link, open in new tab
+        if (href.includes('iJ-rXAGwz78') || href.includes('/@') || href.includes('/channel/') || href.includes('/user/')) {
           return; // Let the browser handle standard anchor navigation to _blank
         }
         

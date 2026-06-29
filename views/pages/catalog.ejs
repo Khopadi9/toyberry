@@ -21,7 +21,7 @@
       <form action="/toys" method="GET" id="catalog-filter-form" class="row align-items-center g-0">
         
         <!-- Price Range -->
-        <div class="col-lg-3 col-md-6 filter-col pe-4 mb-3 mb-lg-0">
+        <div class="col-lg-4 col-md-4 filter-col pe-4 mb-3 mb-lg-0">
           <label class="filter-label">PRICE RANGE</label>
           <div class="d-flex align-items-center gap-2">
             <div class="price-input-wrapper">
@@ -37,7 +37,7 @@
         </div>
         
         <!-- Availability -->
-        <div class="col-lg-3 col-md-6 filter-col px-lg-4 mb-3 mb-lg-0">
+        <div class="col-lg-4 col-md-4 filter-col px-lg-4 mb-3 mb-lg-0">
           <label class="filter-label">AVAILABILITY</label>
           <div class="d-flex align-items-center gap-3">
             <div class="form-check custom-checkbox-wrap mb-0">
@@ -55,19 +55,8 @@
           </div>
         </div>
 
-        <!-- Age Range -->
-        <div class="col-lg-3 col-md-6 filter-col px-lg-4 mb-3 mb-lg-0">
-          <label class="filter-label">AGE RANGE</label>
-          <div class="d-flex gap-2">
-            <input type="hidden" name="ageRange" id="ageRangeInput" value="<%= filters.ageRange || '' %>">
-            <button type="button" class="btn age-pill-btn <%= filters.ageRange === '0-3' ? 'active' : '' %>" data-age="0-3">0-3</button>
-            <button type="button" class="btn age-pill-btn <%= filters.ageRange === '4-8' ? 'active' : '' %>" data-age="4-8">4-8</button>
-            <button type="button" class="btn age-pill-btn <%= filters.ageRange === '9+' ? 'active' : '' %>" data-age="9+">9+</button>
-          </div>
-        </div>
-
         <!-- Action Buttons -->
-        <div class="col-lg-3 col-md-6 ps-lg-4 d-flex gap-2 justify-content-end align-items-center">
+        <div class="col-lg-4 col-md-4 ps-lg-4 d-flex gap-2 justify-content-end align-items-center">
           <button type="submit" class="btn btn-apply-filters">
             APPLY FILTERS <i class="bi bi-sliders ms-1"></i>
           </button>
@@ -77,6 +66,7 @@
         </div>
 
         <!-- Pass-through values -->
+        <input type="hidden" name="ageRange" id="ageRangeInput" value="<%= filters.ageRange || '' %>">
         <input type="hidden" name="category" id="activeCategoryInput" value="<%= filters.category || '' %>">
         <% if (filters.search) { %>
           <input type="hidden" name="search" value="<%= filters.search %>">
@@ -115,19 +105,13 @@
                   const categoryName = product.category && product.category.name ? product.category.name : 'Toys';
                 %>
                 <div class="card-badge-container">
-                  <% if (hasDiscount) { %>
-                    <span class="badge-tag-custom bg-danger text-white"><%= discountPct %>% OFF</span>
-                  <% } else if (product.isFeatured) { %>
+                  <% if (product.isFeatured) { %>
                     <span class="badge-tag-custom bg-dark text-white">FEATURED</span>
                   <% } else if (product.isNewArrival) { %>
                     <span class="badge-tag-custom bg-primary text-white">NEW</span>
                   <% } %>
                 </div>
 
-                <!-- Quick Action / Wishlist Button (Top Right) -->
-                <button class="wishlist-btn-circle" data-action="wishlist" data-product-id="<%= product._id %>">
-                  <i class="bi bi-heart"></i>
-                </button>
 
                 <!-- Product Image -->
                 <a href="/toys/<%= product.slug %>">
@@ -723,9 +707,7 @@
       const categoryName = product.category && product.category.name ? product.category.name : 'Toys';
       
       let badgeHtml = '';
-      if (hasDiscount) {
-        badgeHtml = `<span class="badge-tag-custom bg-danger text-white">${discountPct}% OFF</span>`;
-      } else if (product.isFeatured) {
+      if (product.isFeatured) {
         badgeHtml = '<span class="badge-tag-custom bg-dark text-white">FEATURED</span>';
       } else if (product.isNewArrival) {
         badgeHtml = '<span class="badge-tag-custom bg-primary text-white">NEW</span>';
@@ -740,9 +722,7 @@
               <div class="card-badge-container">
                 ${badgeHtml}
               </div>
-              <button class="wishlist-btn-circle" data-action="wishlist" data-product-id="${product._id}">
-                <i class="bi bi-heart"></i>
-              </button>
+
               <a href="/toys/${product.slug}">
                 <img src="${primaryImg}" class="catalog-card-img" alt="${product.title}" loading="lazy" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1559251606-c623743a6d76?auto=format&fit=crop&q=80&w=400';">
               </a>
